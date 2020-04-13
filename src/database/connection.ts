@@ -11,11 +11,6 @@ export default class DbConnection {
         this.getConnection();
     }
 
-    public static get instance() {
-        // tslint:disable-next-line: new-parens
-        return this._instance || (this._instance = new this);
-    }
-
     private getConnection() {
         mongoose.connect(this.dbLink, {useNewUrlParser: true,useUnifiedTopology: true, useCreateIndex: true}, (error: any) => {
             if (error) throw error;
