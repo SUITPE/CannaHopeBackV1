@@ -3,7 +3,9 @@ import DbConnection from './database/connection';
 import userRoutes from './routes/user.routes';
 
 
-const port: number = 2745;
+// const port: number = 2745;
+const port: any = process.env.PORT || 2745;
+
 const server: Server = Server.init(port);
 const connection: DbConnection = new DbConnection();
 
