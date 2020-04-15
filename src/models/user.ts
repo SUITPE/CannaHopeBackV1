@@ -27,6 +27,7 @@ export interface UserModel extends mongoose.Document   {
     createdBy: string;
     updatedBy: string;
     lastAccesDate: string;
+    token?: string;
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -105,7 +106,7 @@ export const UserSchema = new mongoose.Schema({
     },
     rol: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Rol',
+        ref: 'Role',
         required: [true, 'Debe ingresar el rol del usuario'],
     },
     status: {

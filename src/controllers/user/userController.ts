@@ -17,18 +17,18 @@ export default class UserController {
                 birthDate: userData.birthDate,
                 sex: userData.sex,
                 document: userData.document,
-                documentType:  userData.documentType,
-                maritalStatus:  userData.maritalStatus,
-                ocupation:  userData.ocupation,
+                documentType: userData.documentType,
+                maritalStatus: userData.maritalStatus,
+                ocupation: userData.ocupation,
                 address: userData.address,
                 email: userData.email,
                 mobilePhone: userData.mobilePhone,
-                landLine:  userData.landLine,
-                healthyEntity:  userData.healthyEntity,
-                password:  bcrypt.hashSync((userData.password).toString(), 10),
-                rol:  userData.rol,
-                createDate:  userData.createDate,
-                createdBy:  userData.createdBy,
+                landLine: userData.landLine,
+                healthyEntity: userData.healthyEntity,
+                password: bcrypt.hashSync((userData.password).toString(), 10),
+                rol: userData.rol,
+                createDate: userData.createDate,
+                createdBy: userData.createdBy,
             });
 
             user.save({}, (error: any, userSaved) => {
@@ -47,6 +47,77 @@ export default class UserController {
             });
 
 
+
+        });
+    }
+
+    public getAll(): Promise<UserModel[]> {
+        return new Promise((resolve, reject) => {
+
+            try {
+                User.find({}, {
+                    password: 0
+                })
+                    .populate('rol', 'name description')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error, users) => {
+
+                        if (error) {
+                            const errorDetail: ErrorDetail = {
+                                name: 'Error al cargar lista de usuarios',
+                                description: error
+                            }
+                            throw ErrorDetail;
+                        } else {
+                            resolve(users);
+                        }
+                    });
+            } catch (error) {
+                reject(error);
+            }
+
+
+
+        });
+    }
+
+    public getById(): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+
+        });
+    }
+
+    public getByParam(params: object): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+
+            let errorDetil: ErrorDetail = new ErrorDetail();
+
+            try {
+
+                User.findOne(params)
+                    .populate('rol', 'name description')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error: any, user: UserModel) => {
+
+                        if (error) {
+                            errorDetil = {
+                                name: `Error al consultar usuario con el parametro ${params}`,
+                                description: error
+                            }
+                            reject(errorDetil);
+                        }
+                        if (!user) {
+                            errorDetil = {
+                                name: 'Usuario no encontrado',
+                                description: `Usuario con ${params} no se encuentra registrado en sistema`
+                            }
+                            reject(errorDetil);
+                        }
+                        resolve(user);
+                    });
+            } catch (error) {
+                reject(error);
+            }
 
         });
     }

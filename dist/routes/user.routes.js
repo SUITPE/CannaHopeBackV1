@@ -7,8 +7,10 @@ const userController_1 = __importDefault(require("../controllers/user/userContro
 const express_1 = require("express");
 const rolController_1 = __importDefault(require("../controllers/user/rolController"));
 const jsonResp_1 = __importDefault(require("../models/jsonResp"));
+const login_1 = __importDefault(require("../controllers/user/login"));
 const userController = new userController_1.default();
 const rolController = new rolController_1.default();
+const login = new login_1.default();
 const userRoutes = express_1.Router();
 userRoutes.post('/Insert', (req, res) => {
     userController.insert(req.body)
@@ -29,4 +31,14 @@ userRoutes.post('/CreateRol', (req, res) => {
         return res.status(error.status).send(new jsonResp_1.default(false, error.name, null, errorDetail));
     });
 });
+userRoutes.get('/Getall', (req, res) => {
+    userController.getAll()
+        .then(result => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Usuarios cargados correctamente', result));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de usuarios', null, error));
+    });
+});
+userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;

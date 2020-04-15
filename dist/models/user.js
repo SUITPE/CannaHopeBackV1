@@ -80,7 +80,7 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     rol: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: 'Rol',
+        ref: 'Role',
         required: [true, 'Debe ingresar el rol del usuario'],
     },
     status: {

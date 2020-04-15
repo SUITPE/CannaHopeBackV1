@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonResp_1 = require("../../models/jsonResp");
 class UserController {
     insert(userData) {
         return new Promise((resolve, reject) => {
@@ -42,6 +43,66 @@ class UserController {
                     resolve(userSaved);
                 }
             });
+        });
+    }
+    getAll() {
+        return new Promise((resolve, reject) => {
+            try {
+                user_1.default.find({}, {
+                    password: 0
+                })
+                    .populate('rol', 'name description')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error, users) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: 'Error al cargar lista de usuarios',
+                            description: error
+                        };
+                        throw jsonResp_1.ErrorDetail;
+                    }
+                    else {
+                        resolve(users);
+                    }
+                });
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
+    getById() {
+        return new Promise((resolve, reject) => {
+        });
+    }
+    getByParam(params) {
+        return new Promise((resolve, reject) => {
+            let errorDetil = new jsonResp_1.ErrorDetail();
+            try {
+                user_1.default.findOne(params)
+                    .populate('rol', 'name description')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error, user) => {
+                    if (error) {
+                        errorDetil = {
+                            name: `Error al consultar usuario con el parametro ${params}`,
+                            description: error
+                        };
+                        reject(errorDetil);
+                    }
+                    if (!user) {
+                        errorDetil = {
+                            name: 'Usuario no encontrado',
+                            description: `Usuario con ${params} no se encuentra registrado en sistema`
+                        };
+                        reject(errorDetil);
+                    }
+                    resolve(user);
+                });
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
 }

@@ -3,10 +3,12 @@ import { Router } from 'express';
 import RolController from '../controllers/user/rolController';
 import JsonResp from '../models/jsonResp';
 import { ErrorDetail } from '../models/jsonResp';
+import LoginController from '../controllers/user/login';
 
 
 const userController: UserController = new UserController();
 const rolController: RolController = new RolController();
+const login: LoginController = new LoginController();
 
 const userRoutes: Router = Router();
 
@@ -33,6 +35,18 @@ userRoutes.post('/CreateRol', (req, res) => {
         return res.status(error.status).send(new JsonResp(false, error.name, null, errorDetail));
     })
 });
+
+userRoutes.get('/Getall', (req, res) => {
+    userController.getAll()
+    .then(result => {
+        return res.status(200).send(new JsonResp(true, 'Usuarios cargados correctamente', result))
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al obtener lista de usuarios', null, error));
+    });
+})
+
+userRoutes.post('/Login', LoginController.startSession);
 
 
 
