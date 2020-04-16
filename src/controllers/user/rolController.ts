@@ -30,4 +30,33 @@ export default class RolController {
         });
     }
 
+    public getAll(): Promise<RolModel[]> {
+        return new Promise((resolve, reject) => {
+
+            try {
+
+                Rol.find({}, (error: any, roles: RolModel[]) => {
+
+                    if (error) {
+                        const errorDetail: ErrorDetail = {
+                            name: 'Error al consultar todos los roles',
+                            description: error,
+                            status: 500
+                        }
+
+                        throw errorDetail;
+                    }
+
+                    else {
+                        resolve(roles);
+                    }
+                });
+
+            } catch (error) {
+                reject(error);
+            }
+
+        });
+    }
+
 }

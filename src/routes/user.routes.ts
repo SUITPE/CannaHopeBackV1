@@ -9,7 +9,6 @@ import LoginController from '../controllers/user/login';
 const userController: UserController = new UserController();
 const rolController: RolController = new RolController();
 const login: LoginController = new LoginController();
-
 const userRoutes: Router = Router();
 
 
@@ -45,6 +44,16 @@ userRoutes.get('/Getall', (req, res) => {
         return res.status(500).send(new JsonResp(false, 'Error al obtener lista de usuarios', null, error));
     });
 })
+
+userRoutes.get('/GetAllRoles', (req, res) => {
+    rolController.getAll()
+    .then(userRoles => {
+        return res.status(200).send(new JsonResp(true, 'Roles de usuario cargados correctamente', userRoles))
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al obtener lista de roles', null, error));
+    })
+});
 
 userRoutes.post('/Login', LoginController.startSession);
 

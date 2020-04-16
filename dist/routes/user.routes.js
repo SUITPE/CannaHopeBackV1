@@ -40,5 +40,14 @@ userRoutes.get('/Getall', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de usuarios', null, error));
     });
 });
+userRoutes.get('/GetAllRoles', (req, res) => {
+    rolController.getAll()
+        .then(userRoles => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Roles de usuario cargados correctamente', userRoles));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de roles', null, error));
+    });
+});
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;

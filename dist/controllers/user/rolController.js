@@ -25,5 +25,27 @@ class RolController {
             });
         });
     }
+    getAll() {
+        return new Promise((resolve, reject) => {
+            try {
+                role_1.default.find({}, (error, roles) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: 'Error al consultar todos los roles',
+                            description: error,
+                            status: 500
+                        };
+                        throw errorDetail;
+                    }
+                    else {
+                        resolve(roles);
+                    }
+                });
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 exports.default = RolController;
