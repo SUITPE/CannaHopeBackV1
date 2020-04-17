@@ -36,7 +36,14 @@ userRoutes.post('/CreateRol', (req, res) => {
 });
 
 userRoutes.get('/Getall', (req, res) => {
-    userController.getAll()
+
+    let from: number = 0;
+    let limit: number  = 5;
+
+    if(req.query.from) from = Number(req.query.from);
+    if (req.query.limit) limit = Number(req.query.limit);
+
+    userController.getAll(from, limit)
     .then(result => {
         return res.status(200).send(new JsonResp(true, 'Usuarios cargados correctamente', result))
     })

@@ -9,6 +9,7 @@ const jsonResp_1 = require("../../models/jsonResp");
 class UserController {
     insert(userData) {
         return new Promise((resolve, reject) => {
+            console.log(userData);
             const user = new user_1.default({
                 names: userData.names,
                 surenames: userData.surenames,
@@ -45,12 +46,14 @@ class UserController {
             });
         });
     }
-    getAll() {
+    getAll(from, limit) {
         return new Promise((resolve, reject) => {
             try {
                 user_1.default.find({}, {
                     password: 0
                 })
+                    .skip(from)
+                    .limit(limit)
                     .populate('rol', 'name description')
                     .populate('createdBy', 'names surenames nickName')
                     .exec((error, users) => {
@@ -61,9 +64,13 @@ class UserController {
                         };
                         throw jsonResp_1.ErrorDetail;
                     }
-                    else {
-                        resolve(users);
-                    }
+                    user_1.default.count({}, (err, total) => {
+                        const data = {
+                            total,
+                            users
+                        };
+                        resolve(data);
+                    });
                 });
             }
             catch (error) {

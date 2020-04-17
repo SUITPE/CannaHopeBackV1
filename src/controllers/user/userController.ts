@@ -9,6 +9,8 @@ export default class UserController {
     public insert(userData: UserModel): Promise<UserModel> {
         return new Promise((resolve, reject) => {
 
+            console.log(userData);
+
             const user: UserModel = new User({
                 names: userData.names,
                 surenames: userData.surenames,
@@ -51,13 +53,15 @@ export default class UserController {
         });
     }
 
-    public getAll(): Promise<UserModel[]> {
+    public getAll(from: number, limit: number): Promise<any> {
         return new Promise((resolve, reject) => {
 
             try {
                 User.find({}, {
                     password: 0
                 })
+                    .skip(from)
+                    .limit(limit)
                     .populate('rol', 'name description')
                     .populate('createdBy', 'names surenames nickName')
                     .exec((error, users) => {
@@ -68,9 +72,17 @@ export default class UserController {
                                 description: error
                             }
                             throw ErrorDetail;
-                        } else {
-                            resolve(users);
                         }
+
+                        User.count({}, (err: any, total) => {
+
+                            const data: any = {
+                                total,
+                                users
+                            }
+                            resolve(data);
+                        });
+
                     });
             } catch (error) {
                 reject(error);

@@ -28,6 +28,7 @@ export interface UserModel extends mongoose.Document   {
     updatedBy: string;
     lastAccesDate: string;
     token?: string;
+    image?: string;
 }
 
 export const UserSchema = new mongoose.Schema({
