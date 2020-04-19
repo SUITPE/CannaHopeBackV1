@@ -2,14 +2,22 @@ import { UserModel } from '../../models/user';
 import User from '../../models/user';
 import bcrypt from 'bcrypt';
 import { ErrorDetail } from '../../models/jsonResp';
+import buffer from 'buffer';
+import path from 'path';
+import fs from 'fs';
+
+
 
 
 export default class UserController {
 
     public save(userData: UserModel): Promise<UserModel> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 
-            console.log(userData);
+
+            if (userData.image) {
+                userData.image = await this.setUserImage(userData.image, userData);
+            }
 
             const user: UserModel = new User({
                 _id: userData._id,
@@ -57,10 +65,17 @@ export default class UserController {
         });
     }
 
-    public update(idUser: string, user: UserModel): Promise<UserModel> {
-        return new Promise((resolve, reject) => {
+    public update(idUser: string, user: UserModel): Promise<any> {
+        return new Promise(async (resolve, reject) => {
 
+            let userImage: string;
             try {
+
+                if (user.image && user.image.length > 50) {
+                    userImage = await this.setUserImage(user.image, user);
+                    user.image = userImage;
+                }
+
                 User.findByIdAndUpdate(idUser, user, (error: any, userUpdated: any) => {
                     if (error) {
                         const errorDetail: ErrorDetail = {
@@ -71,11 +86,10 @@ export default class UserController {
                         throw errorDetail;
                     }
 
-                    user = userUpdated;
+                    userUpdated.image = userImage
+                    resolve(userUpdated);
 
-                })
-
-                resolve(user);
+                });
 
             } catch (error) {
                 reject(error);
@@ -199,6 +213,32 @@ export default class UserController {
 
     public getTotalRegistered(): Promise<number> {
         return new Promise((resolve, reject) => {
+            User.countDocuments({}, (err: any, total) => {
+                resolve(total);
+            });
+        });
+    }
+
+    private setUserImage(base64Imgae: string, user: UserModel): Promise<string> {
+        return new Promise((resolve, reject) => {
+
+            const date = new Date();
+
+            try {
+
+                const extention = base64Imgae.split(';')[0].split('/')[1];
+                const imageName = `image-${user._id}-${date.getMilliseconds()}.${extention}`;
+
+                const finalImageName: string = base64Imgae.split(';base64,').pop() || '';
+
+                const buf = Buffer.from(finalImageName, 'base64');
+
+                fs.writeFileSync(`docs/userImages/${imageName}`, buf);
+
+                resolve(imageName);
+            } catch (error) {
+                reject(error);
+            }
 
         });
     }

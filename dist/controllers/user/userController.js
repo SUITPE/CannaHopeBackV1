@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,10 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonResp_1 = require("../../models/jsonResp");
+const fs_1 = __importDefault(require("fs"));
 class UserController {
     save(userData) {
-        return new Promise((resolve, reject) => {
-            console.log(userData);
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            if (userData.image) {
+                userData.image = yield this.setUserImage(userData.image, userData);
+            }
             const user = new user_1.default({
                 _id: userData._id,
                 names: userData.names,
@@ -48,11 +60,16 @@ class UserController {
                     resolve(userSaved);
                 }
             });
-        });
+        }));
     }
     update(idUser, user) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            let userImage;
             try {
+                if (user.image && user.image.length > 50) {
+                    userImage = yield this.setUserImage(user.image, user);
+                    user.image = userImage;
+                }
                 user_1.default.findByIdAndUpdate(idUser, user, (error, userUpdated) => {
                     if (error) {
                         const errorDetail = {
@@ -61,14 +78,14 @@ class UserController {
                         };
                         throw errorDetail;
                     }
-                    user = userUpdated;
+                    userUpdated.image = userImage;
+                    resolve(userUpdated);
                 });
-                resolve(user);
             }
             catch (error) {
                 reject(error);
             }
-        });
+        }));
     }
     getAll(from, limit) {
         return new Promise((resolve, reject) => {
@@ -160,6 +177,25 @@ class UserController {
     }
     getTotalRegistered() {
         return new Promise((resolve, reject) => {
+            user_1.default.countDocuments({}, (err, total) => {
+                resolve(total);
+            });
+        });
+    }
+    setUserImage(base64Imgae, user) {
+        return new Promise((resolve, reject) => {
+            const date = new Date();
+            try {
+                const extention = base64Imgae.split(';')[0].split('/')[1];
+                const imageName = `image-${user._id}-${date.getMilliseconds()}.${extention}`;
+                const finalImageName = base64Imgae.split(';base64,').pop() || '';
+                const buf = Buffer.from(finalImageName, 'base64');
+                fs_1.default.writeFileSync(`docs/userImages/${imageName}`, buf);
+                resolve(imageName);
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
 }

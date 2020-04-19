@@ -107,6 +107,10 @@ exports.UserSchema = new mongoose_1.default.Schema({
     lastAccesDate: {
         type: Date,
         default: null
+    },
+    image: {
+        type: String,
+        default: null
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

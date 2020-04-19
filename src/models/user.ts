@@ -26,9 +26,9 @@ export interface UserModel extends mongoose.Document   {
     updateDate: string;
     createdBy: string;
     updatedBy: string;
+    image: string;
     lastAccesDate: string;
     token?: string;
-    image?: string;
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -133,6 +133,10 @@ export const UserSchema = new mongoose.Schema({
     },
     lastAccesDate: {
         type: Date,
+        default: null
+    },
+    image: {
+        type: String,
         default: null
     }
 });
