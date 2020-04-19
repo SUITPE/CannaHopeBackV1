@@ -55,5 +55,14 @@ userRoutes.get('/GetAllRoles', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de roles', null, error));
     });
 });
+userRoutes.get('/FindByParams/:param', (req, res) => {
+    userController.findByParams(req.params.param)
+        .then(users => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Usuarios cargados correctamente', users));
+    })
+        .catch((error) => {
+        return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
+    });
+});
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;

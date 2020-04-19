@@ -62,8 +62,21 @@ userRoutes.get('/GetAllRoles', (req, res) => {
     })
 });
 
+userRoutes.get('/FindByParams/:param', (req, res) => {
+    userController.findByParams(req.params.param)
+        .then(users => {
+            return res.status(200).send(new JsonResp(true, 'Usuarios cargados correctamente', users))
+        })
+        .catch((error: ErrorDetail) => {
+            return res.status(500).send(new JsonResp(false, error.name || 'Error!', null, error));
+        })
+});
+
+
 userRoutes.post('/Login', LoginController.startSession);
 
 
 
 export default userRoutes;
+
+

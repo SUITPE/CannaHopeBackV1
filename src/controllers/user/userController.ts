@@ -74,7 +74,7 @@ export default class UserController {
                             throw ErrorDetail;
                         }
 
-                        User.count({}, (err: any, total) => {
+                        User.countDocuments({}, (err: any, total) => {
 
                             const data: any = {
                                 total,
@@ -130,6 +130,43 @@ export default class UserController {
             } catch (error) {
                 reject(error);
             }
+
+        });
+    }
+
+    public findByParams(searchParam: string): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+
+            const regex = new RegExp(searchParam, 'i');
+
+            try {
+
+                User.find({ names: regex })
+                    .limit(10)
+                    .exec((error: any, users: UserModel) => {
+
+                        if (error) {
+                            const errorDetail: ErrorDetail = {
+                                name: `Fallo al buscar usuarios con parametro ${searchParam}`,
+                                description: error
+                            }
+
+                            throw errorDetail;
+                        }
+
+                        resolve(users);
+                    });
+
+            } catch (error) {
+                reject(error);
+            }
+
+
+        });
+    }
+
+    public getTotalRegistered(): Promise<number> {
+        return new Promise((resolve, reject) => {
 
         });
     }

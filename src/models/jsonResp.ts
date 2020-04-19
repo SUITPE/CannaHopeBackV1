@@ -4,6 +4,7 @@ export default class JsonResp {
     public message: string;
     public data?: any;
     public error?: ErrorDetail;
+    public total: number = 0;
     constructor(success: boolean, message: string, data?: any, error?: ErrorDetail) {
         this.success = success;
         this.message = message;
