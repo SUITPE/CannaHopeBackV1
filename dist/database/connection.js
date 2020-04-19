@@ -11,7 +11,12 @@ class DbConnection {
         this.getConnection();
     }
     getConnection() {
-        mongoose_1.default.connect(varEnvironments_1.environments.getDbUrl(), { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, (error) => {
+        mongoose_1.default.connect(varEnvironments_1.environments.getDbUrl(), {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        }, (error) => {
             if (error)
                 throw error;
             console.log('Base de datos en linea');

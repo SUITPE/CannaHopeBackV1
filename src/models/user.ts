@@ -3,12 +3,12 @@ import Rol from './role';
 
 
 export interface UserModel extends mongoose.Document   {
+    _id: string;
     names: string;
     surenames: string;
     nickName: string;
     age: number;
     birthDate: string;
-    years: number;
     sex: string;
     document: number;
     documentType: string;

@@ -6,12 +6,13 @@ import { ErrorDetail } from '../../models/jsonResp';
 
 export default class UserController {
 
-    public insert(userData: UserModel): Promise<UserModel> {
+    public save(userData: UserModel): Promise<UserModel> {
         return new Promise((resolve, reject) => {
 
             console.log(userData);
 
             const user: UserModel = new User({
+                _id: userData._id,
                 names: userData.names,
                 surenames: userData.surenames,
                 nickName: userData.nickName,
@@ -31,6 +32,9 @@ export default class UserController {
                 rol: userData.rol,
                 createDate: userData.createDate,
                 createdBy: userData.createdBy,
+                updateDate: userData.updateDate,
+                updatedBy: userData.updatedBy,
+                image: userData.image
             });
 
             user.save({}, (error: any, userSaved) => {
@@ -48,6 +52,34 @@ export default class UserController {
                 }
             });
 
+
+
+        });
+    }
+
+    public update(idUser: string, user: UserModel): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+
+            try {
+                User.findByIdAndUpdate(idUser, user, (error: any, userUpdated: any) => {
+                    if (error) {
+                        const errorDetail: ErrorDetail = {
+                            name: 'Error en la consulta al actualizar usuario',
+                            description: error
+                        }
+
+                        throw errorDetail;
+                    }
+
+                    user = userUpdated;
+
+                })
+
+                resolve(user);
+
+            } catch (error) {
+                reject(error);
+            }
 
 
         });

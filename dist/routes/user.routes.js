@@ -13,7 +13,7 @@ const rolController = new rolController_1.default();
 const login = new login_1.default();
 const userRoutes = express_1.Router();
 userRoutes.post('/Insert', (req, res) => {
-    userController.insert(req.body)
+    userController.save(req.body)
         .then(userSaved => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario registrado correctamente', userSaved));
     })
@@ -59,6 +59,15 @@ userRoutes.get('/FindByParams/:param', (req, res) => {
     userController.findByParams(req.params.param)
         .then(users => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuarios cargados correctamente', users));
+    })
+        .catch((error) => {
+        return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
+    });
+});
+userRoutes.put('/Update/:id', (req, res) => {
+    userController.update(req.params.id, req.body)
+        .then(userSaved => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Usuario actualizado correctamente', userSaved));
     })
         .catch((error) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));

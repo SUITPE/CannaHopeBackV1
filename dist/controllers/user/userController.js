@@ -7,10 +7,11 @@ const user_1 = __importDefault(require("../../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonResp_1 = require("../../models/jsonResp");
 class UserController {
-    insert(userData) {
+    save(userData) {
         return new Promise((resolve, reject) => {
             console.log(userData);
             const user = new user_1.default({
+                _id: userData._id,
                 names: userData.names,
                 surenames: userData.surenames,
                 nickName: userData.nickName,
@@ -30,6 +31,9 @@ class UserController {
                 rol: userData.rol,
                 createDate: userData.createDate,
                 createdBy: userData.createdBy,
+                updateDate: userData.updateDate,
+                updatedBy: userData.updatedBy,
+                image: userData.image
             });
             user.save({}, (error, userSaved) => {
                 if (error) {
@@ -44,6 +48,26 @@ class UserController {
                     resolve(userSaved);
                 }
             });
+        });
+    }
+    update(idUser, user) {
+        return new Promise((resolve, reject) => {
+            try {
+                user_1.default.findByIdAndUpdate(idUser, user, (error, userUpdated) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: 'Error en la consulta al actualizar usuario',
+                            description: error
+                        };
+                        throw errorDetail;
+                    }
+                    user = userUpdated;
+                });
+                resolve(user);
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
     getAll(from, limit) {

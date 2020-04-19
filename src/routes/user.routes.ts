@@ -14,7 +14,7 @@ const userRoutes: Router = Router();
 
 userRoutes.post('/Insert', (req, res) => {
 
-    userController.insert(req.body)
+    userController.save(req.body)
     .then(userSaved => {
         return res.status(200).send(new JsonResp(true, 'Usuario registrado correctamente', userSaved));
     })
@@ -72,6 +72,16 @@ userRoutes.get('/FindByParams/:param', (req, res) => {
         })
 });
 
+
+userRoutes.put('/Update/:id', (req, res) => {
+    userController.update(req.params.id ,req.body)
+    .then(userSaved => {
+        return res.status(200).send(new JsonResp(true, 'Usuario actualizado correctamente', userSaved))
+    })
+    .catch((error: ErrorDetail) => {
+        return res.status(500).send(new JsonResp(false, error.name || 'Error!', null, error));
+    });
+});
 
 userRoutes.post('/Login', LoginController.startSession);
 
