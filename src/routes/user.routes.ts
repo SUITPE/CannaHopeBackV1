@@ -83,6 +83,16 @@ userRoutes.put('/Update/:id', (req, res) => {
     });
 });
 
+userRoutes.get('/FindById/:id', (req, res) => {
+    userController.getById(req.params.id)
+    .then(user => {
+        return res.status(200).send(new JsonResp(true, 'Usuario cargado crrectamente', user))
+    })
+    .catch((error: ErrorDetail) => {
+        return res.status(500).send(new JsonResp(false, error.name || 'Error!', null, error));
+    });
+});
+
 userRoutes.post('/Login', LoginController.startSession);
 
 

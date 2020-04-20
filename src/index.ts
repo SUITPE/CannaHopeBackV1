@@ -1,6 +1,7 @@
 import Server from './server/server';
 import DbConnection from './database/connection';
 import userRoutes from './routes/user.routes';
+import generalRoutes from './routes/general.routes';
 
 
 // const port: number = 2745;
@@ -11,5 +12,6 @@ const connection: DbConnection = new DbConnection();
 
 
 server.app.use('/api/User/', userRoutes);
+server.app.use('/api/General/', generalRoutes);
 
 server.start(() => console.log(`Servidor en linea en puerto ${port}`));

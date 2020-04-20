@@ -14,13 +14,11 @@ export default class UserController {
     public save(userData: UserModel): Promise<UserModel> {
         return new Promise(async (resolve, reject) => {
 
-
             if (userData.image) {
                 userData.image = await this.setUserImage(userData.image, userData);
             }
 
             const user: UserModel = new User({
-                _id: userData._id,
                 names: userData.names,
                 surenames: userData.surenames,
                 nickName: userData.nickName,
@@ -76,20 +74,29 @@ export default class UserController {
                     user.image = userImage;
                 }
 
-                User.findByIdAndUpdate(idUser, user, (error: any, userUpdated: any) => {
-                    if (error) {
-                        const errorDetail: ErrorDetail = {
-                            name: 'Error en la consulta al actualizar usuario',
-                            description: error
+                if (user.password) {
+                    user.password = bcrypt.hashSync((user.password).toString(), 10)
+                }
+
+                User.findByIdAndUpdate(idUser, user)
+                    .populate('rol')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error, userUpdated) => {
+                        console.log(userUpdated);
+                        if (error) {
+                            const errorDetail: ErrorDetail = {
+                                name: 'Error en la consulta al actualizar usuario',
+                                description: error
+                            }
+
+                            throw errorDetail;
                         }
+                    });
 
-                        throw errorDetail;
-                    }
+                const newUser: UserModel = await this.getById(user._id);
 
-                    userUpdated.image = userImage
-                    resolve(userUpdated);
+                resolve(newUser);
 
-                });
 
             } catch (error) {
                 reject(error);
@@ -139,9 +146,23 @@ export default class UserController {
         });
     }
 
-    public getById(): Promise<UserModel> {
+    public getById(idUser: string): Promise<UserModel> {
         return new Promise((resolve, reject) => {
 
+            User.findById(idUser)
+                .populate('rol', 'name description')
+                .populate('createdBy', 'names surenames nickName')
+                .exec((error, user: UserModel) => {
+                    if (error) {
+                        const errorDetail: ErrorDetail = {
+                            name: `Error al cargar usuario con id ${idUser}`,
+                            description: error
+                        }
+                        throw ErrorDetail;
+                    }
+
+                    resolve(user);
+                });
         });
     }
 
@@ -189,6 +210,8 @@ export default class UserController {
 
                 User.find({ names: regex })
                     .limit(10)
+                    .populate('rol')
+                    .populate('createdBy', 'names surenames nickName')
                     .exec((error: any, users: UserModel) => {
 
                         if (error) {

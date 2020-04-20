@@ -23,7 +23,6 @@ class UserController {
                 userData.image = yield this.setUserImage(userData.image, userData);
             }
             const user = new user_1.default({
-                _id: userData._id,
                 names: userData.names,
                 surenames: userData.surenames,
                 nickName: userData.nickName,
@@ -70,7 +69,14 @@ class UserController {
                     userImage = yield this.setUserImage(user.image, user);
                     user.image = userImage;
                 }
-                user_1.default.findByIdAndUpdate(idUser, user, (error, userUpdated) => {
+                if (user.password) {
+                    user.password = bcrypt_1.default.hashSync((user.password).toString(), 10);
+                }
+                user_1.default.findByIdAndUpdate(idUser, user)
+                    .populate('rol')
+                    .populate('createdBy', 'names surenames nickName')
+                    .exec((error, userUpdated) => {
+                    console.log(userUpdated);
                     if (error) {
                         const errorDetail = {
                             name: 'Error en la consulta al actualizar usuario',
@@ -78,9 +84,9 @@ class UserController {
                         };
                         throw errorDetail;
                     }
-                    userUpdated.image = userImage;
-                    resolve(userUpdated);
                 });
+                const newUser = yield this.getById(user._id);
+                resolve(newUser);
             }
             catch (error) {
                 reject(error);
@@ -119,8 +125,21 @@ class UserController {
             }
         });
     }
-    getById() {
+    getById(idUser) {
         return new Promise((resolve, reject) => {
+            user_1.default.findById(idUser)
+                .populate('rol', 'name description')
+                .populate('createdBy', 'names surenames nickName')
+                .exec((error, user) => {
+                if (error) {
+                    const errorDetail = {
+                        name: `Error al cargar usuario con id ${idUser}`,
+                        description: error
+                    };
+                    throw jsonResp_1.ErrorDetail;
+                }
+                resolve(user);
+            });
         });
     }
     getByParam(params) {
@@ -159,6 +178,8 @@ class UserController {
             try {
                 user_1.default.find({ names: regex })
                     .limit(10)
+                    .populate('rol')
+                    .populate('createdBy', 'names surenames nickName')
                     .exec((error, users) => {
                     if (error) {
                         const errorDetail = {

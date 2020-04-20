@@ -73,5 +73,14 @@ userRoutes.put('/Update/:id', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
     });
 });
+userRoutes.get('/FindById/:id', (req, res) => {
+    userController.getById(req.params.id)
+        .then(user => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Usuario cargado crrectamente', user));
+    })
+        .catch((error) => {
+        return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
+    });
+});
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;
