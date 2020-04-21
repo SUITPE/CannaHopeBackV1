@@ -8,11 +8,12 @@ const express_1 = require("express");
 const rolController_1 = __importDefault(require("../controllers/user/rolController"));
 const jsonResp_1 = __importDefault(require("../models/jsonResp"));
 const login_1 = __importDefault(require("../controllers/user/login"));
+const userValidation_middleware_1 = __importDefault(require("../middlewares/userValidation.middleware"));
 const userController = new userController_1.default();
 const rolController = new rolController_1.default();
 const login = new login_1.default();
 const userRoutes = express_1.Router();
-userRoutes.post('/Insert', (req, res) => {
+userRoutes.post('/Insert', userValidation_middleware_1.default.validation, (req, res) => {
     userController.save(req.body)
         .then(userSaved => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario registrado correctamente', userSaved));
@@ -21,7 +22,7 @@ userRoutes.post('/Insert', (req, res) => {
         return res.status(error.status).send(new jsonResp_1.default(false, 'Error al registrar usuario', null, error));
     });
 });
-userRoutes.post('/CreateRol', (req, res) => {
+userRoutes.post('/CreateRol', userValidation_middleware_1.default.validation, (req, res) => {
     rolController.create(req.body)
         .then(rolInserted => {
         return res.status(200).send(new jsonResp_1.default(true, 'Rol de usuario creado correctamente', rolInserted));
@@ -31,7 +32,7 @@ userRoutes.post('/CreateRol', (req, res) => {
         return res.status(error.status).send(new jsonResp_1.default(false, error.name, null, errorDetail));
     });
 });
-userRoutes.get('/Getall', (req, res) => {
+userRoutes.get('/Getall', userValidation_middleware_1.default.validation, (req, res) => {
     let from = 0;
     let limit = 5;
     if (req.query.from)
@@ -46,7 +47,7 @@ userRoutes.get('/Getall', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de usuarios', null, error));
     });
 });
-userRoutes.get('/GetAllRoles', (req, res) => {
+userRoutes.get('/GetAllRoles', userValidation_middleware_1.default.validation, (req, res) => {
     rolController.getAll()
         .then(userRoles => {
         return res.status(200).send(new jsonResp_1.default(true, 'Roles de usuario cargados correctamente', userRoles));
@@ -55,7 +56,7 @@ userRoutes.get('/GetAllRoles', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al obtener lista de roles', null, error));
     });
 });
-userRoutes.get('/FindByParams/:param', (req, res) => {
+userRoutes.get('/FindByParams/:param', userValidation_middleware_1.default.validation, (req, res) => {
     userController.findByParams(req.params.param)
         .then(users => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuarios cargados correctamente', users));
@@ -64,7 +65,7 @@ userRoutes.get('/FindByParams/:param', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
     });
 });
-userRoutes.put('/Update/:id', (req, res) => {
+userRoutes.put('/Update/:id', userValidation_middleware_1.default.validation, (req, res) => {
     userController.update(req.params.id, req.body)
         .then(userSaved => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario actualizado correctamente', userSaved));
@@ -73,7 +74,7 @@ userRoutes.put('/Update/:id', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
     });
 });
-userRoutes.get('/FindById/:id', (req, res) => {
+userRoutes.get('/FindById/:id', userValidation_middleware_1.default.validation, (req, res) => {
     userController.getById(req.params.id)
         .then(user => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario cargado crrectamente', user));
@@ -82,7 +83,7 @@ userRoutes.get('/FindById/:id', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
     });
 });
-userRoutes.delete('/Delete/:id', (req, res) => {
+userRoutes.delete('/Delete/:id', userValidation_middleware_1.default.validation, (req, res) => {
     userController.delete(req.params.id)
         .then(user => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario eliminado crrectamente', user));

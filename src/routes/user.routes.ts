@@ -4,6 +4,7 @@ import RolController from '../controllers/user/rolController';
 import JsonResp from '../models/jsonResp';
 import { ErrorDetail } from '../models/jsonResp';
 import LoginController from '../controllers/user/login';
+import UserValidation from '../middlewares/userValidation.middleware';
 
 
 const userController: UserController = new UserController();
@@ -12,7 +13,7 @@ const login: LoginController = new LoginController();
 const userRoutes: Router = Router();
 
 
-userRoutes.post('/Insert', (req, res) => {
+userRoutes.post('/Insert', UserValidation.validation, (req, res) => {
 
     userController.save(req.body)
     .then(userSaved => {
@@ -23,7 +24,7 @@ userRoutes.post('/Insert', (req, res) => {
     })
 });
 
-userRoutes.post('/CreateRol', (req, res) => {
+userRoutes.post('/CreateRol', UserValidation.validation, (req, res) => {
 
     rolController.create(req.body)
     .then(rolInserted => {
@@ -35,7 +36,7 @@ userRoutes.post('/CreateRol', (req, res) => {
     })
 });
 
-userRoutes.get('/Getall', (req, res) => {
+userRoutes.get('/Getall', UserValidation.validation, (req, res) => {
 
     let from: number = 0;
     let limit: number  = 5;
@@ -52,7 +53,7 @@ userRoutes.get('/Getall', (req, res) => {
     });
 })
 
-userRoutes.get('/GetAllRoles', (req, res) => {
+userRoutes.get('/GetAllRoles', UserValidation.validation, (req, res) => {
     rolController.getAll()
     .then(userRoles => {
         return res.status(200).send(new JsonResp(true, 'Roles de usuario cargados correctamente', userRoles))
@@ -62,7 +63,7 @@ userRoutes.get('/GetAllRoles', (req, res) => {
     })
 });
 
-userRoutes.get('/FindByParams/:param', (req, res) => {
+userRoutes.get('/FindByParams/:param', UserValidation.validation, (req, res) => {
     userController.findByParams(req.params.param)
         .then(users => {
             return res.status(200).send(new JsonResp(true, 'Usuarios cargados correctamente', users))
@@ -73,7 +74,7 @@ userRoutes.get('/FindByParams/:param', (req, res) => {
 });
 
 
-userRoutes.put('/Update/:id', (req, res) => {
+userRoutes.put('/Update/:id', UserValidation.validation, (req, res) => {
     userController.update(req.params.id ,req.body)
     .then(userSaved => {
         return res.status(200).send(new JsonResp(true, 'Usuario actualizado correctamente', userSaved))
@@ -83,7 +84,7 @@ userRoutes.put('/Update/:id', (req, res) => {
     });
 });
 
-userRoutes.get('/FindById/:id', (req, res) => {
+userRoutes.get('/FindById/:id', UserValidation.validation, (req, res) => {
     userController.getById(req.params.id)
     .then(user => {
         return res.status(200).send(new JsonResp(true, 'Usuario cargado crrectamente', user))
@@ -93,7 +94,7 @@ userRoutes.get('/FindById/:id', (req, res) => {
     });
 });
 
-userRoutes.delete('/Delete/:id', (req, res) => {
+userRoutes.delete('/Delete/:id', UserValidation.validation, (req, res) => {
     userController.delete(req.params.id)
     .then(user => {
         return res.status(200).send(new JsonResp(true, 'Usuario eliminado crrectamente', user))

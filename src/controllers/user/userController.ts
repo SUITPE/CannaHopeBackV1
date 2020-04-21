@@ -277,7 +277,7 @@ export default class UserController {
         return new Promise((resolve, reject) => {
 
             try {
-                User.update({ _id: idUser }, { status: false })
+                User.updateOne({ _id: idUser }, { status: false })
                     .exec((error, user) => {
 
                         if (error) {

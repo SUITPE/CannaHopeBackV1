@@ -227,7 +227,7 @@ class UserController {
     delete(idUser) {
         return new Promise((resolve, reject) => {
             try {
-                user_1.default.update({ _id: idUser }, { status: false })
+                user_1.default.updateOne({ _id: idUser }, { status: false })
                     .exec((error, user) => {
                     if (error) {
                         const errorDetail = {

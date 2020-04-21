@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const patientsController_1 = __importDefault(require("../controllers/patients/patientsController"));
 const jsonResp_1 = __importDefault(require("../models/jsonResp"));
+const userValidation_middleware_1 = __importDefault(require("../middlewares/userValidation.middleware"));
 const patientCtr = new patientsController_1.default();
 const patientRoutes = express_1.Router();
-patientRoutes.post('/Insert', (req, res) => {
+patientRoutes.post('/Insert', userValidation_middleware_1.default.validation, (req, res) => {
     patientCtr.insert(req.body)
         .then(patients => {
         return res.status(200).send(new jsonResp_1.default(true, `Se ha registrado el paciente ${req.body.names} correctamente`, patients));
@@ -26,7 +27,7 @@ patientRoutes.post('/Insert', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
-patientRoutes.get('/FindById/:id', (req, res) => {
+patientRoutes.get('/FindById/:id', userValidation_middleware_1.default.validation, (req, res) => {
     patientCtr.findById(req.params.id)
         .then(patient => {
         return res.status(200).send(new jsonResp_1.default(true, `Se ha cargado el paciente correctamente`, patient));
@@ -35,7 +36,7 @@ patientRoutes.get('/FindById/:id', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
-patientRoutes.get('/GetAll', (req, res) => {
+patientRoutes.get('/GetAll', userValidation_middleware_1.default.validation, (req, res) => {
     let from = 0;
     let limit = 5;
     if (req.query.from)

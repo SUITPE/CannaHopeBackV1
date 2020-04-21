@@ -79,7 +79,7 @@ class PatientController {
             patient_1.default.find()
                 .populate({
                 path: 'user',
-                select: 'image _id names surenames nickName email mobilePhone',
+                select: 'image _id names surenames  mobilePhone document email',
                 populate: {
                     path: 'rol',
                     select: 'description'
