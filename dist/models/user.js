@@ -4,6 +4,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+class UserModel extends mongoose_1.default.Document {
+    constructor() {
+        super(...arguments);
+        this.names = String();
+        this.surenames = String();
+        this.nickName = String();
+        this.age = Number();
+        this.birthDate = String();
+        this.sex = String();
+        this.document = Number();
+        this.documentType = String();
+        this.maritalStatus = String();
+        this.ocupation = String();
+        this.address = String();
+        this.email = String();
+        this.mobilePhone = Number();
+        this.landLine = Number();
+        this.healthyEntity = String();
+        this.password = String();
+        this.rol = String();
+        this.status = Boolean();
+        this.createDate = String();
+        this.updateDate = String();
+        this.createdBy = String();
+        this.updatedBy = String();
+        this.image = String();
+        this.lastAccesDate = String();
+        this.token = String();
+    }
+}
+exports.UserModel = UserModel;
 exports.UserSchema = new mongoose_1.default.Schema({
     names: {
         type: String,

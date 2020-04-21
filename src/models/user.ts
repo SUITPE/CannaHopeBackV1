@@ -2,33 +2,32 @@ import mongoose from 'mongoose';
 import Rol from './role';
 
 
-export interface UserModel extends mongoose.Document   {
-    _id: string;
-    names: string;
-    surenames: string;
-    nickName: string;
-    age: number;
-    birthDate: string;
-    sex: string;
-    document: number;
-    documentType: string;
-    maritalStatus: string
-    ocupation: string;
-    address: string;
-    email: string;
-    mobilePhone: number;
-    landLine: number;
-    healthyEntity: string;
-    password: string;
-    rol: string;
-    status: boolean;
-    createDate: string;
-    updateDate: string;
-    createdBy: string;
-    updatedBy: string;
-    image: string;
-    lastAccesDate: string;
-    token?: string;
+export class UserModel extends mongoose.Document   {
+    public names: string = String();
+    public surenames: string= String();
+    public nickName: string= String();
+    public age: number= Number();
+    public birthDate: string= String();
+    public sex: string= String();
+    public document: number= Number();
+    public documentType: string= String();
+    public maritalStatus: string = String();
+    public ocupation: string= String();
+    public address: string= String();
+    public email: string= String();
+    public mobilePhone: number= Number();
+    public landLine: number= Number();
+    public healthyEntity: string= String();
+    public password: string = String();
+    public rol: string= String();
+    public status: boolean= Boolean();
+    public createDate: string= String();
+    public updateDate: string= String();
+    public createdBy: string= String();
+    public updatedBy: string= String();
+    public image: string= String();
+    public lastAccesDate: string= String();
+    public token: string= String();
 }
 
 export const UserSchema = new mongoose.Schema({

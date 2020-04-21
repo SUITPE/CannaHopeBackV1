@@ -93,6 +93,16 @@ userRoutes.get('/FindById/:id', (req, res) => {
     });
 });
 
+userRoutes.delete('/Delete/:id', (req, res) => {
+    userController.delete(req.params.id)
+    .then(user => {
+        return res.status(200).send(new JsonResp(true, 'Usuario eliminado crrectamente', user))
+    })
+    .catch((error: ErrorDetail) => {
+        return res.status(500).send(new JsonResp(false, error.name || 'Error!', null, error));
+    });
+});
+
 userRoutes.post('/Login', LoginController.startSession);
 
 

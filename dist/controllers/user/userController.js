@@ -19,46 +19,51 @@ const fs_1 = __importDefault(require("fs"));
 class UserController {
     save(userData) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            if (userData.image) {
-                userData.image = yield this.setUserImage(userData.image, userData);
+            try {
+                if (userData.image) {
+                    userData.image = yield this.setUserImage(userData.image, userData);
+                }
+                const user = new user_1.default({
+                    names: userData.names,
+                    surenames: userData.surenames,
+                    nickName: userData.nickName,
+                    age: userData.age,
+                    birthDate: userData.birthDate,
+                    sex: userData.sex,
+                    document: userData.document,
+                    documentType: userData.documentType,
+                    maritalStatus: userData.maritalStatus,
+                    ocupation: userData.ocupation,
+                    address: userData.address,
+                    email: userData.email,
+                    mobilePhone: userData.mobilePhone,
+                    landLine: userData.landLine,
+                    healthyEntity: userData.healthyEntity,
+                    password: bcrypt_1.default.hashSync((userData.password).toString(), 10),
+                    rol: userData.rol,
+                    createDate: userData.createDate,
+                    createdBy: userData.createdBy,
+                    updateDate: userData.updateDate,
+                    updatedBy: userData.updatedBy,
+                    image: userData.image
+                });
+                user.save({}, (error, userSaved) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: 'Error al momento de registrar usuario',
+                            description: error,
+                            status: 500
+                        };
+                        reject(errorDetail);
+                    }
+                    else {
+                        resolve(userSaved);
+                    }
+                });
             }
-            const user = new user_1.default({
-                names: userData.names,
-                surenames: userData.surenames,
-                nickName: userData.nickName,
-                age: userData.age,
-                birthDate: userData.birthDate,
-                sex: userData.sex,
-                document: userData.document,
-                documentType: userData.documentType,
-                maritalStatus: userData.maritalStatus,
-                ocupation: userData.ocupation,
-                address: userData.address,
-                email: userData.email,
-                mobilePhone: userData.mobilePhone,
-                landLine: userData.landLine,
-                healthyEntity: userData.healthyEntity,
-                password: bcrypt_1.default.hashSync((userData.password).toString(), 10),
-                rol: userData.rol,
-                createDate: userData.createDate,
-                createdBy: userData.createdBy,
-                updateDate: userData.updateDate,
-                updatedBy: userData.updatedBy,
-                image: userData.image
-            });
-            user.save({}, (error, userSaved) => {
-                if (error) {
-                    const errorDetail = {
-                        name: 'Error al momento de registrar usuario',
-                        description: error,
-                        status: 500
-                    };
-                    reject(errorDetail);
-                }
-                else {
-                    resolve(userSaved);
-                }
-            });
+            catch (error) {
+                reject(error);
+            }
         }));
     }
     update(idUser, user) {
@@ -96,7 +101,7 @@ class UserController {
     getAll(from, limit) {
         return new Promise((resolve, reject) => {
             try {
-                user_1.default.find({}, {
+                user_1.default.find({ status: true }, {
                     password: 0
                 })
                     .skip(from)
@@ -111,7 +116,7 @@ class UserController {
                         };
                         throw jsonResp_1.ErrorDetail;
                     }
-                    user_1.default.countDocuments({}, (err, total) => {
+                    user_1.default.countDocuments({ status: true }, (err, total) => {
                         const data = {
                             total,
                             users
@@ -198,7 +203,7 @@ class UserController {
     }
     getTotalRegistered() {
         return new Promise((resolve, reject) => {
-            user_1.default.countDocuments({}, (err, total) => {
+            user_1.default.countDocuments({ status: true }, (err, total) => {
                 resolve(total);
             });
         });
@@ -213,6 +218,26 @@ class UserController {
                 const buf = Buffer.from(finalImageName, 'base64');
                 fs_1.default.writeFileSync(`docs/userImages/${imageName}`, buf);
                 resolve(imageName);
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
+    delete(idUser) {
+        return new Promise((resolve, reject) => {
+            try {
+                user_1.default.update({ _id: idUser }, { status: false })
+                    .exec((error, user) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: `Error al eliminar paciente con id ${idUser} `,
+                            description: error
+                        };
+                        reject(errorDetail);
+                    }
+                    resolve(user);
+                });
             }
             catch (error) {
                 reject(error);

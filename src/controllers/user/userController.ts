@@ -5,6 +5,7 @@ import { ErrorDetail } from '../../models/jsonResp';
 import buffer from 'buffer';
 import path from 'path';
 import fs from 'fs';
+import Patient from '../../models/patient';
 
 
 
@@ -14,49 +15,55 @@ export default class UserController {
     public save(userData: UserModel): Promise<UserModel> {
         return new Promise(async (resolve, reject) => {
 
-            if (userData.image) {
-                userData.image = await this.setUserImage(userData.image, userData);
+            try {
+
+                if (userData.image) {
+                    userData.image = await this.setUserImage(userData.image, userData);
+                }
+
+                const user: UserModel = new User({
+                    names: userData.names,
+                    surenames: userData.surenames,
+                    nickName: userData.nickName,
+                    age: userData.age,
+                    birthDate: userData.birthDate,
+                    sex: userData.sex,
+                    document: userData.document,
+                    documentType: userData.documentType,
+                    maritalStatus: userData.maritalStatus,
+                    ocupation: userData.ocupation,
+                    address: userData.address,
+                    email: userData.email,
+                    mobilePhone: userData.mobilePhone,
+                    landLine: userData.landLine,
+                    healthyEntity: userData.healthyEntity,
+                    password: bcrypt.hashSync((userData.password).toString(), 10),
+                    rol: userData.rol,
+                    createDate: userData.createDate,
+                    createdBy: userData.createdBy,
+                    updateDate: userData.updateDate,
+                    updatedBy: userData.updatedBy,
+                    image: userData.image
+                });
+
+                user.save({}, (error: any, userSaved) => {
+
+                    if (error) {
+                        const errorDetail: ErrorDetail = {
+                            name: 'Error al momento de registrar usuario',
+                            description: error,
+                            status: 500
+                        }
+
+                        reject(errorDetail);
+                    } else {
+                        resolve(userSaved);
+                    }
+                });
+            } catch (error) {
+                reject(error);
             }
 
-            const user: UserModel = new User({
-                names: userData.names,
-                surenames: userData.surenames,
-                nickName: userData.nickName,
-                age: userData.age,
-                birthDate: userData.birthDate,
-                sex: userData.sex,
-                document: userData.document,
-                documentType: userData.documentType,
-                maritalStatus: userData.maritalStatus,
-                ocupation: userData.ocupation,
-                address: userData.address,
-                email: userData.email,
-                mobilePhone: userData.mobilePhone,
-                landLine: userData.landLine,
-                healthyEntity: userData.healthyEntity,
-                password: bcrypt.hashSync((userData.password).toString(), 10),
-                rol: userData.rol,
-                createDate: userData.createDate,
-                createdBy: userData.createdBy,
-                updateDate: userData.updateDate,
-                updatedBy: userData.updatedBy,
-                image: userData.image
-            });
-
-            user.save({}, (error: any, userSaved) => {
-
-                if (error) {
-                    const errorDetail: ErrorDetail = {
-                        name: 'Error al momento de registrar usuario',
-                        description: error,
-                        status: 500
-                    }
-
-                    reject(errorDetail);
-                } else {
-                    resolve(userSaved);
-                }
-            });
 
 
 
@@ -110,7 +117,7 @@ export default class UserController {
         return new Promise((resolve, reject) => {
 
             try {
-                User.find({}, {
+                User.find({ status: true }, {
                     password: 0
                 })
                     .skip(from)
@@ -127,7 +134,7 @@ export default class UserController {
                             throw ErrorDetail;
                         }
 
-                        User.countDocuments({}, (err: any, total) => {
+                        User.countDocuments({status: true}, (err: any, total) => {
 
                             const data: any = {
                                 total,
@@ -236,7 +243,7 @@ export default class UserController {
 
     public getTotalRegistered(): Promise<number> {
         return new Promise((resolve, reject) => {
-            User.countDocuments({}, (err: any, total) => {
+            User.countDocuments({status: true}, (err: any, total) => {
                 resolve(total);
             });
         });
@@ -265,4 +272,28 @@ export default class UserController {
 
         });
     }
+
+    public delete(idUser: string): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+
+            try {
+                User.update({ _id: idUser }, { status: false })
+                    .exec((error, user) => {
+
+                        if (error) {
+                            const errorDetail: ErrorDetail = {
+                                name: `Error al eliminar paciente con id ${idUser} `,
+                                description: error
+                            }
+
+                            reject(errorDetail)
+                        }
+                        resolve(user);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
+
