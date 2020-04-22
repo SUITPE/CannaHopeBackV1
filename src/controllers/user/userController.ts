@@ -21,6 +21,10 @@ export default class UserController {
                     userData.image = await this.setUserImage(userData.image, userData);
                 }
 
+                if (userData.password) {
+                    userData.password = bcrypt.hashSync((userData.password).toString(), 10)
+                }
+
                 const user: UserModel = new User({
                     names: userData.names,
                     surenames: userData.surenames,
@@ -37,7 +41,7 @@ export default class UserController {
                     mobilePhone: userData.mobilePhone,
                     landLine: userData.landLine,
                     healthyEntity: userData.healthyEntity,
-                    password: bcrypt.hashSync((userData.password).toString(), 10),
+                    password: userData.password ,
                     rol: userData.rol,
                     createDate: userData.createDate,
                     createdBy: userData.createdBy,

@@ -18,8 +18,8 @@ class PatientController {
     constructor() { }
     insert(patient) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const userCtr = new userController_1.default();
             try {
+                const userCtr = new userController_1.default();
                 const userSaved = yield userCtr.save(patient);
                 const newPatient = new patient_1.default({
                     reasonAdmission: patient.reasonAdmission,
@@ -29,7 +29,11 @@ class PatientController {
                 });
                 newPatient.save({}, (error, patientSaved) => __awaiter(this, void 0, void 0, function* () {
                     if (error) {
-                        throw new Error(`Error al registrar paciente ${error}`);
+                        const erroDetail = {
+                            name: 'Error al guardar paciente',
+                            description: error
+                        };
+                        reject(error);
                     }
                     const patiendRes = yield this.findById(patientSaved.id);
                     resolve(patiendRes);
@@ -104,6 +108,41 @@ class PatientController {
             patient_1.default.countDocuments({ patientStatus: 'active' }, (err, total) => {
                 resolve(total);
             });
+        });
+    }
+    findByParams(searchParams) {
+        return new Promise((resolve, reject) => {
+            const regex = new RegExp(searchParams, 'i');
+            try {
+                patient_1.default.find()
+                    .populate({
+                    match: {
+                        names: regex
+                    },
+                    path: 'user',
+                    select: 'image _id names surenames  mobilePhone document email',
+                    populate: {
+                        path: 'rol',
+                        select: 'description name'
+                    }
+                })
+                    .exec((error, patients) => {
+                    if (error) {
+                        const errorDetail = {
+                            name: 'Error al consultar pacientes por parametro establecido',
+                            description: error
+                        };
+                        reject(error);
+                    }
+                    if (patients.length > 0) {
+                        patients = patients.filter(patient => patient.user !== null);
+                    }
+                    resolve(patients);
+                });
+            }
+            catch (error) {
+                reject(JSON.stringify(error));
+            }
         });
     }
 }

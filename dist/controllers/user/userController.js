@@ -23,6 +23,9 @@ class UserController {
                 if (userData.image) {
                     userData.image = yield this.setUserImage(userData.image, userData);
                 }
+                if (userData.password) {
+                    userData.password = bcrypt_1.default.hashSync((userData.password).toString(), 10);
+                }
                 const user = new user_1.default({
                     names: userData.names,
                     surenames: userData.surenames,
@@ -39,7 +42,7 @@ class UserController {
                     mobilePhone: userData.mobilePhone,
                     landLine: userData.landLine,
                     healthyEntity: userData.healthyEntity,
-                    password: bcrypt_1.default.hashSync((userData.password).toString(), 10),
+                    password: userData.password,
                     rol: userData.rol,
                     createDate: userData.createDate,
                     createdBy: userData.createdBy,

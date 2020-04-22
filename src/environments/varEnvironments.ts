@@ -1,0 +1,19 @@
+const currentEnv: string =  'DEV';
+
+
+export const seed: string = 'PRIVATE-SEED-CANNAHOPE-API'
+export const tokenExpiration: number = 60*60*24;
+
+
+export const environments = {
+
+
+    getDbUrl(): string {
+
+        if ('PROD') {
+            return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
+        } else {
+            return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
+        }
+    }
+}

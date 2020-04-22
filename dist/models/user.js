@@ -100,6 +100,7 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     landLine: {
         type: Number,
+        default: 0
     },
     healthyEntity: {
         type: String,
@@ -107,7 +108,7 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Se debe ingresar la contrasenia del usuario']
+        minlength: 30
     },
     rol: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -141,6 +142,18 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     image: {
         type: String,
+        default: null
+    },
+    degreeOfInstruction: {
+        type: String,
+        default: null
+    },
+    numberOfDependents: {
+        type: Number,
+        default: null
+    },
+    children: {
+        type: Number,
         default: null
     }
 });

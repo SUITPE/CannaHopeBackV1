@@ -21,10 +21,10 @@ const patientRoutes = express_1.Router();
 patientRoutes.post('/Insert', userValidation_middleware_1.default.validation, (req, res) => {
     patientCtr.insert(req.body)
         .then(patients => {
-        return res.status(200).send(new jsonResp_1.default(true, `Se ha registrado el paciente ${req.body.names} correctamente`, patients));
+        return res.status(200).send(new jsonResp_1.default(true, `Se ha registrado el paciente correctamente`, patients));
     })
         .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al registrar paciente', null, error));
     });
 });
 patientRoutes.get('/FindById/:id', userValidation_middleware_1.default.validation, (req, res) => {
@@ -51,6 +51,15 @@ patientRoutes.get('/GetAll', userValidation_middleware_1.default.validation, (re
     }))
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
+    });
+});
+patientRoutes.get('/FindByParams/:params', userValidation_middleware_1.default.validation, (req, res) => {
+    patientCtr.findByParams(req.params.params)
+        .then(patients => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Pacientes cargados correctamente', patients));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error en consulta de pacientes por paramtro', null, error));
     });
 });
 exports.default = patientRoutes;

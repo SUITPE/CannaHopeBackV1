@@ -28,6 +28,10 @@ export class UserModel extends mongoose.Document   {
     public image: string= String();
     public lastAccesDate: string= String();
     public token: string= String();
+    public degreeOfInstruction?: string;
+    public numberOfDependents?: number;
+    public children?: number;
+
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -95,6 +99,7 @@ export const UserSchema = new mongoose.Schema({
     },
     landLine: {
         type: Number,
+        default: 0
     },
     healthyEntity: {
         type: String,
@@ -102,7 +107,7 @@ export const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Se debe ingresar la contrasenia del usuario']
+        minlength: 30
     },
     rol: {
         type: mongoose.Schema.Types.ObjectId,
@@ -136,6 +141,18 @@ export const UserSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+        default: null
+    },
+    degreeOfInstruction: {
+        type: String,
+        default: null
+    },
+    numberOfDependents: {
+        type: Number,
+        default: null
+    },
+    children: {
+        type: Number,
         default: null
     }
 });
