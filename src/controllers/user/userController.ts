@@ -2,10 +2,7 @@ import { UserModel } from '../../models/user';
 import User from '../../models/user';
 import bcrypt from 'bcrypt';
 import { ErrorDetail } from '../../models/jsonResp';
-import buffer from 'buffer';
-import path from 'path';
 import fs from 'fs';
-import Patient from '../../models/patient';
 
 
 

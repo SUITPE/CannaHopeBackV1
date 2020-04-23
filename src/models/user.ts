@@ -145,15 +145,15 @@ export const UserSchema = new mongoose.Schema({
     },
     degreeOfInstruction: {
         type: String,
-        default: null
+        default: 'No tiente'
     },
     numberOfDependents: {
         type: Number,
-        default: null
+        default: 0
     },
     children: {
         type: Number,
-        default: null
+        default: 0
     }
 });
 

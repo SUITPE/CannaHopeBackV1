@@ -7,7 +7,7 @@ export interface HarmfulHabitModel extends mongoose.Document {
     isEnabled: boolean
 }
 
-const HarmfulHabitsSchema = new mongoose.Schema({
+export const HarmfulHabitsSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true

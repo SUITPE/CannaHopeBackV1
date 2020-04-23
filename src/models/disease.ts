@@ -11,7 +11,8 @@ export interface DiseaseModel extends mongoose.Document {
 export const DiseaseSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,

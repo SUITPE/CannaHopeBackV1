@@ -146,15 +146,15 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     degreeOfInstruction: {
         type: String,
-        default: null
+        default: 'No tiente'
     },
     numberOfDependents: {
         type: Number,
-        default: null
+        default: 0
     },
     children: {
         type: Number,
-        default: null
+        default: 0
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const HarmfulHabitsSchema = new mongoose_1.default.Schema({
+exports.HarmfulHabitsSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: true
@@ -22,5 +22,5 @@ const HarmfulHabitsSchema = new mongoose_1.default.Schema({
         default: true
     }
 });
-const HarmfulHabit = mongoose_1.default.model('HarmfulHabit', HarmfulHabitsSchema);
+const HarmfulHabit = mongoose_1.default.model('HarmfulHabit', exports.HarmfulHabitsSchema);
 exports.default = HarmfulHabit;
