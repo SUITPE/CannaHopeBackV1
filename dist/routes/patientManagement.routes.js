@@ -10,10 +10,12 @@ const jsonResp_1 = __importDefault(require("../models/jsonResp"));
 const harmfulHabitController_1 = __importDefault(require("../controllers/patientManagement/harmfulHabitController"));
 const PatientPhController_1 = require("../controllers/patientManagement/PatientPhController");
 const patientProblemController_1 = __importDefault(require("../controllers/patientManagement/patientProblemController"));
+const bodySystemController_1 = __importDefault(require("../controllers/patientManagement/bodySystemController"));
 const diseaseCtr = new diseaseController_1.DiseaseController();
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
 const patientProblemCtr = new patientProblemController_1.default();
+const bodySystemCtr = new bodySystemController_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
     diseaseCtr.save(req.body)
@@ -103,6 +105,24 @@ patientManagementRoutes.get('/patientProblem/findAll', userValidation_middleware
     })
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista de pacientes', null, error));
+    });
+});
+patientManagementRoutes.post('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
+    bodySystemCtr.save(req.body)
+        .then(bodySystemSaved => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Sistema de cuerpo cargado correctamente', bodySystemSaved));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al guardar sistema del cuerpo', null, error));
+    });
+});
+patientManagementRoutes.get('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
+    bodySystemCtr.findAll()
+        .then(bodySystemList => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
     });
 });
 exports.default = patientManagementRoutes;

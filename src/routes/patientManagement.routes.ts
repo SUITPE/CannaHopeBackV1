@@ -5,11 +5,13 @@ import JsonResp from '../models/jsonResp';
 import HarmfulHabitController from '../controllers/patientManagement/harmfulHabitController';
 import { PatientPhController } from '../controllers/patientManagement/PatientPhController';
 import PatientProblemController from '../controllers/patientManagement/patientProblemController';
+import BodySystemController from '../controllers/patientManagement/bodySystemController';
 
 const diseaseCtr: DiseaseController = new DiseaseController();
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
 const patientPhCtr: PatientPhController = new PatientPhController();
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
+const bodySystemCtr: BodySystemController = new BodySystemController();
 
 
 const patientManagementRoutes: Router = Router();
@@ -112,6 +114,26 @@ patientManagementRoutes.get('/patientProblem/findAll', UserValidation.validation
     })
     .catch(error => {
         return res.status(500).send(new JsonResp(false, 'Error al cargar lista de pacientes', null, error));
+    });
+});
+
+patientManagementRoutes.post('/bodySystem/save', UserValidation.validation, (req, res) => {
+    bodySystemCtr.save(req.body)
+    .then(bodySystemSaved => {
+        return res.status(200).send(new JsonResp(true, 'Sistema de cuerpo cargado correctamente', bodySystemSaved));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error en la base de datos al guardar sistema del cuerpo', null, error));
+    });
+});
+
+patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req, res) => {
+    bodySystemCtr.findAll()
+    .then(bodySystemList => {
+        return res.status(200).send(new JsonResp(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
     });
 });
 

@@ -4,24 +4,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.PatientProblemSchema = new mongoose_1.default.Schema({
+exports.BodySystemSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        minlength: [2, 'deben ser minimo dos caracteres como nombre en problema de paciente'],
-        required: [true, 'El nombre del problema de paciente es requerido'],
+        required: [true, 'Debe ingresar un nombre para el sistema del cuerpo'],
         unique: true
     },
     description: {
         type: String,
-        minlength: [2, 'deben ser minimo dos caracteres como descripción en problema de paciente'],
+        required: [true, 'Debe ingresar uns descripcion para el sistema del cuerpo']
     },
     value: {
         type: String,
-        default: 'no'
+        default: 'no',
     },
     isEnabled: {
         type: Boolean,
         default: true
     }
 });
-exports.PatientProblem = mongoose_1.default.model('PatientProblem', exports.PatientProblemSchema);
+exports.BodySystem = mongoose_1.default.model('BodySystem', exports.BodySystemSchema);
