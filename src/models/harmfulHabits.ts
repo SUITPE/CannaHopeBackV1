@@ -4,7 +4,10 @@ export interface HarmfulHabitModel extends mongoose.Document {
     name: string;
     description: string;
     createDate: string;
-    isEnabled: boolean
+    isEnabled: boolean;
+    value: string;
+    quantity: string;
+    frequency: string;
 }
 
 export const HarmfulHabitsSchema = new mongoose.Schema({
@@ -23,7 +26,20 @@ export const HarmfulHabitsSchema = new mongoose.Schema({
     isEnabled:{
         type: Boolean,
         default: true
-    }
+    },
+    value:{
+        type: String,
+        default: null
+    },
+    quantity:{
+        type: String,
+        default: null
+    },
+    frequency:{
+        type: String,
+        default: null
+    },
+
 });
 
 const HarmfulHabit = mongoose.model<HarmfulHabitModel>('HarmfulHabit', HarmfulHabitsSchema);

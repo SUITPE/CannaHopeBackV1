@@ -22,6 +22,10 @@ exports.DiseaseSchema = new mongoose_1.default.Schema({
         type: Date,
         default: new Date()
     },
+    value: {
+        type: String,
+        default: null
+    }
 });
 const Disease = mongoose_1.default.model('Disease', exports.DiseaseSchema);
 exports.default = Disease;

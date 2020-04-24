@@ -45,7 +45,7 @@ export class DiseaseController {
         return new Promise((resolve, reject) => {
 
             try {
-                Disease.find({}, (error, diseaseList) => {
+                Disease.find({}, {name:1, description:1, value:1, _id:1 }, (error, diseaseList) => {
                     if (error) {
                         const errorDetail: ErrorDetail = {
                             name: 'Error en consulta de enfermedades por parametros establecidos',

@@ -5,6 +5,7 @@ export interface DiseaseModel extends mongoose.Document {
     description: string;
     isEnabled: boolean;
     createdDate: string;
+    value: string;
 }
 
 
@@ -26,6 +27,10 @@ export const DiseaseSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    value: {
+        type: String,
+        default: null
+    }
 });
 
 const Disease = mongoose.model<DiseaseModel>('Disease', DiseaseSchema)

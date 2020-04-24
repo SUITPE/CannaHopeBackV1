@@ -20,7 +20,19 @@ exports.HarmfulHabitsSchema = new mongoose_1.default.Schema({
     isEnabled: {
         type: Boolean,
         default: true
-    }
+    },
+    value: {
+        type: String,
+        default: null
+    },
+    quantity: {
+        type: String,
+        default: null
+    },
+    frequency: {
+        type: String,
+        default: null
+    },
 });
 const HarmfulHabit = mongoose_1.default.model('HarmfulHabit', exports.HarmfulHabitsSchema);
 exports.default = HarmfulHabit;

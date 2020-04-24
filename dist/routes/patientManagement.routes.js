@@ -9,9 +9,11 @@ const diseaseController_1 = require("../controllers/patientManagement/diseaseCon
 const jsonResp_1 = __importDefault(require("../models/jsonResp"));
 const harmfulHabitController_1 = __importDefault(require("../controllers/patientManagement/harmfulHabitController"));
 const PatientPhController_1 = require("../controllers/patientManagement/PatientPhController");
+const patientProblemController_1 = __importDefault(require("../controllers/patientManagement/patientProblemController"));
 const diseaseCtr = new diseaseController_1.DiseaseController();
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
+const patientProblemCtr = new patientProblemController_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
     diseaseCtr.save(req.body)
@@ -83,6 +85,24 @@ patientManagementRoutes.get('/patientPh/findBypatientId/:id', userValidation_mid
     })
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar historial patologico de paciente', null, error));
+    });
+});
+patientManagementRoutes.post('/patientProblem/save', userValidation_middleware_1.default.validation, (req, res) => {
+    patientProblemCtr.save(req.body)
+        .then(patientProblem => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Problema de paciente guardado corectamente', patientProblem));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al guardar problema de paciente', null, error));
+    });
+});
+patientManagementRoutes.get('/patientProblem/findAll', userValidation_middleware_1.default.validation, (req, res) => {
+    patientProblemCtr.findAll()
+        .then(patientProblemList => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Lista de pacientes cargada correctamente', patientProblemList));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista de pacientes', null, error));
     });
 });
 exports.default = patientManagementRoutes;

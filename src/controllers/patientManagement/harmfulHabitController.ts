@@ -39,7 +39,14 @@ export default class HarmfulHabitController {
         return new Promise((resolve, reject) => {
 
             try {
-                HarmfulHabit.find({isEnabled: true}, (error, HarmfulHabitList) => {
+                HarmfulHabit.find({ isEnabled: true }, {
+                    name: 1,
+                    description: 1,
+                    value: 1,
+                    quantity: 1,
+                    frequency: 1,
+                    _id: 1
+                }, (error, HarmfulHabitList) => {
 
                     if (error) {
                         this.errorDetail.name = 'Error al consultar lista de habitos nocivos';
@@ -59,16 +66,16 @@ export default class HarmfulHabitController {
         return new Promise((resolve, reject) => {
 
             try {
-                HarmfulHabit.updateOne({_id: idHarmfulHabit}, {isEnabled : false})
-                .exec((error, result) => {
-                    if (error) {
-                        this.errorDetail.name = 'Se registra error al actualizar habito nocivo';
-                        this.errorDetail.description = error;
-                        reject(this.errorDetail);
-                    } else {
-                        resolve(true);
-                    }
-                })
+                HarmfulHabit.updateOne({ _id: idHarmfulHabit }, { isEnabled: false })
+                    .exec((error, result) => {
+                        if (error) {
+                            this.errorDetail.name = 'Se registra error al actualizar habito nocivo';
+                            this.errorDetail.description = error;
+                            reject(this.errorDetail);
+                        } else {
+                            resolve(true);
+                        }
+                    })
             } catch (error) {
                 reject(error);
             }

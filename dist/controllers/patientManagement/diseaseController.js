@@ -33,7 +33,7 @@ class DiseaseController {
     findAll() {
         return new Promise((resolve, reject) => {
             try {
-                disease_1.default.find({}, (error, diseaseList) => {
+                disease_1.default.find({}, { name: 1, description: 1, value: 1, _id: 1 }, (error, diseaseList) => {
                     if (error) {
                         const errorDetail = {
                             name: 'Error en consulta de enfermedades por parametros establecidos',

@@ -4,10 +4,12 @@ import { DiseaseController } from '../controllers/patientManagement/diseaseContr
 import JsonResp from '../models/jsonResp';
 import HarmfulHabitController from '../controllers/patientManagement/harmfulHabitController';
 import { PatientPhController } from '../controllers/patientManagement/PatientPhController';
+import PatientProblemController from '../controllers/patientManagement/patientProblemController';
 
 const diseaseCtr: DiseaseController = new DiseaseController();
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
 const patientPhCtr: PatientPhController = new PatientPhController();
+const patientProblemCtr: PatientProblemController = new PatientProblemController();
 
 
 const patientManagementRoutes: Router = Router();
@@ -89,6 +91,27 @@ patientManagementRoutes.get('/patientPh/findBypatientId/:id', UserValidation.val
     })
     .catch(error => {
         return res.status(500).send(new JsonResp(false, 'Error al cargar historial patologico de paciente', null, error));
+    });
+});
+
+
+patientManagementRoutes.post('/patientProblem/save', UserValidation.validation, (req, res) => {
+    patientProblemCtr.save(req.body)
+    .then(patientProblem => {
+        return res.status(200).send(new JsonResp(true, 'Problema de paciente guardado corectamente', patientProblem));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al guardar problema de paciente', null, error));
+    });
+});
+
+patientManagementRoutes.get('/patientProblem/findAll', UserValidation.validation, (req, res) => {
+    patientProblemCtr.findAll()
+    .then(patientProblemList => {
+        return res.status(200).send(new JsonResp(true, 'Lista de pacientes cargada correctamente', patientProblemList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar lista de pacientes', null, error));
     });
 });
 

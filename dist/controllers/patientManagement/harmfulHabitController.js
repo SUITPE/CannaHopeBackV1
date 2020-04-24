@@ -37,7 +37,14 @@ class HarmfulHabitController {
     findAlll() {
         return new Promise((resolve, reject) => {
             try {
-                harmfulHabits_1.default.find({ isEnabled: true }, (error, HarmfulHabitList) => {
+                harmfulHabits_1.default.find({ isEnabled: true }, {
+                    name: 1,
+                    description: 1,
+                    value: 1,
+                    quantity: 1,
+                    frequency: 1,
+                    _id: 1
+                }, (error, HarmfulHabitList) => {
                     if (error) {
                         this.errorDetail.name = 'Error al consultar lista de habitos nocivos';
                         this.errorDetail.description = error;
