@@ -6,12 +6,14 @@ import HarmfulHabitController from '../controllers/patientManagement/harmfulHabi
 import { PatientPhController } from '../controllers/patientManagement/PatientPhController';
 import PatientProblemController from '../controllers/patientManagement/patientProblemController';
 import BodySystemController from '../controllers/patientManagement/bodySystemController';
+import MedicalConsultationController from '../controllers/patientManagement/medicalConsultation';
 
 const diseaseCtr: DiseaseController = new DiseaseController();
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
 const patientPhCtr: PatientPhController = new PatientPhController();
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
 const bodySystemCtr: BodySystemController = new BodySystemController();
+const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
 
 
 const patientManagementRoutes: Router = Router();
@@ -55,13 +57,13 @@ patientManagementRoutes.get('/harmfulHabit/findAll', UserValidation.validation, 
     });
 });
 
-patientManagementRoutes.delete('/harmfulHabit/deleteById/:id', UserValidation.validation, (req, res) => {
-    harmfulHabitCtr.deleteById(req.params.id)
-    .then(result => {
-        return res.status(200).send(new JsonResp(true, 'Habito eleiminado correctamente'));
+patientManagementRoutes.post('/medicalConsultation/save', UserValidation.validation, (req, res) => {
+    medicalConsultationCtr.save(req.body)
+    .then(medicalConsultation => {
+        return res.status(200).send(new JsonResp(true, 'Consulta de paciente guardada correctamente', medicalConsultation));
     })
     .catch(error => {
-        return res.status(500).send(new JsonResp(false, `Error al eliminar habito nocivo con id ${req.params.id}`, null, error));
+        return res.status(500).send(new JsonResp(false, 'Error en la base de datos al registrar consulta de paciente', null, error));
     });
 });
 
@@ -137,6 +139,16 @@ patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req,
     });
 });
 
+
+patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req, res) => {
+    bodySystemCtr.findAll()
+    .then(bodySystemList => {
+        return res.status(200).send(new JsonResp(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
+    });
+});
 export default patientManagementRoutes;
 
 

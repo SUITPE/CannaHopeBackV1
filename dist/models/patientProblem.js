@@ -9,7 +9,6 @@ exports.PatientProblemSchema = new mongoose_1.default.Schema({
         type: String,
         minlength: [2, 'deben ser minimo dos caracteres como nombre en problema de paciente'],
         required: [true, 'El nombre del problema de paciente es requerido'],
-        unique: true
     },
     description: {
         type: String,

@@ -13,7 +13,7 @@ export interface VisionAnalysis {
     fondoDeOjos: string;
     visionProfunda: string;
     estenopeico: string;
-    conclusión: string;
+    conclusion: string;
     visionDeColores: string;
 }
 
@@ -21,7 +21,6 @@ export const BodySystemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [ true, 'Debe ingresar un nombre para el sistema del cuerpo'],
-        unique: true
     },
     description:{
         type: String,

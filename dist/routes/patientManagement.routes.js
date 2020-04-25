@@ -11,11 +11,13 @@ const harmfulHabitController_1 = __importDefault(require("../controllers/patient
 const PatientPhController_1 = require("../controllers/patientManagement/PatientPhController");
 const patientProblemController_1 = __importDefault(require("../controllers/patientManagement/patientProblemController"));
 const bodySystemController_1 = __importDefault(require("../controllers/patientManagement/bodySystemController"));
+const medicalConsultation_1 = __importDefault(require("../controllers/patientManagement/medicalConsultation"));
 const diseaseCtr = new diseaseController_1.DiseaseController();
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
 const patientProblemCtr = new patientProblemController_1.default();
 const bodySystemCtr = new bodySystemController_1.default();
+const medicalConsultationCtr = new medicalConsultation_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
     diseaseCtr.save(req.body)
@@ -53,13 +55,13 @@ patientManagementRoutes.get('/harmfulHabit/findAll', userValidation_middleware_1
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista habitos nocivos', null, error));
     });
 });
-patientManagementRoutes.delete('/harmfulHabit/deleteById/:id', userValidation_middleware_1.default.validation, (req, res) => {
-    harmfulHabitCtr.deleteById(req.params.id)
-        .then(result => {
-        return res.status(200).send(new jsonResp_1.default(true, 'Habito eleiminado correctamente'));
+patientManagementRoutes.post('/medicalConsultation/save', userValidation_middleware_1.default.validation, (req, res) => {
+    medicalConsultationCtr.save(req.body)
+        .then(medicalConsultation => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Consulta de paciente guardada correctamente', medicalConsultation));
     })
         .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, `Error al eliminar habito nocivo con id ${req.params.id}`, null, error));
+        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al registrar consulta de paciente', null, error));
     });
 });
 patientManagementRoutes.post('/patientPh/save', userValidation_middleware_1.default.validation, (req, res) => {
@@ -114,6 +116,15 @@ patientManagementRoutes.post('/bodySystem/save', userValidation_middleware_1.def
     })
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al guardar sistema del cuerpo', null, error));
+    });
+});
+patientManagementRoutes.get('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
+    bodySystemCtr.findAll()
+        .then(bodySystemList => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
     });
 });
 patientManagementRoutes.get('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {

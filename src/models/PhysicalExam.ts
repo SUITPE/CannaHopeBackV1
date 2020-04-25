@@ -2,8 +2,7 @@ import mongoose from 'mongoose';
 import { BodySystemModel, VisionAnalysis, BodySystemSchema } from './bodySystem';
 
 
-
-export interface PhysicalExam extends mongoose.Document {
+export interface PhysicalExamModel extends mongoose.Document {
     patient: string;
     doctor: string;
     generalSummary: BodySystemModel[];
@@ -24,18 +23,16 @@ export const PhysicalExamSchema = new mongoose.Schema({
     },
     generalSummary: {
         type: [BodySystemSchema],
-        ref: 'BodySystem',
         required: [true, 'Debe agregar un listado de sustemas del cuerpo examinados']
     },
     visionAnalysis: {
-        visionAnalysis: Object,
+        type: Object,
         required: [true, 'Debe ingresar uin detalle de examen visual']
     },
     createDate: {
         type: Date,
         default: new Date()
     }
-
 });
 
-export const MedicalExam = mongoose.model<PhysicalExam>('MedicalExam', PhysicalExamSchema);
+export const PhysicalExam = mongoose.model<PhysicalExamModel>('MedicalExam', PhysicalExamSchema);
