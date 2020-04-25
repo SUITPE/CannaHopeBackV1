@@ -1,44 +1,43 @@
-import HarmfulHabit, { HarmfulHabitModel } from '../../models/harmfulHabits';
-import { ErrorDetail } from '../../models/jsonResp';
-
-export default class HarmfulHabitController {
-
-    public errorDetail: ErrorDetail = new ErrorDetail();
-
-    public save(harmfulHabit: HarmfulHabitModel): Promise<HarmfulHabitModel> {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const harmfulHabits_1 = __importDefault(require("../../models/harmfulHabits"));
+const jsonResp_1 = require("../../models/jsonResp");
+class HarmfulHabitController {
+    constructor() {
+        this.errorDetail = new jsonResp_1.ErrorDetail();
+    }
+    save(harmfulHabit) {
         return new Promise((resolve, reject) => {
-
             try {
-
-                const newHarmfulHabit: HarmfulHabitModel = new HarmfulHabit({
+                const newHarmfulHabit = new harmfulHabits_1.default({
                     name: harmfulHabit.name,
                     description: harmfulHabit.description,
                 });
-
                 newHarmfulHabit.save({}, (error, harmfulHabitSaved) => {
-
                     if (error) {
-                        const errorDetail: ErrorDetail = {
+                        const errorDetail = {
                             name: 'Error al momento de guardar habito nocivo',
                             description: error
-                        }
+                        };
                         reject(errorDetail);
-                    } else {
+                    }
+                    else {
                         resolve(harmfulHabitSaved);
                     }
                 });
-
-            } catch (error) {
+            }
+            catch (error) {
                 reject(error);
             }
         });
     }
-
-    public findAlll(): Promise<HarmfulHabitModel[]> {
+    findAlll() {
         return new Promise((resolve, reject) => {
-
             try {
-                HarmfulHabit.find({ isEnabled: true }, {
+                harmfulHabits_1.default.find({ isEnabled: true }, {
                     name: 1,
                     description: 1,
                     value: 1,
@@ -46,38 +45,40 @@ export default class HarmfulHabitController {
                     frequency: 1,
                     _id: 1
                 }, (error, HarmfulHabitList) => {
-
                     if (error) {
                         this.errorDetail.name = 'Error al consultar lista de habitos nocivos';
                         this.errorDetail.description = error;
                         reject(this.errorDetail);
-                    } else {
+                    }
+                    else {
                         resolve(HarmfulHabitList);
                     }
                 });
-            } catch (error) {
+            }
+            catch (error) {
                 reject(error);
             }
         });
     }
-
-    public deleteById(idHarmfulHabit: string): Promise<boolean> {
+    deleteById(idHarmfulHabit) {
         return new Promise((resolve, reject) => {
-
             try {
-                HarmfulHabit.updateOne({ _id: idHarmfulHabit }, { isEnabled: false })
+                harmfulHabits_1.default.updateOne({ _id: idHarmfulHabit }, { isEnabled: false })
                     .exec((error, result) => {
-                        if (error) {
-                            this.errorDetail.name = 'Se registra error al actualizar habito nocivo';
-                            this.errorDetail.description = error;
-                            reject(this.errorDetail);
-                        } else {
-                            resolve(true);
-                        }
-                    })
-            } catch (error) {
+                    if (error) {
+                        this.errorDetail.name = 'Se registra error al actualizar habito nocivo';
+                        this.errorDetail.description = error;
+                        reject(this.errorDetail);
+                    }
+                    else {
+                        resolve(true);
+                    }
+                });
+            }
+            catch (error) {
                 reject(error);
             }
         });
     }
 }
+exports.default = HarmfulHabitController;

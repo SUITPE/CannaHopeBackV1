@@ -274,6 +274,7 @@ export default class UserController {
         });
     }
 
+
     public delete(idUser: string): Promise<UserModel> {
         return new Promise((resolve, reject) => {
 

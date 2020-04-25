@@ -10,17 +10,17 @@ import { seed, tokenExpiration } from '../../environments/varEnvironments';
 
 export default class LoginController {
 
-    constructor(){}
-
+    constructor() { }
     public static async startSession(req: Request, res: Response) {
 
-        const userData: any =  req.body;
+        const userData: any = req.body;
         const userController: UserController = new UserController();
         const login: LoginController = new LoginController();
 
         try {
 
-            const user: any = await userController.getByParam({email: userData.email});
+
+            const user: any = await userController.getByParam({ email: userData.email });
             const passWrodValidated: boolean = await login.validateUserPassword(user.password, userData.password);
             const token: string = await login.generateUserToken(user);
 
@@ -31,7 +31,7 @@ export default class LoginController {
             return res.status(200).send(new JsonResp(true, 'Inicio de sesión exitoso', data));
 
         } catch (error) {
-            return res.status(500).send(new JsonResp(false, 'Error - Credenciales incorrectas',null, error));
+            return res.status(500).send(new JsonResp(false, 'Error - Credenciales incorrectas', null, error));
         }
     }
 
@@ -60,7 +60,7 @@ export default class LoginController {
         return new Promise((resolve, reject) => {
 
             try {
-                const token: string = jsonwebtoken.sign({user}, seed, {expiresIn: tokenExpiration});
+                const token: string = jsonwebtoken.sign({ user }, seed, { expiresIn: tokenExpiration });
                 resolve(token);
             } catch (error) {
                 reject(error);

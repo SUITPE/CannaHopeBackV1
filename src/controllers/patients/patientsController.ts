@@ -49,7 +49,6 @@ export default class PatientController {
     public findById(idPatient: string): Promise<PatientModel> {
         return new Promise((resolve, reject) => {
 
-
             try {
 
                 Patient.findById(idPatient)
