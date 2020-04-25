@@ -5,7 +5,7 @@ import { PhysicalExamModel, PhysicalExam } from '../../models/physicalExam';
 export default class PhysicalExamController {
 
 
-    public save(physicalExam: PhysicalExamModel): Promise<PhysicalExamModel> {
+    public save(physicalExam: PhysicalExamModel): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
 

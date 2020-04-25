@@ -8,8 +8,6 @@ import { ErrorDetail } from '../../models/jsonResp';
 
 export default class MedicalConsultationController {
 
-
-
     public save(medicalConsultation: MedicalConsultationModel): Promise<MedicalConsultationModel> {
         return new Promise(async (resolve, reject) => {
 
