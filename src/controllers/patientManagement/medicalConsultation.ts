@@ -2,7 +2,7 @@ import { MedicalConsultationModel, MedicalConsultation } from '../../models/medi
 import { MedicalEvaluationModel } from '../../models/medicalEvaluation';
 import MedicalEvaluationController from './medicalEvaluation';
 import PhysicalExamController from './physicalExamController';
-import { PhysicalExamModel } from '../../models/physicalExam';
+// import { PhysicalExamModel } from '../../models/physicalExam';
 import { ErrorDetail } from '../../models/jsonResp';
 
 
@@ -50,10 +50,10 @@ export default class MedicalConsultationController {
                 newMedicalEvaluation.doctor = medicalConsultation.doctor;
                 const medicalEvaluationSaved: MedicalEvaluationModel = await medicalEvaluationCtr.save(newMedicalEvaluation);
 
-                const newPhysicalExam: PhysicalExamModel = medicalConsultation.physicalExam;
+                const newPhysicalExam: any = medicalConsultation.physicalExam;
                 newPhysicalExam.patient = medicalConsultation.patient;
                 newPhysicalExam.doctor = medicalConsultation.doctor;
-                const physicalExamSaved: PhysicalExamModel = await physicalExamCtr.save(newPhysicalExam);
+                const physicalExamSaved: any = await physicalExamCtr.save(newPhysicalExam);
 
                 resolve(medicaltConsultationSaved);
             } catch (error) {
