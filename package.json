@@ -1,5 +1,5 @@
 {
-  "name": "cannahope-api",
+  "name": "cannahopeapi",
   "version": "1.0.0",
   "description": "Api rest en nodejs, mongodb",
   "main": "index.js",
