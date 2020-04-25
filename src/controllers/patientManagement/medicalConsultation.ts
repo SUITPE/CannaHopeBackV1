@@ -1,9 +1,4 @@
-import { MedicalConsultationModel, MedicalConsultation } from '../../models/medicalConsultation';
-import { MedicalEvaluationModel } from '../../models/medicalEvaluation';
-import MedicalEvaluationController from './medicalEvaluation';
-import PhysicalExamController from './physicalExamController';
-import { PhysicalExamModel } from '../../models/physicalExam';
-import { ErrorDetail } from '../../models/jsonResp';
+import { MedicalConsultationModel, MedicalConsultation } from "../../models/medicalConsultation";import MedicalEvaluationController from "./medicalEvaluation";import PhysicalExamController from "./physicalExamController";import { ErrorDetail } from "../../models/jsonResp";import { MedicalEvaluationModel } from "../../models/medicalEvaluation";import { PhysicalExamModel } from "../../models/physicalExam";
 
 
 export default class MedicalConsultationController {
