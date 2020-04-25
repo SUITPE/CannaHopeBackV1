@@ -10,7 +10,6 @@ export default class DbConnection {
     constructor() {
         this.getConnection();
     }
-
     private getConnection() {
         mongoose.connect(environments.getDbUrl(), {
             useNewUrlParser: true,
