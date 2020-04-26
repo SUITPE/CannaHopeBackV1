@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const medicalConsultation_1 = require("../../models/medicalConsultation");
 const medicalEvaluation_1 = __importDefault(require("./medicalEvaluation"));
 const physicalExamController_1 = __importDefault(require("./physicalExamController"));
+const patientsController_1 = __importDefault(require("../patients/patientsController"));
 class MedicalConsultationController {
     save(medicalConsultation) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             const medicalEvaluationCtr = new medicalEvaluation_1.default();
             const physicalExamCtr = new physicalExamController_1.default();
+            const patientCtr = new patientsController_1.default();
             try {
                 const newMedicalConsultation = new medicalConsultation_1.MedicalConsultation({
                     patient: medicalConsultation.patient,
@@ -48,11 +50,14 @@ class MedicalConsultationController {
                 const newMedicalEvaluation = medicalConsultation.medicalEvaluation;
                 newMedicalEvaluation.patient = medicalConsultation.patient;
                 newMedicalEvaluation.doctor = medicalConsultation.doctor;
+                newMedicalEvaluation.createDate = medicalConsultation.createDate;
                 const medicalEvaluationSaved = yield medicalEvaluationCtr.save(newMedicalEvaluation);
                 const newPhysicalExam = medicalConsultation.physicalExam;
                 newPhysicalExam.patient = medicalConsultation.patient;
                 newPhysicalExam.doctor = medicalConsultation.doctor;
+                newPhysicalExam.createDate = medicalConsultation.createDate;
                 const physicalExamSaved = yield physicalExamCtr.save(newPhysicalExam);
+                const appointmentUpdated = yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
                 resolve(medicaltConsultationSaved);
             }
             catch (error) {

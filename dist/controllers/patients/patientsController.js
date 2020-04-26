@@ -145,5 +145,21 @@ class PatientController {
             }
         });
     }
+    updateAppointmentNumber(idPatient) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patient = yield patient_1.default.findById(idPatient);
+                const patientUpdated = yield patient_1.default.updateOne({ _id: idPatient }, { numberOfAppointment: patient.numberOfAppointment + 1 });
+                resolve(true);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'error al actualizar numero de consultas de paciente',
+                    description: error
+                };
+                reject(error);
+            }
+        }));
+    }
 }
 exports.default = PatientController;

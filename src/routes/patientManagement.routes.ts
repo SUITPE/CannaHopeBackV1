@@ -129,7 +129,7 @@ patientManagementRoutes.post('/bodySystem/save', UserValidation.validation, (req
     });
 });
 
-patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req, res) => {
+patientManagementRoutes.get('/bodySystem/findAll', UserValidation.validation, (req, res) => {
     bodySystemCtr.findAll()
     .then(bodySystemList => {
         return res.status(200).send(new JsonResp(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
@@ -140,15 +140,6 @@ patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req,
 });
 
 
-patientManagementRoutes.get('/bodySystem/save', UserValidation.validation, (req, res) => {
-    bodySystemCtr.findAll()
-    .then(bodySystemList => {
-        return res.status(200).send(new JsonResp(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
-    })
-    .catch(error => {
-        return res.status(500).send(new JsonResp(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
-    });
-});
 export default patientManagementRoutes;
 
 

@@ -163,4 +163,21 @@ export default class PatientController {
             }
         });
     }
+
+    public updateAppointmentNumber(idPatient: string): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const patient: any = await Patient.findById(idPatient);
+                const patientUpdated: any = await Patient.updateOne({_id: idPatient}, {numberOfAppointment: patient.numberOfAppointment + 1});
+                resolve(true);
+
+            } catch (error) {
+                const errorDetail: ErrorDetail = {
+                    name: 'error al actualizar numero de consultas de paciente',
+                    description: error
+                }
+                reject(error);
+            }
+        });
+    }
 }

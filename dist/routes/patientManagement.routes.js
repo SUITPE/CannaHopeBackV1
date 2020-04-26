@@ -118,16 +118,7 @@ patientManagementRoutes.post('/bodySystem/save', userValidation_middleware_1.def
         return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al guardar sistema del cuerpo', null, error));
     });
 });
-patientManagementRoutes.get('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
-    bodySystemCtr.findAll()
-        .then(bodySystemList => {
-        return res.status(200).send(new jsonResp_1.default(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));
-    })
-        .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
-    });
-});
-patientManagementRoutes.get('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
+patientManagementRoutes.get('/bodySystem/findAll', userValidation_middleware_1.default.validation, (req, res) => {
     bodySystemCtr.findAll()
         .then(bodySystemList => {
         return res.status(200).send(new jsonResp_1.default(true, 'Listado de Sistemas del cuerpo cargado correctamente', bodySystemList));

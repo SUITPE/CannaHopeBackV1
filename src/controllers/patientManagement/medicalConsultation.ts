@@ -4,6 +4,9 @@ import MedicalEvaluationController from './medicalEvaluation';
 import PhysicalExamController from './physicalExamController';
 // import { PhysicalExamModel } from '../../models/physicalExam';
 import { ErrorDetail } from '../../models/jsonResp';
+import Patient from '../../models/patient';
+import { PatientModel } from '../../models/patient';
+import PatientController from '../patients/patientsController';
 
 
 export default class MedicalConsultationController {
@@ -14,6 +17,7 @@ export default class MedicalConsultationController {
 
             const medicalEvaluationCtr: MedicalEvaluationController = new MedicalEvaluationController();
             const physicalExamCtr: PhysicalExamController = new PhysicalExamController();
+            const patientCtr: PatientController = new PatientController();
 
             try {
 
@@ -46,12 +50,16 @@ export default class MedicalConsultationController {
                 const newMedicalEvaluation: MedicalEvaluationModel = medicalConsultation.medicalEvaluation;
                 newMedicalEvaluation.patient = medicalConsultation.patient;
                 newMedicalEvaluation.doctor = medicalConsultation.doctor;
+                newMedicalEvaluation.createDate = medicalConsultation.createDate;
                 const medicalEvaluationSaved: MedicalEvaluationModel = await medicalEvaluationCtr.save(newMedicalEvaluation);
 
                 const newPhysicalExam: any = medicalConsultation.physicalExam;
                 newPhysicalExam.patient = medicalConsultation.patient;
                 newPhysicalExam.doctor = medicalConsultation.doctor;
+                newPhysicalExam.createDate = medicalConsultation.createDate;
                 const physicalExamSaved: any = await physicalExamCtr.save(newPhysicalExam);
+
+                const appointmentUpdated: boolean = await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
 
                 resolve(medicaltConsultationSaved);
             } catch (error) {
