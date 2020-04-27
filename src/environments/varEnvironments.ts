@@ -19,9 +19,9 @@ export const environments = {
 
     getFrontUrl(): string{
         if (currentEnv === 'PROD'){
-            return 'http://localhost:4200/#/login';
+            return 'http://cannahope.suit.pe/#/login';
         } else {
-            return 'http://localhost:4200/#/login';
+            return 'http://cannahope.suit.pe/#/login';
         }
     },
 

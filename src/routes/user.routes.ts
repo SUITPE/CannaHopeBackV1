@@ -115,6 +115,16 @@ userRoutes.get('/forgotPassword/:userEmail', (req, res) => {
         });
 });
 
+userRoutes.post('/resetPassword', (req, res) => {
+    userController.resetPassword(req.body)
+    .then(result => {
+        return res.status(200).send(new JsonResp(true, `Su contraseña se ha actualizado de manera exitosa`));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cambiar contraseña', null, error));
+    });
+});
+
 userRoutes.post('/Login', LoginController.startSession);
 
 

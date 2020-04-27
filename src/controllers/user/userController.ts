@@ -19,7 +19,7 @@ export default class UserController {
                 }
 
                 if (userData.password) {
-                    userData.password = bcrypt.hashSync((userData.password).toString(), 10)
+                    userData.password = bcrypt.hashSync((userData.password).toString(), 10);
                 }
 
                 const user: UserModel = new User({
@@ -38,7 +38,7 @@ export default class UserController {
                     mobilePhone: userData.mobilePhone,
                     landLine: userData.landLine,
                     healthyEntity: userData.healthyEntity,
-                    password: userData.password ,
+                    password: userData.password,
                     rol: userData.rol,
                     createDate: userData.createDate,
                     createdBy: userData.createdBy,
@@ -135,7 +135,7 @@ export default class UserController {
                             throw ErrorDetail;
                         }
 
-                        User.countDocuments({status: true}, (err: any, total) => {
+                        User.countDocuments({ status: true }, (err: any, total) => {
 
                             const data: any = {
                                 total,
@@ -244,7 +244,7 @@ export default class UserController {
 
     public getTotalRegistered(): Promise<number> {
         return new Promise((resolve, reject) => {
-            User.countDocuments({status: true}, (err: any, total) => {
+            User.countDocuments({ status: true }, (err: any, total) => {
                 resolve(total);
             });
         });
@@ -294,6 +294,26 @@ export default class UserController {
                     });
             } catch (error) {
                 reject(error);
+            }
+        });
+    }
+
+    public resetPassword(user: UserModel): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const newPassword: string = bcrypt.hashSync((user.password).toString(), 10);
+
+                
+                const dbResp: any =  await User.findOneAndUpdate({_id: user._id}, {password: newPassword });
+                resolve(true);
+
+            } catch (error) {
+                const errorDetail: ErrorDetail = {
+                    name: 'Error al actualizar contraseña de usuario',
+                    description: error
+                }
+                reject(errorDetail);
             }
         });
     }

@@ -247,5 +247,21 @@ class UserController {
             }
         });
     }
+    resetPassword(user) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const newPassword = bcrypt_1.default.hashSync((user.password).toString(), 10);
+                const dbResp = yield user_1.default.findOneAndUpdate({ _id: user._id }, { password: newPassword });
+                resolve(true);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al actualizar contraseña de usuario',
+                    description: error
+                };
+                reject(errorDetail);
+            }
+        }));
+    }
 }
 exports.default = UserController;

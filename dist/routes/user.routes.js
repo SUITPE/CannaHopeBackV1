@@ -101,5 +101,14 @@ userRoutes.get('/forgotPassword/:userEmail', (req, res) => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al generar link de recuperación', null, error));
     });
 });
+userRoutes.post('/resetPassword', (req, res) => {
+    userController.resetPassword(req.body)
+        .then(result => {
+        return res.status(200).send(new jsonResp_1.default(true, `Su contraseña se ha actualizado de manera exitosa`));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al cambiar contraseña', null, error));
+    });
+});
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;
