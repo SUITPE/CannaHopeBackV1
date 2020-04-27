@@ -2,9 +2,6 @@ import Patient, { PatientModel } from '../../models/patient';
 import UserController from '../user/userController';
 import { UserModel } from '../../models/user';
 import { ErrorDetail } from '../../models/jsonResp';
-import path from 'path';
-
-
 
 export default class PatientController {
 

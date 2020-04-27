@@ -92,5 +92,14 @@ userRoutes.delete('/Delete/:id', userValidation_middleware_1.default.validation,
         return res.status(500).send(new jsonResp_1.default(false, error.name || 'Error!', null, error));
     });
 });
+userRoutes.get('/forgotPassword/:userEmail', (req, res) => {
+    login.validateUserToPasswordReset(req.params.userEmail)
+        .then(resp => {
+        return res.status(200).send(new jsonResp_1.default(true, `Email enviado a usuario ${req.params.userEmail} correctamente`));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al generar link de recuperación', null, error));
+    });
+});
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;

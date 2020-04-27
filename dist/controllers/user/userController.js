@@ -168,7 +168,7 @@ class UserController {
                     if (!user) {
                         errorDetil = {
                             name: 'Usuario no encontrado',
-                            description: `Usuario con ${params} no se encuentra registrado en sistema`
+                            description: `El usuario no nestá registrado en sistema`
                         };
                         reject(errorDetil);
                     }

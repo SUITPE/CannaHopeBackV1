@@ -6,7 +6,7 @@ import UserValidation from '../middlewares/userValidation.middleware';
 const patientCtr: PatientController = new PatientController();
 const patientRoutes: Router = Router();
 
-patientRoutes.post('/Insert', UserValidation.validation, (req, res) => {
+patientRoutes.post('/Insert', (req, res) => {
     patientCtr.insert(req.body)
         .then(patients => {
             return res.status(200).send(new JsonResp(true, `Se ha registrado el paciente correctamente`, patients))

@@ -17,6 +17,7 @@ const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const varEnvironments_1 = require("../../environments/varEnvironments");
+const emailsController_1 = __importDefault(require("../generalControllers/emailsController"));
 class LoginController {
     constructor() { }
     static startSession(req, res) {
@@ -68,6 +69,22 @@ class LoginController {
                 reject(error);
             }
         });
+    }
+    validateUserToPasswordReset(userEmail) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const userCtr = new userController_1.default();
+            try {
+                const user = yield userCtr.getByParam({ email: userEmail });
+                const userToken = yield this.generateUserToken(user);
+                const link = `${varEnvironments_1.environments.getFrontUrl()}/resetPassword/${userToken}`;
+                const email = new emailsController_1.default('gmail', `Envio de correo para recuperación de contraseña, para recuperar su contraseña entre al siguiente link ${link}`, user.email, 'RECUPERACÓN DE CONTRASEñA CANNAHOPPE');
+                const emailSent = yield email.sendEmail();
+                resolve(true);
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
     }
 }
 exports.default = LoginController;

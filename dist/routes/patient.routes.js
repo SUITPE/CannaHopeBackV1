@@ -18,7 +18,7 @@ const jsonResp_1 = __importDefault(require("../models/jsonResp"));
 const userValidation_middleware_1 = __importDefault(require("../middlewares/userValidation.middleware"));
 const patientCtr = new patientsController_1.default();
 const patientRoutes = express_1.Router();
-patientRoutes.post('/Insert', userValidation_middleware_1.default.validation, (req, res) => {
+patientRoutes.post('/Insert', (req, res) => {
     patientCtr.insert(req.body)
         .then(patients => {
         return res.status(200).send(new jsonResp_1.default(true, `Se ha registrado el paciente correctamente`, patients));

@@ -5,12 +5,15 @@ import JsonResp from '../../models/jsonResp';
 import bcrypt from 'bcrypt';
 import { ErrorDetail } from '../../models/jsonResp';
 import jsonwebtoken from 'jsonwebtoken';
-import { seed, tokenExpiration } from '../../environments/varEnvironments';
+import { seed, tokenExpiration, environments } from '../../environments/varEnvironments';
+import EmailController from '../generalControllers/emailsController';
 
 
 export default class LoginController {
 
     constructor() { }
+
+
     public static async startSession(req: Request, res: Response) {
 
         const userData: any = req.body;
@@ -67,4 +70,31 @@ export default class LoginController {
             }
         });
     }
+
+    public validateUserToPasswordReset(userEmail: string): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            const userCtr: UserController = new UserController();
+            try {
+
+                const user: UserModel = await userCtr.getByParam({ email: userEmail });
+                const userToken: string = await this.generateUserToken(user);
+                const link: string = `${environments.getFrontUrl()}/resetPassword/${userToken}`;
+
+                const email: EmailController = new EmailController(
+                    'gmail',
+                    `Envio de correo para recuperación de contraseña, para recuperar su contraseña entre al siguiente link ${link}`,
+                    user.email,
+                    'RECUPERACÓN DE CONTRASEñA CANNAHOPPE'
+                )
+
+                const emailSent: boolean = await email.sendEmail();
+
+                resolve(true);
+
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
 }
