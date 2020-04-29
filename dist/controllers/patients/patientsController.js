@@ -153,10 +153,6 @@ class PatientController {
                 resolve(true);
             }
             catch (error) {
-                const errorDetail = {
-                    name: 'error al actualizar numero de consultas de paciente',
-                    description: error
-                };
                 reject(error);
             }
         }));

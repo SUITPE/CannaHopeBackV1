@@ -3,7 +3,7 @@ export default class JsonResp {
     public success: boolean;
     public message: string;
     public data?: any;
-    public error?: ErrorDetail;
+    public error?: any | undefined;
     public total?: number;
     constructor(success: boolean, message: string, data?: any, error?: ErrorDetail) {
         this.success = success;

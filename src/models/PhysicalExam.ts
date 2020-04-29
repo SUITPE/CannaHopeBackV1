@@ -22,7 +22,7 @@ export const PhysicalExamSchema = new mongoose.Schema({
         required: [true, 'Es oblifatorio ingresar el doctor que hace el examen medico']
     },
     generalSummary: {
-        type: [BodySystemSchema],
+        type: [],
         required: [true, 'Debe agregar un listado de sustemas del cuerpo examinados']
     },
     visionAnalysis: {

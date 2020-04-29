@@ -14,7 +14,7 @@ exports.BodySystemSchema = new mongoose_1.default.Schema({
         required: [true, 'Debe ingresar uns descripcion para el sistema del cuerpo']
     },
     value: {
-        type: String,
+        type: Boolean,
         default: 'no',
     },
     isEnabled: {

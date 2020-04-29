@@ -23,7 +23,7 @@ exports.DiseaseSchema = new mongoose_1.default.Schema({
         default: new Date()
     },
     value: {
-        type: String,
+        type: Boolean,
         default: null
     }
 });

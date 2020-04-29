@@ -5,8 +5,6 @@ import { ErrorDetail } from '../../models/jsonResp';
 import fs from 'fs';
 
 
-
-
 export default class UserController {
 
     public save(userData: UserModel): Promise<UserModel> {
@@ -274,7 +272,6 @@ export default class UserController {
         });
     }
 
-
     public delete(idUser: string): Promise<UserModel> {
         return new Promise((resolve, reject) => {
 
@@ -303,9 +300,7 @@ export default class UserController {
             try {
 
                 const newPassword: string = bcrypt.hashSync((user.password).toString(), 10);
-
-                
-                const dbResp: any =  await User.findOneAndUpdate({_id: user._id}, {password: newPassword });
+                const dbResp: any = await User.findOneAndUpdate({ _id: user._id }, { password: newPassword });
                 resolve(true);
 
             } catch (error) {

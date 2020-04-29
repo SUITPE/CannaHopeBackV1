@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
 
-
-
 export interface PatientProblemModel extends mongoose.Document {
     name: string;
     description: string;
-    value: string;
+    value: boolean;
     isEnabled: boolean;
 }
 
@@ -20,8 +18,8 @@ export const PatientProblemSchema = new mongoose.Schema({
         minlength: [2, 'deben ser minimo dos caracteres como descripción en problema de paciente'],
     },
     value: {
-        type: String,
-        default: 'no'
+        type: Boolean,
+        default: false
     },
     isEnabled: {
         type: Boolean,

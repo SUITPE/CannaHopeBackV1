@@ -13,11 +13,11 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
     doctor: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'Es obligatorio ingresar el doctor que hace el examen medico']
+        required: [true, 'El doctor que atiende la cita es requerido']
     },
     patientProblems: {
-        type: new Array(),
-        required: [true, 'Debe ingresar un listado de problemas actuales del paciente'],
+        type: [],
+        required: [true, 'Debe especificar la lista de problemas del paciente']
     },
     medicalEvaluation: {
         type: Object,
@@ -25,15 +25,14 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
     },
     physicalExam: {
         type: Object,
-        required: 'Debe ingresar un examen medico formulado del paciente'
     },
     complementaryExams: {
         type: String,
         default: 'ninguno'
     },
     medicalDiagnostic: {
-        type: String,
-        required: [true, 'Es obligatorio ingresar in diagnostico medico del paciente']
+        type: Object,
+        required: [true, 'Debe relacionarse un diagnostico medico a esta consulta']
     },
     patientStory: {
         type: String,

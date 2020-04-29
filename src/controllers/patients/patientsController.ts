@@ -169,10 +169,6 @@ export default class PatientController {
                 resolve(true);
 
             } catch (error) {
-                const errorDetail: ErrorDetail = {
-                    name: 'error al actualizar numero de consultas de paciente',
-                    description: error
-                }
                 reject(error);
             }
         });

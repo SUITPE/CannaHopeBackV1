@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { PatientProblemModel, PatientProblemSchema } from './patientProblem';
-import { MedicalEvaluationModel, MedicalEvaluationSchema } from './medicalEvaluation';
-import { PhysicalExamModel, PhysicalExamSchema } from './physicalExam';
-
+import { PatientProblemModel } from './patientProblem';
+import { MedicalEvaluationModel } from './medicalEvaluation';
+import { PhysicalExamModel } from './physicalExam';
+import { MedicalDiagnosticModel } from './medicalDiagnostic';
 
 export interface MedicalConsultationModel extends mongoose.Document {
     patient: string;
@@ -10,9 +10,9 @@ export interface MedicalConsultationModel extends mongoose.Document {
     patientProblems: PatientProblemModel[];
     medicalEvaluation: MedicalEvaluationModel;
     physicalExam: PhysicalExamModel;
-    complementaryExams: string;
-    medicalDiagnostic: string;
+    medicalDiagnostic: MedicalDiagnosticModel;
     patientStory: string;
+    complementaryExams: string;
     createDate: Date;
 }
 
@@ -25,11 +25,11 @@ export const MedicalConsultationSchema = new mongoose.Schema({
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'User',
-        required: [true, 'Es obligatorio ingresar el doctor que hace el examen medico']
+        required: [true, 'El doctor que atiende la cita es requerido']
     },
     patientProblems: {
-        type: new Array(),
-        required: [true, 'Debe ingresar un listado de problemas actuales del paciente'],
+        type: [],
+        required: [true, 'Debe especificar la lista de problemas del paciente']
     },
     medicalEvaluation:{
         type: Object,
@@ -37,15 +37,14 @@ export const MedicalConsultationSchema = new mongoose.Schema({
     },
     physicalExam: {
         type: Object,
-        required: 'Debe ingresar un examen medico formulado del paciente'
     },
     complementaryExams: {
         type: String,
         default: 'ninguno'
     },
     medicalDiagnostic: {
-        type: String,
-        required: [true, 'Es obligatorio ingresar in diagnostico medico del paciente']
+        type: Object,
+        required: [true, 'Debe relacionarse un diagnostico medico a esta consulta']
     },
     patientStory: {
         type: String,

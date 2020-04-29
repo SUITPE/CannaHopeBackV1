@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export interface BodySystemModel extends mongoose.Document {
     name: string;
     description: string;
-    value: string;
+    value: boolean;
     isEnabled: boolean;
 }
 
@@ -27,7 +27,7 @@ export const BodySystemSchema = new mongoose.Schema({
         required: [ true, 'Debe ingresar uns descripcion para el sistema del cuerpo']
     },
     value: {
-        type: String,
+        type: Boolean,
         default: 'no',
     },
     isEnabled: {

@@ -61,7 +61,7 @@ patientManagementRoutes.post('/medicalConsultation/save', userValidation_middlew
         return res.status(200).send(new jsonResp_1.default(true, 'Consulta de paciente guardada correctamente', medicalConsultation));
     })
         .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al registrar consulta de paciente', null, error));
+        return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
 patientManagementRoutes.post('/patientPh/save', userValidation_middleware_1.default.validation, (req, res) => {

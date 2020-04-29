@@ -5,9 +5,8 @@ export interface DiseaseModel extends mongoose.Document {
     description: string;
     isEnabled: boolean;
     createdDate: string;
-    value: string;
+    value: boolean;
 }
-
 
 export const DiseaseSchema = new mongoose.Schema({
     name: {
@@ -28,7 +27,7 @@ export const DiseaseSchema = new mongoose.Schema({
         default: new Date()
     },
     value: {
-        type: String,
+        type: Boolean,
         default: null
     }
 });
