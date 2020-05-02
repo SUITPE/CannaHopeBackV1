@@ -3,10 +3,12 @@ import { PatientProblemModel } from './patientProblem';
 import { MedicalEvaluationModel } from './medicalEvaluation';
 import { PhysicalExamModel } from './physicalExam';
 import { MedicalDiagnosticModel } from './medicalDiagnostic';
+import { MedicalReevaluationModel } from './medicalReevaluation';
 
 export interface MedicalConsultationModel extends mongoose.Document {
     patient: string;
     doctor: string;
+    consultationReason: string;
     patientProblems: PatientProblemModel[];
     medicalEvaluation: MedicalEvaluationModel;
     physicalExam: PhysicalExamModel;
@@ -14,6 +16,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     patientStory: string;
     complementaryExams: string;
     createDate: Date;
+    reevaluations: MedicalReevaluationModel[];
 }
 
 export const MedicalConsultationSchema = new mongoose.Schema({
@@ -53,6 +56,14 @@ export const MedicalConsultationSchema = new mongoose.Schema({
     createDate: {
         type: Date,
         required: [true, 'Debe ingresar una fecha de registro']
+    },
+    reevaluations: {
+        type: [],
+        default: []
+    },
+    consultationReason:{
+        type: String,
+        required: [true, ' Debe ingresar un motivo de consulta']
     }
 });
 

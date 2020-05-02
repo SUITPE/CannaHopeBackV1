@@ -38,7 +38,8 @@ class MedicalConsultationController {
                     complementaryExams: medicalConsultation.complementaryExams,
                     medicalDiagnostic: medicalConsultation.medicalDiagnostic,
                     patientStory: medicalConsultation.patientStory,
-                    createDate: medicalConsultation.createDate
+                    createDate: medicalConsultation.createDate,
+                    consultationReason: medicalConsultation.consultationReason
                 });
                 const medicalConsultationSaved = yield newMedicalConsultation.save();
                 const newMedicalEvaluation = medicalConsultation.medicalEvaluation;
@@ -73,6 +74,21 @@ class MedicalConsultationController {
             catch (error) {
                 errorDetail.name = 'Error la guardar registro de consulta';
                 errorDetail.description = error;
+                reject(errorDetail);
+            }
+        }));
+    }
+    findByPatientId(idPatient) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const medicalCOnsultations = yield medicalConsultation_1.MedicalConsultation.find({ patient: idPatient });
+                resolve(medicalCOnsultations);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al consultar consultas medicas registradas',
+                    description: error
+                };
                 reject(errorDetail);
             }
         }));

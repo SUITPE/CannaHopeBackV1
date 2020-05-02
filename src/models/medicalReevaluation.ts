@@ -8,7 +8,7 @@ export interface MedicalReevaluationModel extends mongoose.Document {
 }
 
 export const MedicalReevaluationSchema = new mongoose.Schema({
-    MedicalReevaluationModel: {
+    medicalConsultation: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MedicalConsultation',
         required: [true, 'Debe describir a que consulta pertenece']

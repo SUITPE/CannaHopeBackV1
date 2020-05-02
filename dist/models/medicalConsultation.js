@@ -41,6 +41,14 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
     createDate: {
         type: Date,
         required: [true, 'Debe ingresar una fecha de registro']
+    },
+    reevaluations: {
+        type: [],
+        default: []
+    },
+    consultationReason: {
+        type: String,
+        required: [true, ' Debe ingresar un motivo de consulta']
     }
 });
 exports.MedicalConsultation = mongoose_1.default.model('MedicalConsultation', exports.MedicalConsultationSchema);

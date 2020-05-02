@@ -127,4 +127,13 @@ patientManagementRoutes.get('/bodySystem/findAll', userValidation_middleware_1.d
         return res.status(500).send(new jsonResp_1.default(false, 'Error en la base de datos al cargar sistema del cuerpo', null, error));
     });
 });
+patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', userValidation_middleware_1.default.validation, (req, res) => {
+    medicalConsultationCtr.findByPatientId(req.params.idPatient)
+        .then(patientConsultation => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Listado consultas registradas a paciente cargado correctamente', patientConsultation));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar consultas registradas al paciente', null, error));
+    });
+});
 exports.default = patientManagementRoutes;

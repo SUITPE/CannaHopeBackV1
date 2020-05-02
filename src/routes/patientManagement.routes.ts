@@ -139,6 +139,16 @@ patientManagementRoutes.get('/bodySystem/findAll', UserValidation.validation, (r
     });
 });
 
+patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', UserValidation.validation, (req, res) => {
+    medicalConsultationCtr.findByPatientId(req.params.idPatient)
+    .then(patientConsultation => {
+        return res.status(200).send(new JsonResp(true, 'Listado consultas registradas a paciente cargado correctamente', patientConsultation));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar consultas registradas al paciente', null, error));
+    });
+});
+
 
 export default patientManagementRoutes;
 

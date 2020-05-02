@@ -31,7 +31,8 @@ export default class MedicalConsultationController {
                     complementaryExams: medicalConsultation.complementaryExams,
                     medicalDiagnostic: medicalConsultation.medicalDiagnostic,
                     patientStory: medicalConsultation.patientStory,
-                    createDate: medicalConsultation.createDate
+                    createDate: medicalConsultation.createDate,
+                    consultationReason: medicalConsultation.consultationReason
                 });
 
                 const medicalConsultationSaved: MedicalConsultationModel = await newMedicalConsultation.save();
@@ -73,6 +74,21 @@ export default class MedicalConsultationController {
             } catch (error) {
                 errorDetail.name = 'Error la guardar registro de consulta';
                 errorDetail.description = error;
+                reject(errorDetail);
+            }
+        });
+    }
+
+    public findByPatientId(idPatient: string): Promise<MedicalConsultationModel[]> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const medicalCOnsultations: MedicalConsultationModel[] = await MedicalConsultation.find({ patient: idPatient });
+                resolve(medicalCOnsultations)
+            } catch (error) {
+                const errorDetail: ErrorDetail = {
+                    name:  'Error al consultar consultas medicas registradas',
+                    description: error
+                }
                 reject(errorDetail);
             }
         });
