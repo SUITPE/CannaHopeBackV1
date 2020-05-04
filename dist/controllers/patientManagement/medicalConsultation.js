@@ -97,5 +97,35 @@ class MedicalConsultationController {
             }
         }));
     }
+    findById(idMedicalConsultation) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const medicalConsultation = yield medicalConsultation_1.MedicalConsultation.findById(idMedicalConsultation);
+                resolve(medicalConsultation);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al consultar consulta medica registrada por id',
+                    description: error
+                };
+                reject(errorDetail);
+            }
+        }));
+    }
+    updateReevaluation(reevaluations, idMedicalCOnsultation) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const updated = yield medicalConsultation_1.MedicalConsultation.updateOne({ _id: idMedicalCOnsultation }, { reevaluations });
+                resolve(true);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al acutalizar reevaluacion medica de consulta',
+                    description: error
+                };
+                reject(errorDetail);
+            }
+        }));
+    }
 }
 exports.default = MedicalConsultationController;

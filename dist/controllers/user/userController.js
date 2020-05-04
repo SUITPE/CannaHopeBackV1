@@ -84,7 +84,6 @@ class UserController {
                     .populate('rol')
                     .populate('createdBy', 'names surenames nickName')
                     .exec((error, userUpdated) => {
-                    console.log(userUpdated);
                     if (error) {
                         const errorDetail = {
                             name: 'Error en la consulta al actualizar usuario',

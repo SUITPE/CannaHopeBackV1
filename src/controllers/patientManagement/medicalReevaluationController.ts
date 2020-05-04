@@ -1,12 +1,19 @@
 import { MedicalReevaluationModel, MedicalReevaluation } from '../../models/medicalReevaluation';
 import { ErrorDetail } from '../../models/jsonResp';
+import { MedicalConsultation, MedicalConsultationModel } from '../../models/medicalConsultation';
+import MedicalConsultationController from './medicalConsultation';
 
 export default class MedicalReevaluationController {
 
 
     public save(medicalReevaluation: MedicalReevaluationModel): Promise<MedicalReevaluationModel> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
+            const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
             try {
+
+                const medicalConsultation: MedicalConsultationModel = await medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
+                medicalConsultation.reevaluations.push(medicalReevaluation);
+                const medicalConsultationUpdated: boolean = await medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id)
 
                 const newMedicalReevaluation: MedicalReevaluationModel = new MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
@@ -25,7 +32,6 @@ export default class MedicalReevaluationController {
                         resolve(medicalRevaluiationSaved);
                     }
                 });
-
             } catch (error) {
                 reject(error);
             }

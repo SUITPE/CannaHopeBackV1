@@ -7,6 +7,8 @@ import { PatientPhController } from '../controllers/patientManagement/PatientPhC
 import PatientProblemController from '../controllers/patientManagement/patientProblemController';
 import BodySystemController from '../controllers/patientManagement/bodySystemController';
 import MedicalConsultationController from '../controllers/patientManagement/medicalConsultation';
+import { MedicalReevaluation } from '../models/medicalReevaluation';
+import MedicalReevaluationController from '../controllers/patientManagement/medicalReevaluationController';
 
 const diseaseCtr: DiseaseController = new DiseaseController();
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -14,6 +16,7 @@ const patientPhCtr: PatientPhController = new PatientPhController();
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
+const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluationController();
 
 
 const patientManagementRoutes: Router = Router();
@@ -148,6 +151,17 @@ patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', U
         return res.status(500).send(new JsonResp(false, 'Error al cargar consultas registradas al paciente', null, error));
     });
 });
+
+patientManagementRoutes.post('/medicalReevaluation/save', UserValidation.validation, (req, res) => {
+    medicalReevaluestion.save(req.body)
+    .then(medicalReevaluestionSaved => {
+        return res.status(200).send(new JsonResp(true, 'Reevaluación registrada correctamente', medicalReevaluestionSaved));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error registrar reevaluacion medica', null, error));
+    });
+});
+
 
 
 export default patientManagementRoutes;

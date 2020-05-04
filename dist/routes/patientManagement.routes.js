@@ -12,12 +12,14 @@ const PatientPhController_1 = require("../controllers/patientManagement/PatientP
 const patientProblemController_1 = __importDefault(require("../controllers/patientManagement/patientProblemController"));
 const bodySystemController_1 = __importDefault(require("../controllers/patientManagement/bodySystemController"));
 const medicalConsultation_1 = __importDefault(require("../controllers/patientManagement/medicalConsultation"));
+const medicalReevaluationController_1 = __importDefault(require("../controllers/patientManagement/medicalReevaluationController"));
 const diseaseCtr = new diseaseController_1.DiseaseController();
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
 const patientProblemCtr = new patientProblemController_1.default();
 const bodySystemCtr = new bodySystemController_1.default();
 const medicalConsultationCtr = new medicalConsultation_1.default();
+const medicalReevaluestion = new medicalReevaluationController_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
     diseaseCtr.save(req.body)
@@ -134,6 +136,15 @@ patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', u
     })
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar consultas registradas al paciente', null, error));
+    });
+});
+patientManagementRoutes.post('/medicalReevaluation/save', userValidation_middleware_1.default.validation, (req, res) => {
+    medicalReevaluestion.save(req.body)
+        .then(medicalReevaluestionSaved => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Reevaluación registrada correctamente', medicalReevaluestionSaved));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error registrar reevaluacion medica', null, error));
     });
 });
 exports.default = patientManagementRoutes;

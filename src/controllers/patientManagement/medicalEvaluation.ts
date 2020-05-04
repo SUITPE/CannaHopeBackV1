@@ -3,7 +3,7 @@ import { ErrorDetail } from '../../models/jsonResp';
 
 export default class MedicalEvaluationController {
 
-
+    constructor() {}
 
     public save(medialEvaluation: MedicalEvaluationModel): Promise<MedicalEvaluationModel> {
         return new Promise((resolve, reject) => {

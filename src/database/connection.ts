@@ -3,8 +3,6 @@ import { environments } from '../environments/varEnvironments';
 
 export default class DbConnection {
 
-    private static _instance: DbConnection;
-
     public conectado: boolean = false;
 
     constructor() {

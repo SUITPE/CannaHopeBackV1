@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const medicalEvaluation_1 = require("../../models/medicalEvaluation");
 class MedicalEvaluationController {
+    constructor() { }
     save(medialEvaluation) {
         return new Promise((resolve, reject) => {
             try {
