@@ -9,7 +9,6 @@ export default class UserController {
 
     public save(userData: UserModel): Promise<UserModel> {
         return new Promise(async (resolve, reject) => {
-
             try {
 
                 if (userData.image) {
@@ -46,14 +45,12 @@ export default class UserController {
                 });
 
                 user.save({}, (error: any, userSaved) => {
-
                     if (error) {
                         const errorDetail: ErrorDetail = {
                             name: 'Error al momento de registrar usuario',
                             description: error,
                             status: 500
                         }
-
                         reject(errorDetail);
                     } else {
                         resolve(userSaved);

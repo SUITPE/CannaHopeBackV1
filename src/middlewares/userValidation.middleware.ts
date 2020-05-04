@@ -19,7 +19,7 @@ const UserValidation = {
                 name: 'Token invalido',
                 description: 'No se ha recibido un token de usuario en los headers de la petición'
             }
-            const resp: JsonResp = new JsonResp(false, 'Token invalido, por favor inicie sesion nuevamente', null, errorDetail);
+            const resp: JsonResp = new JsonResp(false, 'Aviso de seguridad', null, errorDetail);
             return res.status(401).send(resp);
         }
 
@@ -27,10 +27,10 @@ const UserValidation = {
         jwt.verify(token, seed, (error: any, decoded: any) => {
             if (error) {
                 errorDetail = {
-                    name: 'No esta autorizado',
+                    name: 'Credenciales vencidas, por favor vuelva a iniciar sesión',
                     description: 'No esta autorizado para hacer esta petición, su token es invalido, consulte a administrador'
                 }
-                const resp: JsonResp = new JsonResp(false, 'Token invalido, por favor inicie sesion nuevamente', null, errorDetail);
+                const resp: JsonResp = new JsonResp(false, 'Aviso de seguridad', null, errorDetail);
                 return res.status(401).send(resp);
             } else {
                 req.user = decoded.user;

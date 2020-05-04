@@ -18,16 +18,16 @@ const UserValidation = {
                 name: 'Token invalido',
                 description: 'No se ha recibido un token de usuario en los headers de la petición'
             };
-            const resp = new jsonResp_1.default(false, 'Token invalido, por favor inicie sesion nuevamente', null, errorDetail);
+            const resp = new jsonResp_1.default(false, 'Aviso de seguridad', null, errorDetail);
             return res.status(401).send(resp);
         }
         jsonwebtoken_1.default.verify(token, varEnvironments_1.seed, (error, decoded) => {
             if (error) {
                 errorDetail = {
-                    name: 'No esta autorizado',
+                    name: 'Credenciales vencidas, por favor vuelva a iniciar sesión',
                     description: 'No esta autorizado para hacer esta petición, su token es invalido, consulte a administrador'
                 };
-                const resp = new jsonResp_1.default(false, 'Token invalido, por favor inicie sesion nuevamente', null, errorDetail);
+                const resp = new jsonResp_1.default(false, 'Aviso de seguridad', null, errorDetail);
                 return res.status(401).send(resp);
             }
             else {

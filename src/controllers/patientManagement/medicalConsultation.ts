@@ -82,7 +82,11 @@ export default class MedicalConsultationController {
     public findByPatientId(idPatient: string): Promise<MedicalConsultationModel[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const medicalCOnsultations: MedicalConsultationModel[] = await MedicalConsultation.find({ patient: idPatient });
+                const medicalCOnsultations: MedicalConsultationModel[] = await MedicalConsultation.find({ patient: idPatient })
+                .populate({
+                    path: 'doctor',
+                    select: 'names surenames'
+                })
                 resolve(medicalCOnsultations)
             } catch (error) {
                 const errorDetail: ErrorDetail = {

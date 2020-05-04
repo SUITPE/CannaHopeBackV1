@@ -81,7 +81,11 @@ class MedicalConsultationController {
     findByPatientId(idPatient) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const medicalCOnsultations = yield medicalConsultation_1.MedicalConsultation.find({ patient: idPatient });
+                const medicalCOnsultations = yield medicalConsultation_1.MedicalConsultation.find({ patient: idPatient })
+                    .populate({
+                    path: 'doctor',
+                    select: 'names surenames'
+                });
                 resolve(medicalCOnsultations);
             }
             catch (error) {
