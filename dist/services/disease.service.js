@@ -12,31 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const disease_1 = __importDefault(require("../../models/disease"));
-const disease_service_1 = require("../../services/disease.service");
-class DiseaseController {
-    constructor(diseaseSrv) {
-        this.diseaseSrv = diseaseSrv;
-    }
-    saveNewDisease(diseaseData) {
-        return new Promise((resolve, reject) => {
+const disease_1 = __importDefault(require("../models/disease"));
+class DiseaseService {
+    constructor() { }
+    findAll() {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const newDisease = new disease_1.default({
-                    name: diseaseData.name,
-                    description: diseaseData.description
-                });
-                resolve(this.diseaseSrv.save(newDisease));
+                resolve(yield disease_1.default.find({}, { name: 1, description: 1, value: 1, _id: 1 }));
             }
             catch (error) {
-                reject(JSON.stringify(error));
+                reject(error);
             }
-        });
+        }));
     }
-    getDiseaseList() {
+    save(disease) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const diseaseSrv = new disease_service_1.DiseaseService();
             try {
-                resolve(yield diseaseSrv.findAll());
+                resolve(yield disease.save());
             }
             catch (error) {
                 reject(error);
@@ -44,4 +36,4 @@ class DiseaseController {
         }));
     }
 }
-exports.DiseaseController = DiseaseController;
+exports.DiseaseService = DiseaseService;

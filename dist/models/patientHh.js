@@ -29,5 +29,5 @@ const PatientHarmfulHabitSchema = new mongoose_1.default.Schema({
         default: true
     }
 });
-const PatientHarmfulHabit = mongoose_1.default.model('PatientHarmfulHabit');
+const PatientHarmfulHabit = mongoose_1.default.model('PatientHarmfulHabit', PatientHarmfulHabitSchema);
 exports.default = PatientHarmfulHabit;

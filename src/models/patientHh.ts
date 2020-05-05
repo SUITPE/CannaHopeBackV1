@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 export interface PatientHarmfulHabitModal extends mongoose.Document {
     patient: string,
     createdBy: string,
@@ -35,5 +34,5 @@ const PatientHarmfulHabitSchema = new mongoose.Schema({
     }
 })
 
-const PatientHarmfulHabit = mongoose.model<PatientHarmfulHabitModal>('PatientHarmfulHabit');
+const PatientHarmfulHabit = mongoose.model<PatientHarmfulHabitModal>('PatientHarmfulHabit', PatientHarmfulHabitSchema);
 export default PatientHarmfulHabit;

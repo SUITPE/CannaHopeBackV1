@@ -91,7 +91,7 @@ export default class PatientController {
             Patient.find()
                 .populate({
                     path: 'user',
-                    select: 'image _id names surenames  mobilePhone document email',
+                    select: 'image _id names surenames  mobilePhone document email sex',
                     populate: {
                         path: 'rol',
                         select: 'description'

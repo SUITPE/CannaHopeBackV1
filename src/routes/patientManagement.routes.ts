@@ -9,8 +9,9 @@ import BodySystemController from '../controllers/patientManagement/bodySystemCon
 import MedicalConsultationController from '../controllers/patientManagement/medicalConsultation';
 import { MedicalReevaluation } from '../models/medicalReevaluation';
 import MedicalReevaluationController from '../controllers/patientManagement/medicalReevaluationController';
+import { DiseaseService } from '../services/disease.service';
 
-const diseaseCtr: DiseaseController = new DiseaseController();
+const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
 const patientPhCtr: PatientPhController = new PatientPhController();
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
@@ -21,7 +22,7 @@ const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluat
 
 const patientManagementRoutes: Router = Router();
 patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, res) => {
-    diseaseCtr.save(req.body)
+    diseaseCtr.saveNewDisease(req.body)
     .then(disease => {
         return res.status(200).send(new JsonResp(true, 'Enfermedad registrada correctamente', disease));
     })
@@ -30,8 +31,9 @@ patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, r
     });
 });
 
+
 patientManagementRoutes.get('/disease/findAll', UserValidation.validation, (req, res) => {
-    diseaseCtr.findAll()
+    diseaseCtr.getDiseaseList()
     .then(diseases => {
         return res.status(200).send(new JsonResp(true, 'Lista de enfermedades cargadas correctamente', diseases));
     })

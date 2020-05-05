@@ -13,7 +13,8 @@ const patientProblemController_1 = __importDefault(require("../controllers/patie
 const bodySystemController_1 = __importDefault(require("../controllers/patientManagement/bodySystemController"));
 const medicalConsultation_1 = __importDefault(require("../controllers/patientManagement/medicalConsultation"));
 const medicalReevaluationController_1 = __importDefault(require("../controllers/patientManagement/medicalReevaluationController"));
-const diseaseCtr = new diseaseController_1.DiseaseController();
+const disease_service_1 = require("../services/disease.service");
+const diseaseCtr = new diseaseController_1.DiseaseController(new disease_service_1.DiseaseService());
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
 const patientProblemCtr = new patientProblemController_1.default();
@@ -22,7 +23,7 @@ const medicalConsultationCtr = new medicalConsultation_1.default();
 const medicalReevaluestion = new medicalReevaluationController_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
-    diseaseCtr.save(req.body)
+    diseaseCtr.saveNewDisease(req.body)
         .then(disease => {
         return res.status(200).send(new jsonResp_1.default(true, 'Enfermedad registrada correctamente', disease));
     })
@@ -31,7 +32,7 @@ patientManagementRoutes.post('/disease/save', userValidation_middleware_1.defaul
     });
 });
 patientManagementRoutes.get('/disease/findAll', userValidation_middleware_1.default.validation, (req, res) => {
-    diseaseCtr.findAll()
+    diseaseCtr.getDiseaseList()
         .then(diseases => {
         return res.status(200).send(new jsonResp_1.default(true, 'Lista de enfermedades cargadas correctamente', diseases));
     })
