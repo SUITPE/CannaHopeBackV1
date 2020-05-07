@@ -14,6 +14,7 @@ const bodySystemController_1 = __importDefault(require("../controllers/patientMa
 const medicalConsultation_1 = __importDefault(require("../controllers/patientManagement/medicalConsultation"));
 const medicalReevaluationController_1 = __importDefault(require("../controllers/patientManagement/medicalReevaluationController"));
 const disease_service_1 = require("../services/disease.service");
+const consultationAdmitionController_1 = __importDefault(require("../controllers/patientManagement/consultationAdmitionController"));
 const diseaseCtr = new diseaseController_1.DiseaseController(new disease_service_1.DiseaseService());
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
@@ -146,6 +147,26 @@ patientManagementRoutes.post('/medicalReevaluation/save', userValidation_middlew
     })
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error registrar reevaluacion medica', null, error));
+    });
+});
+patientManagementRoutes.post('/consultationAdmition/save', userValidation_middleware_1.default.validation, (req, res) => {
+    const consultationAdmitionCtr = new consultationAdmitionController_1.default();
+    consultationAdmitionCtr.saveConsultationAdmition(req.body)
+        .then(consultationAdmitionSaved => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Admisión de paciente registrada correctamente', consultationAdmitionSaved));
+    })
+        .catch((error) => {
+        return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
+    });
+});
+patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', userValidation_middleware_1.default.validation, (req, res) => {
+    const consultationAdmitionCtr = new consultationAdmitionController_1.default();
+    consultationAdmitionCtr.getConsultationAdmitionByPatientId(req.params.idPatient)
+        .then(consultationAdmitionList => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Lista de admisiones registradas cargada correctamente', consultationAdmitionList));
+    })
+        .catch((error) => {
+        return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
 exports.default = patientManagementRoutes;

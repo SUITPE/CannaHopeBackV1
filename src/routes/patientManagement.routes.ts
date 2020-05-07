@@ -10,6 +10,8 @@ import MedicalConsultationController from '../controllers/patientManagement/medi
 import { MedicalReevaluation } from '../models/medicalReevaluation';
 import MedicalReevaluationController from '../controllers/patientManagement/medicalReevaluationController';
 import { DiseaseService } from '../services/disease.service';
+import ConsultationAdmitionController from '../controllers/patientManagement/consultationAdmitionController';
+import { ErrorDetail } from '../models/jsonResp';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -163,6 +165,30 @@ patientManagementRoutes.post('/medicalReevaluation/save', UserValidation.validat
         return res.status(500).send(new JsonResp(false, 'Error registrar reevaluacion medica', null, error));
     });
 });
+
+patientManagementRoutes.post('/consultationAdmition/save', UserValidation.validation, (req, res) => {
+    const consultationAdmitionCtr: ConsultationAdmitionController = new ConsultationAdmitionController();
+    consultationAdmitionCtr.saveConsultationAdmition(req.body)
+    .then(consultationAdmitionSaved => {
+        return res.status(200).send(new JsonResp(true, 'Admisión de paciente registrada correctamente', consultationAdmitionSaved));
+    })
+    .catch((error: ErrorDetail) => {
+        return res.status(500).send(new JsonResp(false, error.name, null, error));
+    });
+});
+
+patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', UserValidation.validation, (req, res) => {
+    const consultationAdmitionCtr: ConsultationAdmitionController = new ConsultationAdmitionController();
+    consultationAdmitionCtr.getConsultationAdmitionByPatientId(req.params.idPatient)
+    .then(consultationAdmitionList => {
+        return res.status(200).send(new JsonResp(true, 'Lista de admisiones registradas cargada correctamente', consultationAdmitionList));
+    })
+    .catch((error: ErrorDetail) => {
+        return res.status(500).send(new JsonResp(false, error.name, null, error));
+    });
+});
+
+
 
 
 
