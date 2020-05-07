@@ -47,6 +47,10 @@ exports.ConsultationAdmitionSchema = new mongoose_1.default.Schema({
         ref: 'User',
         required: [true, 'Es necesario indicar quien hace el registro']
     },
+    isEnabled: {
+        type: Boolean,
+        default: true
+    }
 });
 const ConsultationAdmition = mongoose_1.default.model('ConsultationAdmition', exports.ConsultationAdmitionSchema);
 exports.default = ConsultationAdmition;

@@ -28,7 +28,7 @@ class ConsultationAdmitionService {
     getByIdPatient(idPatient) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
-                resolve(yield consultationAdmision_1.default.find({ patient: idPatient })
+                resolve(yield consultationAdmision_1.default.find({ patient: idPatient, isEnabled: true })
                     .populate({
                     path: 'patient',
                     select: 'patientStatus names surenames',
@@ -41,6 +41,16 @@ class ConsultationAdmitionService {
                     path: 'createdBy',
                     select: 'names surenames email sex mobilePhone'
                 }));
+            }
+            catch (error) {
+                reject(error);
+            }
+        }));
+    }
+    updateIsEnabled(idConsultationAdmition, newIsenabledVale) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                resolve(consultationAdmision_1.default.updateOne({ _id: idConsultationAdmition }, { isEnabled: newIsenabledVale }));
             }
             catch (error) {
                 reject(error);

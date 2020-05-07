@@ -11,6 +11,7 @@ export interface ConsultationAdmitionModel extends mongoose.Document {
     patient: string;
     createdAt: Date;
     createdBy: string;
+    isEnabled: boolean;
 }
 
 export const ConsultationAdmitionSchema = new mongoose.Schema({
@@ -56,6 +57,10 @@ export const ConsultationAdmitionSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Es necesario indicar quien hace el registro']
     },
+    isEnabled: {
+        type: Boolean,
+        default: true
+    }
 });
 
 const ConsultationAdmition = mongoose.model<ConsultationAdmitionModel>('ConsultationAdmition', ConsultationAdmitionSchema);

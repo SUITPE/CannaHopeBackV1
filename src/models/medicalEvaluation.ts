@@ -13,6 +13,7 @@ export interface MedicalEvaluationModel extends mongoose.Document {
 }
 
 export interface ClinicalExamination {
+    _id: string;
     talla: string,
     peso: string;
     perimetroAbdominal: string;

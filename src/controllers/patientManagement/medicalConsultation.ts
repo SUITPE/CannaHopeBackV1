@@ -9,8 +9,12 @@ import { MedicalDiagnosticModel } from '../../models/medicalDiagnostic';
 import MedicalTreatmentController from './medicalTreatment';
 import { MedicalTreatmentModel } from '../../models/medicalTreatment';
 import { MedicalReevaluationModel } from '../../models/medicalReevaluation';
+import { ConsultationAdmitionService } from '../../services/consultationAdminiton.service';
+import { ConsultationAdmitionModel } from '../../models/consultationAdmision';
 
 export default class MedicalConsultationController {
+
+    private consultationAdmitionSrv: ConsultationAdmitionService = new ConsultationAdmitionService();
 
     public save(medicalConsultation: MedicalConsultationModel): Promise<MedicalConsultationModel> {
         return new Promise(async (resolve, reject) => {
@@ -69,6 +73,10 @@ export default class MedicalConsultationController {
                 const medicalEvaluationSaved: MedicalEvaluationModel = await medicalEvaluationCtr.save(newMedicalEvaluation);
                 const medicalDiagnostic: MedicalDiagnosticModel = await medicalDiagnosticCtr.save(newMedicalDiagnostic);
                 const appointmentUpdated: boolean = await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+                const consultationAdmitionUpdate: ConsultationAdmitionModel = await this.consultationAdmitionSrv.updateIsEnabled(
+                    medicalConsultation.medicalEvaluation.clinicalExamination._id, false
+                    )
+
 
                 resolve(medicalConsultationSaved);
 

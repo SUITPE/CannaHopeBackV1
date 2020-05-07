@@ -19,7 +19,11 @@ const jsonResp_1 = require("../../models/jsonResp");
 const patientsController_1 = __importDefault(require("../patients/patientsController"));
 const medicalDiagnosticController_1 = require("./medicalDiagnosticController");
 const medicalTreatment_1 = __importDefault(require("./medicalTreatment"));
+const consultationAdminiton_service_1 = require("../../services/consultationAdminiton.service");
 class MedicalConsultationController {
+    constructor() {
+        this.consultationAdmitionSrv = new consultationAdminiton_service_1.ConsultationAdmitionService();
+    }
     save(medicalConsultation) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             const errorDetail = new jsonResp_1.ErrorDetail();
@@ -69,6 +73,7 @@ class MedicalConsultationController {
                 const medicalEvaluationSaved = yield medicalEvaluationCtr.save(newMedicalEvaluation);
                 const medicalDiagnostic = yield medicalDiagnosticCtr.save(newMedicalDiagnostic);
                 const appointmentUpdated = yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+                const consultationAdmitionUpdate = yield this.consultationAdmitionSrv.updateIsEnabled(medicalConsultation.medicalEvaluation.clinicalExamination._id, false);
                 resolve(medicalConsultationSaved);
             }
             catch (error) {

@@ -19,7 +19,7 @@ export class ConsultationAdmitionService {
         return new Promise(async (resolve, reject) => {
             try {
                 resolve(
-                    await ConsultationAdmition.find({ patient: idPatient })
+                    await ConsultationAdmition.find({ patient: idPatient, isEnabled: true })
                     .populate({
                         path:'patient',
                         select: 'patientStatus names surenames',
@@ -39,6 +39,14 @@ export class ConsultationAdmitionService {
         });
     }
 
-
+    public updateIsEnabled(idConsultationAdmition: string, newIsenabledVale: boolean): Promise<ConsultationAdmitionModel> {
+        return new Promise(async(resolve, reject) => {
+            try {
+                resolve(ConsultationAdmition.updateOne({_id: idConsultationAdmition}, {isEnabled: newIsenabledVale}));
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 
 }
