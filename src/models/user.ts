@@ -31,25 +31,24 @@ export class UserModel extends mongoose.Document   {
     public degreeOfInstruction?: string;
     public numberOfDependents?: number;
     public children?: number;
-
 }
 
 export const UserSchema = new mongoose.Schema({
     names: {
         type: String,
         required: [true, 'No se ha asignado un nombre de usuario'],
-        minlength: [5, 'debe ser un minimo de 5 caracteres parael nombre']
+        minlength: [3, 'debe ser un minimo de 5 caracteres parael nombre']
     },
     surenames: {
         type: String,
         required: [true, 'No se ha ingresado informacion de apellidos'],
-        minlength: [5, 'Debe ser un minimo de 5 caracterespara el apellido']
+        minlength: [3, 'Debe ser un minimo de 5 caracterespara el apellido']
     },
     nickName: {
         type: String,
         required: [true, 'Debe ingresar un nombre de usuario'],
-        minlength: [5, 'Debe ser un minimo de 4 caracteres'],
-        unique: true
+        minlength: [3, 'Debe ser un minimo de 4 caracteres'],
+        unique: [true, 'El alias de usuario ya se encuentra registrado en sistema']
     },
     age: {
         type: Number,
@@ -84,13 +83,12 @@ export const UserSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        required: [true, 'Debe agregar dirección donde reside el usuario'],
-        unique: true
+        required: [true, 'Debe agregar dirección donde reside el usuario']
     },
     email: {
         type: String,
         required: [true, 'Debe ingresar un email del usuario'],
-        unique: true
+        unique: [true, 'El correo ingresado ya se encuentra registrado en sistema']
     },
     mobilePhone: {
         type: Number,
