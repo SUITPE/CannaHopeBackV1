@@ -59,6 +59,7 @@ patientManagementRoutes.get('/harmfulHabit/findAll', userValidation_middleware_1
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista habitos nocivos', null, error));
     });
 });
+patientManagementRoutes.delete('/harmfulHabit/deleteById/:id', userValidation_middleware_1.default.validation, harmfulHabitCtr.delete);
 patientManagementRoutes.post('/medicalConsultation/save', userValidation_middleware_1.default.validation, (req, res) => {
     medicalConsultationCtr.save(req.body)
         .then(medicalConsultation => {
@@ -113,6 +114,7 @@ patientManagementRoutes.get('/patientProblem/findAll', userValidation_middleware
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista de pacientes', null, error));
     });
 });
+patientManagementRoutes.delete('/patientProblem/delete/:id', userValidation_middleware_1.default.validation, patientProblemCtr.delete);
 patientManagementRoutes.post('/bodySystem/save', userValidation_middleware_1.default.validation, (req, res) => {
     bodySystemCtr.save(req.body)
         .then(bodySystemSaved => {

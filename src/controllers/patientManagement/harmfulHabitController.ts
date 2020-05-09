@@ -1,11 +1,15 @@
 import HarmfulHabit, { HarmfulHabitModel } from '../../models/harmfulHabits';
 import { ErrorDetail } from '../../models/jsonResp';
+import { Response, Request } from 'express';
+import HarmfulHabitService from '../../services/harmfulHabit.service';
+import httpstatus from 'http-status';
+import JsonResp from '../../models/jsonResp';
 
 export default class HarmfulHabitController {
 
     public errorDetail: ErrorDetail = new ErrorDetail();
 
-    constructor() {}
+    constructor() { }
 
     public save(harmfulHabit: HarmfulHabitModel): Promise<HarmfulHabitModel> {
         return new Promise((resolve, reject) => {
@@ -63,24 +67,24 @@ export default class HarmfulHabitController {
         });
     }
 
-    public deleteById(idHarmfulHabit: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
+    public async delete(req: Request, res: Response): Promise<Response> {
+        const harmfulHabitSrv: HarmfulHabitService = new HarmfulHabitService();
+        const idHarmfulHabit: string = req.params.id;
+        try {
 
-            try {
-                HarmfulHabit.updateOne({ _id: idHarmfulHabit }, { isEnabled: false })
-                    .exec((error, result) => {
-                        if (error) {
-                            this.errorDetail.name = 'Se registra error al actualizar habito nocivo';
-                            this.errorDetail.description = error;
-                            reject(this.errorDetail);
-                        } else {
-                            resolve(true);
-                        }
-                    })
-            } catch (error) {
-                reject(error);
-            }
-        });
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Habito nocivo eliminado correctamente',
+                await harmfulHabitSrv.delete(idHarmfulHabit)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al eliminar habito nocivo',
+                error
+            ));
+        }
     }
+
 
 }

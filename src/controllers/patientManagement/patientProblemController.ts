@@ -1,5 +1,9 @@
 import { PatientProblemModel, PatientProblem } from '../../models/patientProblem';
 import { ErrorDetail } from '../../models/jsonResp';
+import { Request, Response } from 'express';
+import PatientProblemService from '../../services/patientProblem.service';
+import httpstatus from 'http-status';
+import JsonResp from '../../models/jsonResp';
 
 
 export default class PatientProblemController {
@@ -37,7 +41,7 @@ export default class PatientProblemController {
 
                 const errorDetail: ErrorDetail = new ErrorDetail();
 
-                PatientProblem.find({}, (error, patientProblemList) => {
+                PatientProblem.find({isEnabled: true}, (error, patientProblemList) => {
                     if (error) {
                         errorDetail.name = 'error al cargar lista de problemas de paciente';
                         errorDetail.description = error;
@@ -50,5 +54,24 @@ export default class PatientProblemController {
                 reject(error);
             }
         });
+    }
+
+    public async delete(req: Request, res: Response): Promise<Response> {
+
+        const patientProblemSrv: PatientProblemService = new PatientProblemService();
+        const idPatientProblem: string = req.params.id;
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Problema de paciente eliminado correctamente',
+                await patientProblemSrv.delete(idPatientProblem)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al eliminar problema de pacientes',
+                error
+            ));
+        }
     }
 }

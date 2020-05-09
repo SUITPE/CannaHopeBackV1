@@ -3,6 +3,7 @@ import Disease from '../../models/disease';
 import { DiseaseService } from '../../services/disease.service';
 import JsonResp from '../../models/jsonResp';
 import { Request, Response } from 'express';
+import httpstatus from 'http-status';
 
 export class DiseaseController {
 
@@ -43,14 +44,14 @@ export class DiseaseController {
 
         try {
             const diseaseDeleted: DiseaseModel = await diseaseSrv.delete(idDisease);
-            return res.status(500).send(new JsonResp(
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
                 'Enfermedad generica de sistema eliminada correctamente',
                 diseaseDeleted
             ));
 
         } catch (error) {
-            return res.status(500).send(new JsonResp(
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al eliminar enfermedad generia en sistema',
                 error

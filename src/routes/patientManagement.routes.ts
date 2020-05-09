@@ -7,7 +7,6 @@ import { PatientPhController } from '../controllers/patientManagement/PatientPhC
 import PatientProblemController from '../controllers/patientManagement/patientProblemController';
 import BodySystemController from '../controllers/patientManagement/bodySystemController';
 import MedicalConsultationController from '../controllers/patientManagement/medicalConsultation';
-import { MedicalReevaluation } from '../models/medicalReevaluation';
 import MedicalReevaluationController from '../controllers/patientManagement/medicalReevaluationController';
 import { DiseaseService } from '../services/disease.service';
 import ConsultationAdmitionController from '../controllers/patientManagement/consultationAdmitionController';
@@ -63,6 +62,8 @@ patientManagementRoutes.get('/harmfulHabit/findAll', UserValidation.validation, 
         return res.status(500).send(new JsonResp(false, 'Error al cargar lista habitos nocivos', null, error));
     });
 });
+
+patientManagementRoutes.delete('/harmfulHabit/deleteById/:id', UserValidation.validation, harmfulHabitCtr.delete);
 
 patientManagementRoutes.post('/medicalConsultation/save', UserValidation.validation, (req, res) => {
     medicalConsultationCtr.save(req.body)
@@ -125,6 +126,8 @@ patientManagementRoutes.get('/patientProblem/findAll', UserValidation.validation
         return res.status(500).send(new JsonResp(false, 'Error al cargar lista de pacientes', null, error));
     });
 });
+
+patientManagementRoutes.delete('/patientProblem/delete/:id', UserValidation.validation, patientProblemCtr.delete);
 
 patientManagementRoutes.post('/bodySystem/save', UserValidation.validation, (req, res) => {
     bodySystemCtr.save(req.body)

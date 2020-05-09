@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const disease_1 = __importDefault(require("../../models/disease"));
 const disease_service_1 = require("../../services/disease.service");
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
+const http_status_1 = __importDefault(require("http-status"));
 class DiseaseController {
     constructor(diseaseSrv) {
         this.diseaseSrv = diseaseSrv;
@@ -50,10 +51,10 @@ class DiseaseController {
             const idDisease = req.params.id;
             try {
                 const diseaseDeleted = yield diseaseSrv.delete(idDisease);
-                return res.status(500).send(new jsonResp_1.default(true, 'Enfermedad generica de sistema eliminada correctamente', diseaseDeleted));
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Enfermedad generica de sistema eliminada correctamente', diseaseDeleted));
             }
             catch (error) {
-                return res.status(500).send(new jsonResp_1.default(false, 'Error al eliminar enfermedad generia en sistema', error));
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al eliminar enfermedad generia en sistema', error));
             }
         });
     }
