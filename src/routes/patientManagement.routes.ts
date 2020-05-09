@@ -188,10 +188,7 @@ patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', 
     });
 });
 
-
-
-
-
+patientManagementRoutes.delete('/disease/delete/:id', UserValidation.validation, diseaseCtr.delete);
 export default patientManagementRoutes;
 
 

@@ -35,5 +35,19 @@ class DiseaseService {
             }
         }));
     }
+    delete(idDisease) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield disease_1.default.updateOne({ _id: idDisease }, { isEnabled: false });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al consulta de base de datos',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.DiseaseService = DiseaseService;

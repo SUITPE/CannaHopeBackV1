@@ -169,4 +169,5 @@ patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', 
         return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
+patientManagementRoutes.delete('/disease/delete/:id', userValidation_middleware_1.default.validation, diseaseCtr.delete);
 exports.default = patientManagementRoutes;

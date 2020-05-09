@@ -1,7 +1,8 @@
 import { DiseaseModel } from '../../models/disease';
 import Disease from '../../models/disease';
-import { ErrorDetail } from '../../models/jsonResp';
 import { DiseaseService } from '../../services/disease.service';
+import JsonResp from '../../models/jsonResp';
+import { Request, Response } from 'express';
 
 export class DiseaseController {
 
@@ -33,5 +34,27 @@ export class DiseaseController {
                 reject(error);
             }
         });
+    }
+
+    public async  delete(req: Request, res: Response): Promise<Response> {
+
+        const diseaseSrv: DiseaseService = new DiseaseService();
+        const idDisease: string = req.params.id;
+
+        try {
+            const diseaseDeleted: DiseaseModel = await diseaseSrv.delete(idDisease);
+            return res.status(500).send(new JsonResp(
+                true,
+                'Enfermedad generica de sistema eliminada correctamente',
+                diseaseDeleted
+            ));
+
+        } catch (error) {
+            return res.status(500).send(new JsonResp(
+                false,
+                'Error al eliminar enfermedad generia en sistema',
+                error
+            ));
+        }
     }
 }

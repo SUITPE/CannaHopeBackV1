@@ -1,5 +1,6 @@
 import { DiseaseModel } from '../models/disease';
 import Disease from '../models/disease';
+import { ErrorDetail } from '../models/jsonResp';
 
 
 export class DiseaseService{
@@ -24,5 +25,17 @@ export class DiseaseService{
                 reject(error);
             }
         });
+    }
+
+    public async delete(idDisease: string): Promise<DiseaseModel> {
+        try {
+            return await Disease.updateOne({_id: idDisease}, {isEnabled: false});
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al consulta de base de datos',
+                description: error
+            }
+            throw errorDetail;
+        }
     }
 }

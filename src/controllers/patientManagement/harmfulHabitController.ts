@@ -5,6 +5,8 @@ export default class HarmfulHabitController {
 
     public errorDetail: ErrorDetail = new ErrorDetail();
 
+    constructor() {}
+
     public save(harmfulHabit: HarmfulHabitModel): Promise<HarmfulHabitModel> {
         return new Promise((resolve, reject) => {
 
@@ -80,4 +82,5 @@ export default class HarmfulHabitController {
             }
         });
     }
+
 }
