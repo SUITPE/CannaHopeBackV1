@@ -110,13 +110,14 @@ class UserController {
                     .limit(limit)
                     .populate('rol', 'name description')
                     .populate('createdBy', 'names surenames nickName')
+                    .sort({ createDate: -1 })
                     .exec((error, users) => {
                     if (error) {
                         const errorDetail = {
                             name: 'Error al cargar lista de usuarios',
                             description: error
                         };
-                        throw jsonResp_1.ErrorDetail;
+                        throw errorDetail;
                     }
                     user_1.default.countDocuments({ status: true }, (err, total) => {
                         const data = {

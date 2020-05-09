@@ -119,6 +119,7 @@ export default class UserController {
                     .limit(limit)
                     .populate('rol', 'name description')
                     .populate('createdBy', 'names surenames nickName')
+                    .sort({createDate: -1})
                     .exec((error, users) => {
 
                         if (error) {
@@ -126,7 +127,7 @@ export default class UserController {
                                 name: 'Error al cargar lista de usuarios',
                                 description: error
                             }
-                            throw ErrorDetail;
+                            throw errorDetail;
                         }
 
                         User.countDocuments({ status: true }, (err: any, total) => {
@@ -142,9 +143,6 @@ export default class UserController {
             } catch (error) {
                 reject(error);
             }
-
-
-
         });
     }
 

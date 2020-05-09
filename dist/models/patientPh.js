@@ -4,8 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const disease_1 = require("./disease");
-const harmfulHabits_1 = require("./harmfulHabits");
 exports.PphSchema = new mongoose_1.default.Schema({
     patient: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -14,15 +12,15 @@ exports.PphSchema = new mongoose_1.default.Schema({
         unique: [true, 'Ya se han registrado antecedentes patologicos para este paciente anteriormente']
     },
     diseaseList: {
-        type: [disease_1.DiseaseSchema],
+        type: [],
         required: [true, 'Debe registrar las enfermedades del paciente']
     },
     harmfulHabitsList: {
-        type: [harmfulHabits_1.HarmfulHabitsSchema],
+        type: [],
         required: [true, 'debe registrar los habitos nocivos del paciente']
     },
     familyPph: {
-        type: Object(),
+        type: Object,
         required: [true, 'Debe asignar un historial patologico de familia al paciente']
     },
     description: {

@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import Disease, { DiseaseSchema } from './disease';
-import HarmfulHabit, { HarmfulHabitsSchema } from './harmfulHabits';
 import { HarmfulHabitModel } from './harmfulHabits';
 import { DiseaseModel } from './disease';
 import { FamilyPphModel } from './familyPph';
@@ -27,15 +25,15 @@ export const PphSchema = new mongoose.Schema({
         unique: [true, 'Ya se han registrado antecedentes patologicos para este paciente anteriormente']
     },
     diseaseList: {
-        type: [DiseaseSchema],
+        type: [],
         required: [true, 'Debe registrar las enfermedades del paciente']
     },
     harmfulHabitsList: {
-        type:[HarmfulHabitsSchema],
+        type:[],
         required: [true, 'debe registrar los habitos nocivos del paciente']
     },
     familyPph: {
-        type: Object(),
+        type: Object,
         required: [true, 'Debe asignar un historial patologico de familia al paciente']
     },
     description: {
