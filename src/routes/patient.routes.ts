@@ -58,4 +58,6 @@ patientRoutes.get('/FindByParams/:params', UserValidation.validation, (req, res)
     })
 });
 
+patientRoutes.put('/update', UserValidation.validation, patientCtr.updatePatient);
+
 export default patientRoutes;

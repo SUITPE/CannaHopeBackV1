@@ -62,4 +62,5 @@ patientRoutes.get('/FindByParams/:params', userValidation_middleware_1.default.v
         return res.status(500).send(new jsonResp_1.default(false, 'Error en consulta de pacientes por paramtro', null, error));
     });
 });
+patientRoutes.put('/update', userValidation_middleware_1.default.validation, patientCtr.updatePatient);
 exports.default = patientRoutes;

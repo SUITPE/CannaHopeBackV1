@@ -242,7 +242,7 @@ export default class UserController {
         });
     }
 
-    private setUserImage(base64Imgae: string, user: UserModel): Promise<string> {
+    public setUserImage(base64Imgae: string, user: any): Promise<string> {
         return new Promise((resolve, reject) => {
 
             const date = new Date();

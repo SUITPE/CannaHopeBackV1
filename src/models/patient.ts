@@ -2,11 +2,7 @@ import User from './user';
 import mongoose from 'mongoose';
 import { UserModel } from './user';
 
-
-
-
 export interface PatientModel extends UserModel  {
-
     reasonAdmission: string;
     numberOfAppointment: number;
     patientStatus: string;

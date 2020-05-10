@@ -2,6 +2,12 @@ import Patient, { PatientModel } from '../../models/patient';
 import UserController from '../user/userController';
 import { UserModel } from '../../models/user';
 import { ErrorDetail } from '../../models/jsonResp';
+import { Request, Response } from 'express';
+import JsonResp from '../../models/jsonResp';
+import httpstatus from 'http-status';
+import { PatientUpdateDto } from '../../dto/patient.dto';
+import UserService from '../../services/user.service';
+import PatientService from '../../services/patient.service';
 
 export default class PatientController {
 
@@ -165,12 +171,40 @@ export default class PatientController {
         return new Promise(async (resolve, reject) => {
             try {
                 const patient: any = await Patient.findById(idPatient);
-                const patientUpdated: any = await Patient.updateOne({_id: idPatient}, {numberOfAppointment: patient.numberOfAppointment + 1});
+                const patientUpdated: any = await Patient.updateOne({ _id: idPatient }, { numberOfAppointment: patient.numberOfAppointment + 1 });
                 resolve(true);
 
             } catch (error) {
                 reject(error);
             }
         });
+    }
+
+    public async updatePatient(req: Request, res: Response): Promise<Response> {
+
+        const patietnSrv: PatientService = new PatientService();
+        const userCtr: UserController = new UserController();
+        const patient: PatientUpdateDto = req.body;
+
+        try {
+
+            if (patient.image) {
+                patient.image = await userCtr.setUserImage(patient.image, patient);
+            }
+
+            const patientUpdated = await patietnSrv.update(patient);
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Paciente actualizado correctamente',
+                patientUpdated
+            ));
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al editar paciente',
+                error
+            ));
+        }
     }
 }
