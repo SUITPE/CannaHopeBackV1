@@ -16,10 +16,20 @@ const user_1 = __importDefault(require("../../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonResp_1 = require("../../models/jsonResp");
 const fs_1 = __importDefault(require("fs"));
+const user_service_1 = __importDefault(require("../../services/user.service"));
 class UserController {
     save(userData) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const userSrv = new user_service_1.default();
             try {
+                const userFounded = yield userSrv.findByEmail(userData.email);
+                if (userFounded) {
+                    const errorDetail = {
+                        name: `El ${userData.names} usuario ya se encuentra registrado en sistema`,
+                        description: null
+                    };
+                    reject(errorDetail);
+                }
                 if (userData.image) {
                     userData.image = yield this.setUserImage(userData.image, userData);
                 }

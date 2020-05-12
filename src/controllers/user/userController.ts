@@ -3,13 +3,26 @@ import User from '../../models/user';
 import bcrypt from 'bcrypt';
 import { ErrorDetail } from '../../models/jsonResp';
 import fs from 'fs';
+import UserService from '../../services/user.service';
 
 
 export default class UserController {
 
     public save(userData: UserModel): Promise<UserModel> {
         return new Promise(async (resolve, reject) => {
+
+            const userSrv: UserService = new UserService();
+
             try {
+
+                const userFounded: UserModel = await userSrv.findByEmail(userData.email);
+                if (userFounded) {
+                    const errorDetail: ErrorDetail = {
+                        name: `El ${userData.names} usuario ya se encuentra registrado en sistema`,
+                        description: null
+                    }
+                    reject(errorDetail);
+                }
 
                 if (userData.image) {
                     userData.image = await this.setUserImage(userData.image, userData);

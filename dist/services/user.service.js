@@ -28,5 +28,20 @@ class UserService {
             }
         });
     }
+    findByEmail(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield user_1.default.findOne({ email: userEmail, status: true });
+                return user;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en consulta de usuario por email',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = UserService;

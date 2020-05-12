@@ -87,8 +87,7 @@ export const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'Debe ingresar un email del usuario'],
-        unique: [true, 'El correo ingresado ya se encuentra registrado en sistema']
+        required: [true, 'Debe ingresar un email del usuario']
     },
     mobilePhone: {
         type: Number,

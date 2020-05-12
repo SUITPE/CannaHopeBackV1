@@ -17,4 +17,17 @@ export default class UserService {
             throw (errorDetail);
         }
     }
+
+    public async findByEmail(userEmail: string): Promise<UserModel> {
+        try {
+            const user: any = await User.findOne({ email: userEmail, status: true });
+            return user;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en consulta de usuario por email',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }
