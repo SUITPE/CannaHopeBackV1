@@ -58,5 +58,17 @@ class DiseaseController {
             }
         });
     }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const diseaseSrv = new disease_service_1.DiseaseService();
+            const disease = req.body;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Enfermedad actualizada correctamente', yield diseaseSrv.updateById(disease)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al actualizar enfermedad', error));
+            }
+        });
+    }
 }
 exports.DiseaseController = DiseaseController;

@@ -49,5 +49,17 @@ class DiseaseService {
             }
         });
     }
+    updateById(disease) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = disease._id;
+                delete disease._id;
+                return yield disease_1.default.updateOne({ _id: id }, disease);
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
 }
 exports.DiseaseService = DiseaseService;

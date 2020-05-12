@@ -1,6 +1,7 @@
 import { DiseaseModel } from '../models/disease';
 import Disease from '../models/disease';
 import { ErrorDetail } from '../models/jsonResp';
+import { DiseaseUpdateDto } from '../dto/diseace.dto';
 
 
 export class DiseaseService{
@@ -36,6 +37,16 @@ export class DiseaseService{
                 description: error
             }
             throw errorDetail;
+        }
+    }
+
+    public async updateById(disease: DiseaseUpdateDto): Promise<any> {
+        try {
+            const id: string = disease._id;
+            delete disease._id;
+            return await Disease.updateOne({_id: id}, disease);
+        } catch (error) {
+            throw error;
         }
     }
 }

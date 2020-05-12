@@ -4,6 +4,7 @@ import { DiseaseService } from '../../services/disease.service';
 import JsonResp from '../../models/jsonResp';
 import { Request, Response } from 'express';
 import httpstatus from 'http-status';
+import { DiseaseUpdateDto } from '../../dto/diseace.dto';
 
 export class DiseaseController {
 
@@ -54,6 +55,26 @@ export class DiseaseController {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al eliminar enfermedad generia en sistema',
+                error
+            ));
+        }
+    }
+
+    public async update(req: Request, res: Response): Promise<Response> {
+
+        const diseaseSrv: DiseaseService = new DiseaseService();
+        const disease: DiseaseUpdateDto = req.body;
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Enfermedad actualizada correctamente',
+                await diseaseSrv.updateById(disease)
+            ))
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al actualizar enfermedad',
                 error
             ));
         }
