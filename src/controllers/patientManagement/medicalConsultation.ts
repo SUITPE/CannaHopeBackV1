@@ -57,18 +57,18 @@ export default class MedicalConsultationController {
                 newMedicalDiagnostic.doctor = medicalConsultation.doctor;
                 newMedicalDiagnostic.createDate = medicalConsultation.createDate;
 
-                medicalConsultation.medicalDiagnostic.disease.forEach(async (item, i) => {
-                    const medicalTreatment: any = new Object();
-                    medicalTreatment.patient = medicalConsultation.patient;
-                    medicalTreatment.doctor = medicalConsultation.doctor;
-                    medicalTreatment.disease = item.name;
-                    medicalTreatment.description = item.description;
-                    medicalTreatment.createDate = medicalConsultation.createDate;
-                    medicalTreatment.viaAdministracion = medicalConsultation.medicalDiagnostic.medicalTreatment.viaAdministracion;
-                    medicalTreatment.ratio = medicalConsultation.medicalDiagnostic.medicalTreatment.ratio;
-                    medicalTreatment.concentracion = medicalConsultation.medicalDiagnostic.medicalTreatment.concentracion;
-                    const medicalTreatmentSaved: MedicalTreatmentModel = await medicalTreatmentCtr.save(medicalTreatment);
-                });
+                // medicalConsultation.medicalDiagnostic.disease.forEach(async (item, i) => {
+                //     const medicalTreatment: any = new Object();
+                //     medicalTreatment.patient = medicalConsultation.patient;
+                //     medicalTreatment.doctor = medicalConsultation.doctor;
+                //     medicalTreatment.disease = item.name;
+                //     medicalTreatment.description = item.description;
+                //     medicalTreatment.createDate = medicalConsultation.createDate;
+                //     medicalTreatment.viaAdministracion = medicalConsultation.medicalDiagnostic.medicalTreatment.viaAdministracion;
+                //     medicalTreatment.ratio = medicalConsultation.medicalDiagnostic.medicalTreatment.ratio;
+                //     medicalTreatment.concentracion = medicalConsultation.medicalDiagnostic.medicalTreatment.concentracion;
+                //     const medicalTreatmentSaved: MedicalTreatmentModel = await medicalTreatmentCtr.save(medicalTreatment);
+                // });
 
                 const medicalEvaluationSaved: MedicalEvaluationModel = await medicalEvaluationCtr.save(newMedicalEvaluation);
                 const medicalDiagnostic: MedicalDiagnosticModel = await medicalDiagnosticCtr.save(newMedicalDiagnostic);

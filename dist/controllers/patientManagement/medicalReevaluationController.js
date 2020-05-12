@@ -14,14 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const medicalReevaluation_1 = require("../../models/medicalReevaluation");
 const medicalConsultation_1 = __importDefault(require("./medicalConsultation"));
+const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
 class MedicalReevaluationController {
     save(medicalReevaluation) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             const medicalConsultationCtr = new medicalConsultation_1.default();
+            const medicalCOnsultationSrv = new medicalConsultation_service_1.default();
             try {
                 const medicalConsultation = yield medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
                 const medicalConsultationUpdated = yield medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
+                medicalConsultation.medicalDiagnostic.medicalTreatment = medicalReevaluation.medicalTreatment;
+                const medicalTreatamentUpdated = yield medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,

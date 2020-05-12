@@ -8,7 +8,7 @@ export interface MedicalDiagnosticModel extends mongoose.Document {
     disease: DiseaseModel[];
     description: string;
     createDate: Date;
-    medicalTreatment: MedicalTreatmentModel;
+    medicalTreatment: MedicalTreatmentModel[];
 }
 
 export const MedicalDiagnosticSchema = new mongoose.Schema({
@@ -35,7 +35,7 @@ export const MedicalDiagnosticSchema = new mongoose.Schema({
         required: [true, 'Debe ingresar la fecha de registro']
     },
     medicalTreatment: {
-        type: Object,
+        type: [],
         required: [true, ' Debe ingresar el tratamiento que se le ha asignado al cliente']
     }
 });

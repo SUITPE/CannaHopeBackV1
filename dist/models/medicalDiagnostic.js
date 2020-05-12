@@ -28,7 +28,7 @@ exports.MedicalDiagnosticSchema = new mongoose_1.default.Schema({
         required: [true, 'Debe ingresar la fecha de registro']
     },
     medicalTreatment: {
-        type: Object,
+        type: [],
         required: [true, ' Debe ingresar el tratamiento que se le ha asignado al cliente']
     }
 });
