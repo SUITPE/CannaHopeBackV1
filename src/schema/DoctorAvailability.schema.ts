@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IDoctorAvailability } from '../models/doctorAvailability';
+import { DoctorAvailabilityModel } from '../models/doctorAvailability';
 
 export const DoctorAvailabilitySchema = new mongoose.Schema({
     doctor: {
@@ -14,7 +14,11 @@ export const DoctorAvailabilitySchema = new mongoose.Schema({
     duaration: {
         type: Number,
         default: 30
+    },
+    isEnabled: {
+        type: Boolean,
+        default: true
     }
 }, {collection: 'DoctorAvailabilities' });
 
-export const DoctorAvailability = mongoose.model<IDoctorAvailability>('DoctorAvailability', DoctorAvailabilitySchema);
+export const DoctorAvailability = mongoose.model<DoctorAvailabilityModel>('DoctorAvailability', DoctorAvailabilitySchema);

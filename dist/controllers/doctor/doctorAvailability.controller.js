@@ -34,5 +34,28 @@ class DoctorAvailabilityController {
             }
         });
     }
+    getAllDoctorAvailabilities(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Franja de disponibilidad de doctor cargada correctamente', yield doctorAvailabilitySrv.findAll()));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar franja de disponibilidad de doctor', error));
+            }
+        });
+    }
+    getDoctorAvailabilitiesByIdDoctor(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
+            const idDoctor = req.params.idDoctor;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Franja de disponibilidades de doctor cargadas correctamente', yield doctorAvailabilitySrv.findByDoctorId(idDoctor)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar franja de disponibilidad de doctor', error));
+            }
+        });
+    }
 }
 exports.DoctorAvailabilityController = DoctorAvailabilityController;

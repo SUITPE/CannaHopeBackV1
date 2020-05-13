@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const DoctorAvailability_schema_1 = require("../schema/DoctorAvailability.schema");
 class DoctorAvailabilityService {
     save(doctorAvailability) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -18,6 +19,40 @@ class DoctorAvailabilityService {
             catch (error) {
                 const errorDetail = {
                     name: 'Error al guardar en la base de datos',
+                    description: error
+                };
+                throw (errorDetail);
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield DoctorAvailability_schema_1.DoctorAvailability.find().populate({
+                    path: 'doctor',
+                    select: 'names surenames email image nickName'
+                });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al consultar franja disponible de paciente',
+                    description: error
+                };
+                throw (errorDetail);
+            }
+        });
+    }
+    findByDoctorId(idDoctor) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ doctor: idDoctor }).populate({
+                    path: 'doctor',
+                    select: 'names surenames email image nickName'
+                });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al consultar franja disponible de paciente',
                     description: error
                 };
                 throw (errorDetail);

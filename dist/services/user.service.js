@@ -43,5 +43,30 @@ class UserService {
             }
         });
     }
+    findByRolId(idRol) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return user_1.default.find({
+                    rol: idRol
+                }, {
+                    names: 1,
+                    image: 1,
+                    surenames: 1,
+                    nickName: 1,
+                    sex: 1,
+                    ocupation: 1,
+                    email: 1,
+                    mobilePhone: 1,
+                });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en consulta en la base de datos al obtener usuario por id de rol',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = UserService;

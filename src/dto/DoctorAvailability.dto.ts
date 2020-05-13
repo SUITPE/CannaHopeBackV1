@@ -7,3 +7,4 @@ export interface DoctorAvailabilityCreateDto extends mongoose.Document {
     timeSet: number;
     duartion: number;
 }
+

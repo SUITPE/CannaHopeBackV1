@@ -17,6 +17,10 @@ exports.DoctorAvailabilitySchema = new mongoose_1.default.Schema({
     duaration: {
         type: Number,
         default: 30
+    },
+    isEnabled: {
+        type: Boolean,
+        default: true
     }
 }, { collection: 'DoctorAvailabilities' });
 exports.DoctorAvailability = mongoose_1.default.model('DoctorAvailability', exports.DoctorAvailabilitySchema);
