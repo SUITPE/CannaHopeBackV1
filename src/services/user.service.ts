@@ -35,7 +35,8 @@ export default class UserService {
         try {
             return User.find(
                 {
-                    rol: idRol
+                    rol: idRol,
+                    status:true
                 },
                 {
                     names: 1,

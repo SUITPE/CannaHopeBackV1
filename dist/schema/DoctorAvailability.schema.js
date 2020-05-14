@@ -10,17 +10,17 @@ exports.DoctorAvailabilitySchema = new mongoose_1.default.Schema({
         ref: 'User',
         required: [true, 'Debe asignar un medico a la disponibilidad']
     },
-    timeSet: {
+    timeTo: {
         type: String,
-        required: [true, 'Debe asginar una hora de atención']
+        required: [true, 'Debe ingresar el tiempo donde inicia']
     },
-    duaration: {
-        type: Number,
-        default: 30
+    timeFrom: {
+        type: String,
+        required: [true, 'Debe ingresar el timepo de finalización']
     },
     isEnabled: {
         type: Boolean,
         default: true
     }
-}, { collection: 'DoctorAvailabilities' });
+}, { collection: 'doctorAvailabilities' });
 exports.DoctorAvailability = mongoose_1.default.model('DoctorAvailability', exports.DoctorAvailabilitySchema);

@@ -92,7 +92,6 @@ export const UserSchema = new mongoose.Schema({
     mobilePhone: {
         type: Number,
         required: [true, 'Debe agregar un telefonoo movil de usuario'],
-        unique: true
     },
     landLine: {
         type: Number,
@@ -100,7 +99,6 @@ export const UserSchema = new mongoose.Schema({
     },
     healthyEntity: {
         type: String,
-        required: [true, 'Debe ingresar la entidad gestora de salud']
     },
     password: {
         type: String,

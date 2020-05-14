@@ -51,4 +51,17 @@ export class DoctorAvailabilityService {
             throw(errorDetail);
         }
     }
+
+    public async delete(IdDoctorAvailability: string): Promise<boolean> {
+        try {
+            const deleted: any = await DoctorAvailability.deleteOne({_id: IdDoctorAvailability});
+            return true;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en consulta a la base de datos mientras se elimina franja de disponibilida de doctor',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

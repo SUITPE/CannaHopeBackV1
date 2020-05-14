@@ -24,8 +24,8 @@ class DoctorAvailabilityController {
             try {
                 const newDoctorAvailability = new DoctorAvailability_schema_1.DoctorAvailability({
                     doctor: doctorAvailability.doctor,
-                    timeSet: doctorAvailability.timeSet,
-                    duartion: doctorAvailability.duartion
+                    timeTo: doctorAvailability.timeTo,
+                    timeFrom: doctorAvailability.timeFrom
                 });
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Disponibilidad de doctor guardada correctamente', yield doctorAvailabilitySrv.save(newDoctorAvailability)));
             }
@@ -54,6 +54,18 @@ class DoctorAvailabilityController {
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar franja de disponibilidad de doctor', error));
+            }
+        });
+    }
+    deleteDoctorAvailabilityById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
+            const IdDoctorAvailability = req.params.id;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Franja de disponibilidad de doctor eliminada correctamente', yield doctorAvailabilitySrv.delete(IdDoctorAvailability)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error emn la eliminación', error));
             }
         });
     }

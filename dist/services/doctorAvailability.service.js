@@ -59,5 +59,20 @@ class DoctorAvailabilityService {
             }
         });
     }
+    delete(IdDoctorAvailability) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const deleted = yield DoctorAvailability_schema_1.DoctorAvailability.deleteOne({ _id: IdDoctorAvailability });
+                return true;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en consulta a la base de datos mientras se elimina franja de disponibilida de doctor',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.DoctorAvailabilityService = DoctorAvailabilityService;

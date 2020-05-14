@@ -47,7 +47,8 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return user_1.default.find({
-                    rol: idRol
+                    rol: idRol,
+                    status: true
                 }, {
                     names: 1,
                     image: 1,

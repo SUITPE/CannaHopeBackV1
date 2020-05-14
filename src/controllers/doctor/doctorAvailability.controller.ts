@@ -9,7 +9,6 @@ import { DoctorAvailabilityModel } from '../../models/doctorAvailability';
 
 export class DoctorAvailabilityController {
 
-
     public async createDoctorAvailability(req: Request, res: Response): Promise<Response> {
 
         const doctorAvailability: DoctorAvailabilityCreateDto = req.body;
@@ -19,8 +18,8 @@ export class DoctorAvailabilityController {
 
             const newDoctorAvailability: DoctorAvailabilityModel = new DoctorAvailability({
                 doctor: doctorAvailability.doctor,
-                timeSet: doctorAvailability.timeSet,
-                duartion: doctorAvailability.duartion
+                timeTo: doctorAvailability.timeTo,
+                timeFrom: doctorAvailability.timeFrom
             });
 
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
@@ -69,6 +68,26 @@ export class DoctorAvailabilityController {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al cargar franja de disponibilidad de doctor',
+                error
+            ));
+        }
+    }
+
+    public async deleteDoctorAvailabilityById(req: Request, res: Response): Promise<Response> {
+
+        const doctorAvailabilitySrv: DoctorAvailabilityService = new DoctorAvailabilityService();
+        const IdDoctorAvailability: string = req.params.id;
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Franja de disponibilidad de doctor eliminada correctamente',
+                await doctorAvailabilitySrv.delete(IdDoctorAvailability)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error emn la eliminación',
                 error
             ));
         }
