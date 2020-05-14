@@ -13,7 +13,6 @@ export default class LoginController {
 
     constructor() { }
 
-
     public static async startSession(req: Request, res: Response) {
 
         const userData: any = req.body;
@@ -21,11 +20,18 @@ export default class LoginController {
         const login: LoginController = new LoginController();
 
         try {
-
-
-            const user: any = await userController.getByParam({ email: userData.email });
+            const user: UserModel = await userController.getByParam({ email: userData.email });
             const passWrodValidated: boolean = await login.validateUserPassword(user.password, userData.password);
-            const token: string = await login.generateUserToken(user);
+            const userToToken = {
+                names: user.names,
+                surenames: user.surenames,
+                nickName: user.nickName,
+                document: user.document,
+                email: user.email,
+                mobilePhone: user.mobilePhone,
+                rol: user.rol
+            }
+            const token: string = await login.generateUserToken(userToToken);
 
             const data: any = {
                 user,
@@ -59,7 +65,7 @@ export default class LoginController {
         });
     }
 
-    public generateUserToken(user: UserModel): Promise<string> {
+    public generateUserToken(user: any): Promise<string> {
         return new Promise((resolve, reject) => {
 
             try {

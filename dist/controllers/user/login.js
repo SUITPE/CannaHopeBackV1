@@ -28,7 +28,16 @@ class LoginController {
             try {
                 const user = yield userController.getByParam({ email: userData.email });
                 const passWrodValidated = yield login.validateUserPassword(user.password, userData.password);
-                const token = yield login.generateUserToken(user);
+                const userToToken = {
+                    names: user.names,
+                    surenames: user.surenames,
+                    nickName: user.nickName,
+                    document: user.document,
+                    email: user.email,
+                    mobilePhone: user.mobilePhone,
+                    rol: user.rol
+                };
+                const token = yield login.generateUserToken(userToToken);
                 const data = {
                     user,
                     token
