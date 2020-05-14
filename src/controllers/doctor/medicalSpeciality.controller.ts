@@ -65,7 +65,27 @@ export class MedicalSpecialityController {
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
-                'Error en lña base de datos al actualizar especialidad',
+                'Error en la base de datos al actualizar especialidad',
+                error
+            ));
+        }
+    }
+
+    public async deleteMedicalSpeciality(req: Request, res: Response): Promise<Response> {
+
+        const medicalSpecialitySrv: MedicalSpecialityService = new MedicalSpecialityService();
+        const idMedicalSpeciality: string = req.params.id;
+
+        try {
+            return res.status(httpstatus.CREATED).send(new JsonResp(
+                true,
+                `Especialidad medica eliminada correctamente`,
+                await medicalSpecialitySrv.delete(idMedicalSpeciality)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al eliminar especialidad',
                 error
             ));
         }

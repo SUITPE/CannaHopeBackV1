@@ -18,6 +18,8 @@ doctorRoutes.delete('/doctorAvailability/delete/:id', UserValidation.validation,
 doctorRoutes.post('/medicalSpeciality/save', UserValidation.validation, medicalSpecialityCtr.createMedicalSpeciality);
 doctorRoutes.get('/medicalSpeciality/getAll', UserValidation.validation, medicalSpecialityCtr.getAllmedicalSpecialities);
 doctorRoutes.put('/medicalSpeciality/update/:id', UserValidation.validation, medicalSpecialityCtr.UpdatemedicalSpeciality);
+doctorRoutes.delete('/medicalSpeciality/delete/:id', UserValidation.validation, medicalSpecialityCtr.deleteMedicalSpeciality);
+
 
 
 

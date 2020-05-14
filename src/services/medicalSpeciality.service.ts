@@ -38,13 +38,27 @@ export class MedicalSpecialityService {
 
     public async update(id: string, medicalSpeciality: MedicalSpecialityUpdateDto): Promise<MedicalSpecialityModel> {
         try {
-            const procces: any = await MedicalSpeciality.updateOne({_id: id}, medicalSpeciality);
+            const procces: any = await MedicalSpeciality.updateOne({ _id: id }, medicalSpeciality);
             const updated: any = await MedicalSpeciality.findById(id)
-            .populate({path: 'createdBy updatedBy', select: 'names surenames email'})
-            return  updated;
+                .populate({ path: 'createdBy updatedBy', select: 'names surenames email' })
+            return updated;
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en la consulta a la base de datospara actualizar la  especialidades ',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+
+    public async delete(id: string): Promise<boolean> {
+        try {
+            const deleted: any = await MedicalSpeciality.deleteOne({_id: id})
+            return true;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: `Error en la consulta a la base de datos para eliminar especialidad ${id} `,
                 description: error
             }
             throw errorDetail;

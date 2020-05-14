@@ -59,5 +59,20 @@ class MedicalSpecialityService {
             }
         });
     }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const deleted = yield medicalSpeciality_schema_1.MedicalSpeciality.deleteOne({ _id: id });
+                return true;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: `Error en la consulta a la base de datos para eliminar especialidad ${id} `,
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.MedicalSpecialityService = MedicalSpecialityService;
