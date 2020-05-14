@@ -31,6 +31,7 @@ export class UserModel extends mongoose.Document   {
     public degreeOfInstruction?: string;
     public numberOfDependents?: number;
     public children?: number;
+    public specialty: string = '';
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -149,6 +150,9 @@ export const UserSchema = new mongoose.Schema({
     children: {
         type: Number,
         default: 0
+    },
+    specialty: {
+        type: String,
     }
 });
 

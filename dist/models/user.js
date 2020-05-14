@@ -32,6 +32,7 @@ class UserModel extends mongoose_1.default.Document {
         this.image = String();
         this.lastAccesDate = String();
         this.token = String();
+        this.specialty = '';
     }
 }
 exports.UserModel = UserModel;
@@ -151,6 +152,9 @@ exports.UserSchema = new mongoose_1.default.Schema({
     children: {
         type: Number,
         default: 0
+    },
+    specialty: {
+        type: String,
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

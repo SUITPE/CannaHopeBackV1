@@ -14,6 +14,10 @@ class GeneralServices {
             if (fs_1.default.existsSync(pathImage)) {
                 res.sendFile(pathImage);
             }
+            else {
+                const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');
+                res.sendFile(pathNoImage);
+            }
         }
         else {
             const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');

@@ -54,7 +54,8 @@ export default class UserController {
                     createdBy: userData.createdBy,
                     updateDate: userData.updateDate,
                     updatedBy: userData.updatedBy,
-                    image: userData.image
+                    image: userData.image,
+                    specialty: userData.specialty
                 });
 
                 user.save({}, (error: any, userSaved) => {

@@ -5,8 +5,6 @@ import fs from 'fs';
 
 export default class GeneralServices {
 
-
-
     public static getDocuments(req: Request, res: Response) {
 
         const type: string = req.params.type;
@@ -18,6 +16,9 @@ export default class GeneralServices {
 
             if (fs.existsSync(pathImage)) {
                 res.sendFile(pathImage);
+            }else {
+                const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
+                res.sendFile(pathNoImage);
             }
         } else {
             const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
