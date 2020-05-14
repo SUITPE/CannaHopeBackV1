@@ -19,4 +19,5 @@ doctorRoutes.get('/doctorAvailability/getByIdDoctor/:idDoctor', userValidation_m
 doctorRoutes.delete('/doctorAvailability/delete/:id', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.deleteDoctorAvailabilityById);
 doctorRoutes.post('/medicalSpeciality/save', userValidation_middleware_1.default.validation, medicalSpecialityCtr.createMedicalSpeciality);
 doctorRoutes.get('/medicalSpeciality/getAll', userValidation_middleware_1.default.validation, medicalSpecialityCtr.getAllmedicalSpecialities);
+doctorRoutes.put('/medicalSpeciality/update/:id', userValidation_middleware_1.default.validation, medicalSpecialityCtr.UpdatemedicalSpeciality);
 exports.default = doctorRoutes;

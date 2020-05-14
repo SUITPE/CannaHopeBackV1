@@ -6,3 +6,11 @@ export  interface MedicalSpecialityCreateDto {
     createdAt: Date;
     createdBy: string;
 }
+
+
+export  interface MedicalSpecialityUpdateDto {
+    name: string;
+    description: string;
+    updatedAt: Date
+    updatedBy: string;
+}

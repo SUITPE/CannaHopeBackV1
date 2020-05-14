@@ -29,13 +29,30 @@ class MedicalSpecialityService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield medicalSpeciality_schema_1.MedicalSpeciality.find().populate({
-                    path: 'createdBy',
+                    path: 'createdBy updatedBy',
                     select: 'names surenames email'
                 });
             }
             catch (error) {
                 const errorDetail = {
                     name: 'Error en la consulta de especialidades en la base de datos',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    update(id, medicalSpeciality) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const procces = yield medicalSpeciality_schema_1.MedicalSpeciality.updateOne({ _id: id }, medicalSpeciality);
+                const updated = yield medicalSpeciality_schema_1.MedicalSpeciality.findById(id)
+                    .populate({ path: 'createdBy updatedBy', select: 'names surenames email' });
+                return updated;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la consulta a la base de datospara actualizar la  especialidades ',
                     description: error
                 };
                 throw errorDetail;

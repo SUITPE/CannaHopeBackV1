@@ -41,5 +41,18 @@ class MedicalSpecialityController {
             }
         });
     }
+    UpdatemedicalSpeciality(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const medicalSpecialitySrv = new medicalSpeciality_service_1.MedicalSpecialityService();
+            const medicalSpeciality = req.body;
+            const idMedicalSpeciality = req.params.id;
+            try {
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, `Especialidad medica ${medicalSpeciality.name} actualizada correctamente`, yield medicalSpecialitySrv.update(idMedicalSpeciality, medicalSpeciality)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en lña base de datos al actualizar especialidad', error));
+            }
+        });
+    }
 }
 exports.MedicalSpecialityController = MedicalSpecialityController;

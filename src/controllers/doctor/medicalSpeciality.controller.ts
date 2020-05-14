@@ -3,7 +3,7 @@ import httpstatus from 'http-status';
 import JsonResp from '../../models/jsonResp';
 import { MedicalSpeciality } from '../../schema/medicalSpeciality.schema';
 import { MedicalSpecialityService } from '../../services/medicalSpeciality.service';
-import { MedicalSpecialityCreateDto } from '../../dto/medialSpeciality.dto';
+import { MedicalSpecialityCreateDto, MedicalSpecialityUpdateDto } from '../../dto/medialSpeciality.dto';
 import { MedicalSpecialityModel } from '../../models/medicalSpeciality.interface';
 
 
@@ -49,4 +49,26 @@ export class MedicalSpecialityController {
             ));
         }
     }
+
+    public async UpdatemedicalSpeciality(req: Request, res: Response): Promise<Response> {
+
+        const medicalSpecialitySrv: MedicalSpecialityService = new MedicalSpecialityService();
+        const medicalSpeciality: MedicalSpecialityUpdateDto = req.body;
+        const idMedicalSpeciality: string = req.params.id;
+
+        try {
+            return res.status(httpstatus.CREATED).send(new JsonResp(
+                true,
+                `Especialidad medica ${medicalSpeciality.name} actualizada correctamente`,
+                await medicalSpecialitySrv.update(idMedicalSpeciality, medicalSpeciality)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en lña base de datos al actualizar especialidad',
+                error
+            ));
+        }
+    }
+
 }
