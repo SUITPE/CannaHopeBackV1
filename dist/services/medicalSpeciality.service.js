@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const medicalSpeciality_schema_1 = require("../schema/medicalSpeciality.schema");
 class MedicalSpecialityService {
     save(medicalSpeciality) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -18,6 +19,23 @@ class MedicalSpecialityService {
             catch (error) {
                 const errorDetail = {
                     name: 'Error al consultar la base de datos para guardar especialidad',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    find() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield medicalSpeciality_schema_1.MedicalSpeciality.find().populate({
+                    path: 'createdBy',
+                    select: 'names surenames email'
+                });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la consulta de especialidades en la base de datos',
                     description: error
                 };
                 throw errorDetail;

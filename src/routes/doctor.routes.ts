@@ -16,5 +16,7 @@ doctorRoutes.get('/doctorAvailability/getAll', UserValidation.validation, doctor
 doctorRoutes.get('/doctorAvailability/getByIdDoctor/:idDoctor', UserValidation.validation, doctorAvailabilityCtr.getDoctorAvailabilitiesByIdDoctor);
 doctorRoutes.delete('/doctorAvailability/delete/:id', UserValidation.validation, doctorAvailabilityCtr.deleteDoctorAvailabilityById);
 doctorRoutes.post('/medicalSpeciality/save', UserValidation.validation, medicalSpecialityCtr.createMedicalSpeciality);
+doctorRoutes.get('/medicalSpeciality/getAll', UserValidation.validation, medicalSpecialityCtr.getAllmedicalSpecialities);
+
 
 export default doctorRoutes;

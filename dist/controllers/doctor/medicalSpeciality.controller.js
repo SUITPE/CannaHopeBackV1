@@ -30,5 +30,16 @@ class MedicalSpecialityController {
             }
         });
     }
+    getAllmedicalSpecialities(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const medicalSpecialitySrv = new medicalSpeciality_service_1.MedicalSpecialityService();
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Lista de especialidades medicas cargada correctamente', yield medicalSpecialitySrv.find()));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar especialidades medicas registradas', error));
+            }
+        });
+    }
 }
 exports.MedicalSpecialityController = MedicalSpecialityController;

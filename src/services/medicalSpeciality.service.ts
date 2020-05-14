@@ -17,4 +17,21 @@ export class MedicalSpecialityService {
             throw errorDetail;
         }
     }
+
+    public async find(): Promise<MedicalSpecialityModel[]> {
+        try {
+            return await MedicalSpeciality.find().populate(
+                {
+                    path: 'createdBy',
+                    select: 'names surenames email'
+                }
+            )
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la consulta de especialidades en la base de datos',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

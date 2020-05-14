@@ -29,4 +29,24 @@ export class MedicalSpecialityController {
             ));
         }
     }
+
+
+    public async getAllmedicalSpecialities(req: Request, res: Response): Promise<Response> {
+
+        const medicalSpecialitySrv: MedicalSpecialityService = new MedicalSpecialityService();
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Lista de especialidades medicas cargada correctamente',
+                await medicalSpecialitySrv.find()
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar especialidades medicas registradas',
+                error
+            ));
+        }
+    }
 }
