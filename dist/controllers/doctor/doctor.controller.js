@@ -85,5 +85,17 @@ class DoctorController {
             }
         });
     }
+    getByIdSpecialty(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userSrv = new user_service_1.default();
+            const idSpecilaty = req.params.idSpecialty;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctores por especialidad cargados correctamente', yield userSrv.getBySpecialtyId(idSpecilaty)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al registrar doctor', error));
+            }
+        });
+    }
 }
 exports.DoctorController = DoctorController;

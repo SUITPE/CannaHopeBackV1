@@ -1,5 +1,3 @@
-
-
 export interface AppointmentCreateDto  {
     patient: string;
     doctor: string;

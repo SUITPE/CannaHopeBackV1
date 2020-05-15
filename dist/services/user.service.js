@@ -83,5 +83,29 @@ class UserService {
             }
         });
     }
+    getBySpecialtyId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(id);
+            try {
+                return user_1.default.find({ specialty: id, status: true }, {
+                    names: 1,
+                    image: 1,
+                    surenames: 1,
+                    nickName: 1,
+                    sex: 1,
+                    ocupation: 1,
+                    email: 1,
+                    mobilePhone: 1,
+                });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: `Error en consulta de doctor por especialidad ${id}`,
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = UserService;

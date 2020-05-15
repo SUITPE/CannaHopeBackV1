@@ -36,17 +36,17 @@ export default class UserService {
             return User.find(
                 {
                     rol: idRol,
-                    status:true
+                    status: true
                 },
                 {
                     names: 1,
-                    image:1,
-                    surenames:1,
-                    nickName:1,
-                    sex:1,
-                    ocupation:1,
-                    email:1,
-                    mobilePhone:1,
+                    image: 1,
+                    surenames: 1,
+                    nickName: 1,
+                    sex: 1,
+                    ocupation: 1,
+                    email: 1,
+                    mobilePhone: 1,
                 });
         } catch (error) {
             const errorDetail: ErrorDetail = {
@@ -63,6 +63,30 @@ export default class UserService {
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al momento de consultar la base de datos',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async getBySpecialtyId(id: string): Promise<UserModel[]> {
+
+        console.log(id);
+        
+        try {
+            return User.find({specialty: id, status: true}, {
+                names: 1,
+                image: 1,
+                surenames: 1,
+                nickName: 1,
+                sex: 1,
+                ocupation: 1,
+                email: 1,
+                mobilePhone: 1,
+            })
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: `Error en consulta de doctor por especialidad ${id}`,
                 description: error
             }
             throw errorDetail;

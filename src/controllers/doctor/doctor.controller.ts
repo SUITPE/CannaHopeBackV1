@@ -100,4 +100,24 @@ export class DoctorController {
         }
 
     }
+
+    public async getByIdSpecialty(req: Request, res: Response): Promise<Response> {
+
+        const userSrv: UserService = new UserService();
+        const idSpecilaty: string = req.params.idSpecialty;
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Doctores por especialidad cargados correctamente',
+                await userSrv.getBySpecialtyId(idSpecilaty)
+            ))
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al registrar doctor',
+                error
+            ));
+        }
+    }
 }
