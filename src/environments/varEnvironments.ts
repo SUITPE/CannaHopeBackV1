@@ -1,6 +1,8 @@
+const moment = require('moment-timezone');
+
+
+
 const currentEnv: string =  'DEV';
-
-
 export const seed: string = 'PRIVATE-SEED-CANNAHOPE-API'
 export const tokenExpiration: number = 60*60*24;
 
@@ -39,6 +41,10 @@ export const environments = {
         } else {
             return 'wingardiumleviosa'
         }
+    },
+
+    currentDate(): any {
+        return  moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss')
     }
 }
 

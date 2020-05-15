@@ -23,6 +23,7 @@ export default class LoginController {
             const user: UserModel = await userController.getByParam({ email: userData.email });
             const passWrodValidated: boolean = await login.validateUserPassword(user.password, userData.password);
             const userToToken = {
+                _id: user._id,
                 names: user.names,
                 surenames: user.surenames,
                 nickName: user.nickName,

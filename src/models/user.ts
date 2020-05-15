@@ -48,6 +48,7 @@ export const UserSchema = new mongoose.Schema({
     nickName: {
         type: String,
         minlength: [3, 'Debe ser un minimo de 4 caracteres'],
+        default: null
     },
     age: {
         type: Number,
