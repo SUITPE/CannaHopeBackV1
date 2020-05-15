@@ -49,44 +49,34 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     nickName: {
         type: String,
-        required: [true, 'Debe ingresar un nombre de usuario'],
         minlength: [3, 'Debe ser un minimo de 4 caracteres'],
-        unique: [true, 'El alias de usuario ya se encuentra registrado en sistema']
     },
     age: {
         type: Number,
-        required: [true, 'Debe ingresar una edad permitida'],
         minlength: [2, 'Debe ser mayor de edad']
     },
     birthDate: {
         type: Date,
-        required: [true, 'Debe ingresar una fecha ednacimiento'],
         minlength: [2, 'Debe ser mayor de edad']
     },
     sex: {
         type: String,
-        required: [true, 'Debe ingresar un sexo para el paciente'],
     },
     document: {
         type: String,
-        required: [true, 'Debe ingresar el documento de usuario'],
         unique: true
     },
     documentType: {
         type: String,
-        required: [true, 'Debe ingresar un tipo de documento'],
     },
     maritalStatus: {
         type: String,
-        required: [true, 'Estado'],
     },
     ocupation: {
         type: String,
-        required: [true, 'Debe agregar la ocupacion del usuario'],
     },
     address: {
         type: String,
-        required: [true, 'Debe agregar dirección donde reside el usuario']
     },
     email: {
         type: String,
@@ -105,7 +95,8 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     password: {
         type: String,
-        minlength: 30
+        minlength: 30,
+        required: true
     },
     rol: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -143,7 +134,7 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     degreeOfInstruction: {
         type: String,
-        default: 'No tiente'
+        default: 'No tiene'
     },
     numberOfDependents: {
         type: Number,
@@ -154,7 +145,9 @@ exports.UserSchema = new mongoose_1.default.Schema({
         default: 0
     },
     specialty: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'MedialSpeciality',
+        default: null
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

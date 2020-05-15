@@ -69,5 +69,19 @@ class UserService {
             }
         });
     }
+    save(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user.save();
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al momento de consultar la base de datos',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = UserService;

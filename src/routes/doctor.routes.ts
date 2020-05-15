@@ -7,10 +7,10 @@ import { MedicalSpecialityController } from '../controllers/doctor/medicalSpecia
 const doctorCtr: DoctorController = new DoctorController();
 const doctorAvailabilityCtr: DoctorAvailabilityController = new DoctorAvailabilityController();
 const medicalSpecialityCtr: MedicalSpecialityController = new MedicalSpecialityController();
-
 const doctorRoutes: Router = Router();
 
 doctorRoutes.get('/getAll', UserValidation.validation, doctorCtr.getAllDoctors);
+doctorRoutes.post('/save', UserValidation.validation, doctorCtr.createDoctor);
 doctorRoutes.post('/doctorAvailability/save', UserValidation.validation, doctorAvailabilityCtr.createDoctorAvailability);
 doctorRoutes.get('/doctorAvailability/getAll', UserValidation.validation, doctorAvailabilityCtr.getAllDoctorAvailabilities);
 doctorRoutes.get('/doctorAvailability/getByIdDoctor/:idDoctor', UserValidation.validation, doctorAvailabilityCtr.getDoctorAvailabilitiesByIdDoctor);
@@ -19,8 +19,5 @@ doctorRoutes.post('/medicalSpeciality/save', UserValidation.validation, medicalS
 doctorRoutes.get('/medicalSpeciality/getAll', UserValidation.validation, medicalSpecialityCtr.getAllmedicalSpecialities);
 doctorRoutes.put('/medicalSpeciality/update/:id', UserValidation.validation, medicalSpecialityCtr.UpdatemedicalSpeciality);
 doctorRoutes.delete('/medicalSpeciality/delete/:id', UserValidation.validation, medicalSpecialityCtr.deleteMedicalSpeciality);
-
-
-
 
 export default doctorRoutes;

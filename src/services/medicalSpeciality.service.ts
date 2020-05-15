@@ -21,7 +21,7 @@ export class MedicalSpecialityService {
 
     public async find(): Promise<MedicalSpecialityModel[]> {
         try {
-            return await MedicalSpeciality.find().populate(
+            return await MedicalSpeciality.find({idEnabled: true}).populate(
                 {
                     path: 'createdBy updatedBy',
                     select: 'names surenames email'
@@ -54,7 +54,7 @@ export class MedicalSpecialityService {
 
     public async delete(id: string): Promise<boolean> {
         try {
-            const deleted: any = await MedicalSpeciality.deleteOne({_id: id})
+            const deleted: any = await MedicalSpeciality.updateOne({_id: id}, {idEnabled: false})
             return true;
         } catch (error) {
             const errorDetail: ErrorDetail = {

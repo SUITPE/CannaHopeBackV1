@@ -47,44 +47,34 @@ export const UserSchema = new mongoose.Schema({
     },
     nickName: {
         type: String,
-        required: [true, 'Debe ingresar un nombre de usuario'],
         minlength: [3, 'Debe ser un minimo de 4 caracteres'],
-        unique: [true, 'El alias de usuario ya se encuentra registrado en sistema']
     },
     age: {
         type: Number,
-        required: [true, 'Debe ingresar una edad permitida'],
         minlength: [2, 'Debe ser mayor de edad']
     },
     birthDate: {
         type: Date,
-        required: [true, 'Debe ingresar una fecha ednacimiento'],
         minlength: [2, 'Debe ser mayor de edad']
     },
     sex: {
         type: String,
-        required: [true, 'Debe ingresar un sexo para el paciente'],
     },
     document: {
         type: String,
-        required: [true, 'Debe ingresar el documento de usuario'],
         unique: true
     },
     documentType:{
         type: String,
-        required: [true, 'Debe ingresar un tipo de documento'],
     },
     maritalStatus: {
         type: String,
-        required: [true, 'Estado'],
     },
     ocupation: {
         type: String,
-        required: [true, 'Debe agregar la ocupacion del usuario'],
     },
     address: {
         type: String,
-        required: [true, 'Debe agregar dirección donde reside el usuario']
     },
     email: {
         type: String,
@@ -103,7 +93,8 @@ export const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minlength: 30
+        minlength: 30,
+        required: true
     },
     rol: {
         type: mongoose.Schema.Types.ObjectId,
@@ -141,7 +132,7 @@ export const UserSchema = new mongoose.Schema({
     },
     degreeOfInstruction: {
         type: String,
-        default: 'No tiente'
+        default: 'No tiene'
     },
     numberOfDependents: {
         type: Number,
@@ -152,7 +143,9 @@ export const UserSchema = new mongoose.Schema({
         default: 0
     },
     specialty: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MedialSpeciality',
+        default: null
     }
 });
 

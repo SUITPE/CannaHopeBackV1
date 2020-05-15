@@ -56,4 +56,16 @@ export default class UserService {
             throw errorDetail;
         }
     }
+
+    public async save(user: UserModel): Promise<UserModel> {
+        try {
+            return await user.save();
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al momento de consultar la base de datos',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

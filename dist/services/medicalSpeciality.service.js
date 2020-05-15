@@ -28,7 +28,7 @@ class MedicalSpecialityService {
     find() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield medicalSpeciality_schema_1.MedicalSpeciality.find().populate({
+                return yield medicalSpeciality_schema_1.MedicalSpeciality.find({ idEnabled: true }).populate({
                     path: 'createdBy updatedBy',
                     select: 'names surenames email'
                 });
@@ -62,7 +62,7 @@ class MedicalSpecialityService {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleted = yield medicalSpeciality_schema_1.MedicalSpeciality.deleteOne({ _id: id });
+                const deleted = yield medicalSpeciality_schema_1.MedicalSpeciality.updateOne({ _id: id }, { idEnabled: false });
                 return true;
             }
             catch (error) {

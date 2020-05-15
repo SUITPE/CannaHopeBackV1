@@ -13,6 +13,7 @@ const doctorAvailabilityCtr = new doctorAvailability_controller_1.DoctorAvailabi
 const medicalSpecialityCtr = new medicalSpeciality_controller_1.MedicalSpecialityController();
 const doctorRoutes = express_1.Router();
 doctorRoutes.get('/getAll', userValidation_middleware_1.default.validation, doctorCtr.getAllDoctors);
+doctorRoutes.post('/save', userValidation_middleware_1.default.validation, doctorCtr.createDoctor);
 doctorRoutes.post('/doctorAvailability/save', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.createDoctorAvailability);
 doctorRoutes.get('/doctorAvailability/getAll', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.getAllDoctorAvailabilities);
 doctorRoutes.get('/doctorAvailability/getByIdDoctor/:idDoctor', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.getDoctorAvailabilitiesByIdDoctor);
