@@ -16,6 +16,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const doctorAvailability_service_1 = require("../../services/doctorAvailability.service");
 const DoctorAvailability_schema_1 = require("../../schema/DoctorAvailability.schema");
+const appointment_service_1 = require("../../services/appointment.service");
 class DoctorAvailabilityController {
     createDoctorAvailability(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -66,6 +67,29 @@ class DoctorAvailabilityController {
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error emn la eliminación', error));
+            }
+        });
+    }
+    getCurrentDoctorAvailability(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userData = req.body;
+            const appointmentSrv = new appointment_service_1.AppointmentService();
+            const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
+            try {
+                const appointmentsRegistered = yield appointmentSrv.findByDateAndDoctor(userData.idDoctor, userData.date);
+                const doctorAvailabilityList = yield doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
+                const currentDoctorAvailability = [];
+                for (const item of doctorAvailabilityList) {
+                    // tslint:disable-next-line: triple-equals
+                    const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability == item.id);
+                    if (!founded) {
+                        currentDoctorAvailability.push(item);
+                    }
+                }
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, currentDoctorAvailability.length > 0 ? 'Disponibilidad de doctor cargada correctamente' : 'No hay dispinibilidad de doctor para la fecha establecida', currentDoctorAvailability));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar disponibilidad de doctor', error));
             }
         });
     }

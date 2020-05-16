@@ -5,7 +5,6 @@ import User from '../models/user';
 
 export default class UserService {
 
-
     public async update(user: any): Promise<UserModel> {
         try {
             return await User.updateOne({ _id: user._id }, user);
@@ -71,8 +70,6 @@ export default class UserService {
 
     public async getBySpecialtyId(id: string): Promise<UserModel[]> {
 
-        console.log(id);
-        
         try {
             return User.find({specialty: id, status: true}, {
                 names: 1,

@@ -9,12 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const appointment_schema_1 = require("../schema/appointment.schema");
 class AppointmentService {
     save(appointment) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(appointment);
                 return yield appointment.save();
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al momento de hacer la consulta para guardar cita medica',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    findByDateAndDoctor(idDoctor, date) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.find({ doctor: idDoctor, date });
             }
             catch (error) {
                 const errorDetail = {

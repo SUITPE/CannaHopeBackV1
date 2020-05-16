@@ -7,7 +7,7 @@ export interface IAppointment extends mongoose.Document {
     date: Date;
     specialty: string;
     patientProblem: string;
-    doctorAvailability: string;
+    doctorAvailability: any;
     paymentStatus: string;
     paymentData: [];
     createdBy: string

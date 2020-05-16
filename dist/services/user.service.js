@@ -85,7 +85,6 @@ class UserService {
     }
     getBySpecialtyId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(id);
             try {
                 return user_1.default.find({ specialty: id, status: true }, {
                     names: 1,

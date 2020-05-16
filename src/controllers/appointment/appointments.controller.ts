@@ -11,13 +11,11 @@ const moment = require('moment-timezone');
 
 export class AppointmentController {
 
-
     public async registerAppointment(req: any, res: Response): Promise<Response> {
 
         const appointmentSrv: AppointmentService = new AppointmentService();
         const appointment: AppointmentCreateDto = req.body;
         const user: UserModel = req.user;
-
         try {
 
             const newAppointment: IAppointment = new Appointment({
@@ -26,7 +24,7 @@ export class AppointmentController {
                 date: appointment.date,
                 specialty: appointment.specialty,
                 patientProblem: appointment.patientProblem,
-                doctorAvailability:  appointment.doctorAvailability,
+                doctorAvailability: appointment.doctorAvailability,
                 paymentStatus: appointment.paymentStatus,
                 paymentData: appointment.paymentData,
                 createdBy: user._id,

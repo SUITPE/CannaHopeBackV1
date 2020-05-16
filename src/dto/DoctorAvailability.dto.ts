@@ -6,3 +6,7 @@ export interface DoctorAvailabilityCreateDto extends mongoose.Document {
     timeFrom: number;
 }
 
+export interface GetCurrentDoctorAvailabilityDto {
+    idDoctor: string;
+    date: Date;
+}

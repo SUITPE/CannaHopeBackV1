@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import httpstatus from 'http-status';
 import JsonResp from '../../models/jsonResp';
-import { DoctorAvailabilityCreateDto } from '../../dto/DoctorAvailability.dto';
+import { DoctorAvailabilityCreateDto, GetCurrentDoctorAvailabilityDto } from '../../dto/DoctorAvailability.dto';
 import { DoctorAvailabilityService } from '../../services/doctorAvailability.service';
 import { DoctorAvailability } from '../../schema/DoctorAvailability.schema';
 import { DoctorAvailabilityModel } from '../../models/doctorAvailability';
+import { AppointmentService } from '../../services/appointment.service';
+import { IAppointment } from '../../models/appointment.interface';
 
 
 export class DoctorAvailabilityController {
@@ -88,6 +90,41 @@ export class DoctorAvailabilityController {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error emn la eliminación',
+                error
+            ));
+        }
+    }
+
+    public async getCurrentDoctorAvailability(req: Request, res: Response): Promise<Response> {
+
+        const userData: GetCurrentDoctorAvailabilityDto = req.body;
+        const appointmentSrv: AppointmentService = new AppointmentService();
+        const doctorAvailabilitySrv: DoctorAvailabilityService = new DoctorAvailabilityService();
+
+        try {
+
+            const appointmentsRegistered: IAppointment[] = await appointmentSrv.findByDateAndDoctor(userData.idDoctor, userData.date);
+            const doctorAvailabilityList: DoctorAvailabilityModel[] = await doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
+
+            const currentDoctorAvailability: any[] = [];
+            for (const item of doctorAvailabilityList) {
+                // tslint:disable-next-line: triple-equals
+                const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability == item.id);
+                if (!founded) {
+                    currentDoctorAvailability.push(item);
+                }
+            }
+
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                currentDoctorAvailability.length > 0 ? 'Disponibilidad de doctor cargada correctamente' : 'No hay dispinibilidad de doctor para la fecha establecida',
+                currentDoctorAvailability
+            ));
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar disponibilidad de doctor',
                 error
             ));
         }
