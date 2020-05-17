@@ -24,7 +24,7 @@ class UserService {
                     name: 'Error la hacer consulta en db',
                     description: error
                 };
-                throw (errorDetail);
+                throw errorDetail;
             }
         });
     }
@@ -100,6 +100,21 @@ class UserService {
             catch (error) {
                 const errorDetail = {
                     name: `Error en consulta de doctor por especialidad ${id}`,
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    findById(idUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield user_1.default.findById(idUser);
+                return user;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al hacer consulta a la base de datos',
                     description: error
                 };
                 throw errorDetail;

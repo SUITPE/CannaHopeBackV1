@@ -121,7 +121,7 @@ export class DoctorController {
         }
     }
 
-    public async updateDoctor(req: Request, res: Response): Promise<Response>{
+    public async updateDoctor(req: Request, res: Response): Promise<Response> {
 
         const doctor: DoctorUpdateDto = req.body;
         const userController: UserController = new UserController();
@@ -157,4 +157,24 @@ export class DoctorController {
             ));
         }
     }
+
+    public async getById(req: Request, res: Response): Promise<Response> {
+
+        const userSrv: UserService = new UserService();
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                `Doctor con id ${req.params.id}`,
+                await userSrv.findById(req.params.id)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al registrar doctor',
+                error
+            ));
+        }
+    }
+
 }

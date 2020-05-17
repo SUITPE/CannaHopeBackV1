@@ -15,6 +15,7 @@ const doctorRoutes = express_1.Router();
 doctorRoutes.get('/getAll', userValidation_middleware_1.default.validation, doctorCtr.getAllDoctors);
 doctorRoutes.post('/save', userValidation_middleware_1.default.validation, doctorCtr.createDoctor);
 doctorRoutes.put('/update', userValidation_middleware_1.default.validation, doctorCtr.updateDoctor);
+doctorRoutes.get('/getById/:id', userValidation_middleware_1.default.validation, doctorCtr.getById);
 doctorRoutes.get('/findBySpecialty/:idSpecialty', userValidation_middleware_1.default.validation, doctorCtr.getByIdSpecialty);
 doctorRoutes.post('/doctorAvailability/save', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.createDoctorAvailability);
 doctorRoutes.get('/doctorAvailability/getAll', userValidation_middleware_1.default.validation, doctorAvailabilityCtr.getAllDoctorAvailabilities);

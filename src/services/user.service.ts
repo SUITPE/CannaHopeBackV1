@@ -13,7 +13,7 @@ export default class UserService {
                 name: 'Error la hacer consulta en db',
                 description: error
             }
-            throw (errorDetail);
+            throw errorDetail;
         }
     }
 
@@ -84,6 +84,19 @@ export default class UserService {
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: `Error en consulta de doctor por especialidad ${id}`,
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async findById(idUser: string): Promise<UserModel> {
+        try {
+            const user: any = await User.findById(idUser);
+            return user;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al hacer consulta a la base de datos',
                 description: error
             }
             throw errorDetail;
