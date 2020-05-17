@@ -128,10 +128,21 @@ class DoctorController {
         return __awaiter(this, void 0, void 0, function* () {
             const userSrv = new user_service_1.default();
             try {
-                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, `Doctor con id ${req.params.id}`, yield userSrv.findById(req.params.id)));
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, `Doctor con id ${req.params.id} actualizado correctamente`, yield userSrv.findById(req.params.id)));
             }
             catch (error) {
-                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al registrar doctor', error));
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al actualizar doctor', error));
+            }
+        });
+    }
+    deleteById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userSrv = new user_service_1.default();
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, `Doctor con id ${req.params.id} eliminado`, yield userSrv.delete(req.params.id)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al eliminar doctor', error));
             }
         });
     }

@@ -102,4 +102,16 @@ export default class UserService {
             throw errorDetail;
         }
     }
+
+    public async delete(idUser: string): Promise<any> {
+        try {
+            return await User.updateOne({_id: idUser}, {status: false});
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al hacer consulta a la base de datos',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

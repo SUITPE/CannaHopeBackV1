@@ -121,5 +121,19 @@ class UserService {
             }
         });
     }
+    delete(idUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_1.default.updateOne({ _id: idUser }, { status: false });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al hacer consulta a la base de datos',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = UserService;

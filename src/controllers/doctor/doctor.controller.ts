@@ -165,16 +165,34 @@ export class DoctorController {
         try {
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
-                `Doctor con id ${req.params.id}`,
+                `Doctor con id ${req.params.id} actualizado correctamente`,
                 await userSrv.findById(req.params.id)
             ));
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
-                'Error en la base de datos al registrar doctor',
+                'Error en la base de datos al actualizar doctor',
                 error
             ));
         }
     }
+
+    public async deleteById(req: Request, res: Response): Promise<Response> {
+        const userSrv: UserService = new UserService();
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                `Doctor con id ${req.params.id} eliminado`,
+                await userSrv.delete(req.params.id)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al eliminar doctor',
+                error
+            ));
+        }
+    }
+
 
 }
