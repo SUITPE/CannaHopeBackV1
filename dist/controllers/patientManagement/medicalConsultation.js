@@ -20,6 +20,9 @@ const patientsController_1 = __importDefault(require("../patients/patientsContro
 const medicalDiagnosticController_1 = require("./medicalDiagnosticController");
 const medicalTreatment_1 = __importDefault(require("./medicalTreatment"));
 const consultationAdminiton_service_1 = require("../../services/consultationAdminiton.service");
+const http_status_1 = __importDefault(require("http-status"));
+const jsonResp_2 = __importDefault(require("../../models/jsonResp"));
+const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
 class MedicalConsultationController {
     constructor() {
         this.consultationAdmitionSrv = new consultationAdminiton_service_1.ConsultationAdmitionService();
@@ -117,6 +120,17 @@ class MedicalConsultationController {
             }
         }));
     }
+    getById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_2.default(true, 'Consulta medica por id cargada exitosamente', yield MedicalConsultationController.medicalConsultationSrv.findById(id)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_2.default(false, 'Error al cargar consulta medica por id', error));
+            }
+        });
+    }
     updateReevaluation(reevaluations, idMedicalCOnsultation) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -134,3 +148,4 @@ class MedicalConsultationController {
     }
 }
 exports.default = MedicalConsultationController;
+MedicalConsultationController.medicalConsultationSrv = new medicalConsultation_service_1.default();

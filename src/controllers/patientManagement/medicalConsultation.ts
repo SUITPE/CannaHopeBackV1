@@ -1,4 +1,4 @@
-import { MedicalConsultationModel, MedicalConsultation, MedicalConsultationSchema } from '../../models/medicalConsultation';
+import { MedicalConsultationModel, MedicalConsultation } from '../../models/medicalConsultation';
 import { MedicalEvaluationModel } from '../../models/medicalEvaluation';
 import MedicalEvaluationController from './medicalEvaluation';
 import PhysicalExamController from './physicalExamController';
@@ -7,13 +7,17 @@ import PatientController from '../patients/patientsController';
 import { MedicalDiagnosticController } from './medicalDiagnosticController';
 import { MedicalDiagnosticModel } from '../../models/medicalDiagnostic';
 import MedicalTreatmentController from './medicalTreatment';
-import { MedicalTreatmentModel } from '../../models/medicalTreatment';
 import { MedicalReevaluationModel } from '../../models/medicalReevaluation';
 import { ConsultationAdmitionService } from '../../services/consultationAdminiton.service';
 import { ConsultationAdmitionModel } from '../../models/consultationAdmision';
+import { Request, Response } from 'express';
+import httpstatus from 'http-status';
+import JsonResp from '../../models/jsonResp';
+import MedicalConsultationService from '../../services/medicalConsultation.service';
 
 export default class MedicalConsultationController {
 
+    private static medicalConsultationSrv: MedicalConsultationService = new MedicalConsultationService();
     private consultationAdmitionSrv: ConsultationAdmitionService = new ConsultationAdmitionService();
 
     public save(medicalConsultation: MedicalConsultationModel): Promise<MedicalConsultationModel> {
@@ -75,7 +79,7 @@ export default class MedicalConsultationController {
                 const appointmentUpdated: boolean = await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
                 const consultationAdmitionUpdate: ConsultationAdmitionModel = await this.consultationAdmitionSrv.updateIsEnabled(
                     medicalConsultation.medicalEvaluation.clinicalExamination._id, false
-                    )
+                )
 
                 resolve(medicalConsultationSaved);
 
@@ -121,10 +125,30 @@ export default class MedicalConsultationController {
         });
     }
 
+    public async getById(req: Request, res: Response): Promise<Response> {
+
+        const id: string = req.params.id;
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Consulta medica por id cargada exitosamente',
+                await MedicalConsultationController.medicalConsultationSrv.findById(id)
+            ));
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar consulta medica por id',
+                error
+            ));
+        }
+    }
+
     public updateReevaluation(reevaluations: MedicalReevaluationModel[], idMedicalCOnsultation: string): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try {
-                const updated = await MedicalConsultation.updateOne({_id: idMedicalCOnsultation}, {reevaluations});
+                const updated = await MedicalConsultation.updateOne({ _id: idMedicalCOnsultation }, { reevaluations });
                 resolve(true);
             } catch (error) {
                 const errorDetail: ErrorDetail = {

@@ -24,7 +24,8 @@ class MedicalReevaluationController {
                 const medicalConsultation = yield medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
                 const medicalConsultationUpdated = yield medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
-                medicalConsultation.medicalDiagnostic.medicalTreatment = medicalReevaluation.medicalTreatment;
+                // medicalConsultation.medicalDiagnostic.medicalTreatment = medicalReevaluation.medicalTreatment;
+                medicalConsultation.medicalDiagnostic.medicalTreatment.push(...medicalReevaluation.medicalTreatment);
                 const medicalTreatamentUpdated = yield medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,

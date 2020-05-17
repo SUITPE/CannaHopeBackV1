@@ -193,6 +193,7 @@ patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', 
 
 patientManagementRoutes.delete('/disease/delete/:id', UserValidation.validation, diseaseCtr.delete);
 patientManagementRoutes.put('/disease/update', UserValidation.validation, diseaseCtr.update);
+patientManagementRoutes.get('/medicalConsultation/getById/:id', UserValidation.validation, medicalConsultationCtr.getById);
 export default patientManagementRoutes;
 
 

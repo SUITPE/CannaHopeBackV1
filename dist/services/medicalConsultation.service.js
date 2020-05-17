@@ -26,5 +26,22 @@ class MedicalConsultationService {
             }
         });
     }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const founded = yield medicalConsultation_1.MedicalConsultation.findById(id)
+                    .populate({ path: 'doctor', select: 'names surenames' })
+                    .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: { path: 'user', select: 'names surenames' } });
+                return founded;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la consulta a la base de datos para obtener consulta medica por id',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.default = MedicalConsultationService;

@@ -16,7 +16,9 @@ export default class MedicalReevaluationController {
                 const medicalConsultation: MedicalConsultationModel = await medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
                 const medicalConsultationUpdated: boolean = await medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id)
-                medicalConsultation.medicalDiagnostic.medicalTreatment = medicalReevaluation.medicalTreatment;
+                // medicalConsultation.medicalDiagnostic.medicalTreatment = medicalReevaluation.medicalTreatment;
+                medicalConsultation.medicalDiagnostic.medicalTreatment.push(...medicalReevaluation.medicalTreatment);
+
                 const medicalTreatamentUpdated: boolean = await medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
                 const newMedicalReevaluation: MedicalReevaluationModel = new MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
