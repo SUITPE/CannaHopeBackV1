@@ -47,6 +47,9 @@ exports.PphSchema = new mongoose_1.default.Schema({
     isEnabled: {
         type: Boolean,
         default: true
+    },
+    currentMedication: {
+        type: []
     }
 });
 const PatientPh = mongoose_1.default.model('PatientPh', exports.PphSchema);

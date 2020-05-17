@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { HarmfulHabitModel } from './harmfulHabits';
 import { DiseaseModel } from './disease';
 import { FamilyPphModel } from './familyPph';
+import { CurrentMedication } from './currentMedication.interface';
 
 
 // PatientPathologicalHistoryModel
@@ -15,6 +16,7 @@ export interface PatientPhModel extends mongoose.Document {
     updatedBy: string;
     harmfulHabitsList: HarmfulHabitModel[];
     familyPph: FamilyPphModel;
+    currentMedication: CurrentMedication
 }
 
 export const PphSchema = new mongoose.Schema({
@@ -60,6 +62,9 @@ export const PphSchema = new mongoose.Schema({
     isEnabled: {
         type: Boolean,
         default: true
+    },
+    currentMedication: {
+        type: []
     }
 });
 

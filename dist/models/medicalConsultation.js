@@ -27,7 +27,7 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
         type: Object,
     },
     complementaryExams: {
-        type: String,
+        type: [],
         default: 'ninguno'
     },
     medicalDiagnostic: {

@@ -19,7 +19,8 @@ export class PatientPhController {
                     description: patientPh.description,
                     createdBy: patientPh.createdBy,
                     harmfulHabitsList: patientPh.harmfulHabitsList,
-                    familyPph: patientPh.familyPph
+                    familyPph: patientPh.familyPph,
+                    currentMedication: patientPh.currentMedication
                 });
 
                 newPatientPh.save({}, (error, patientPhSaved) => {

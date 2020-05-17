@@ -4,6 +4,7 @@ import { MedicalEvaluationModel } from './medicalEvaluation';
 import { PhysicalExamModel } from './physicalExam';
 import { MedicalDiagnosticModel } from './medicalDiagnostic';
 import { MedicalReevaluationModel } from './medicalReevaluation';
+import { ComplementaryExam } from './complementaryExam.interface';
 
 export interface MedicalConsultationModel extends mongoose.Document {
     patient: string;
@@ -14,7 +15,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     physicalExam: PhysicalExamModel;
     medicalDiagnostic: MedicalDiagnosticModel;
     patientStory: string;
-    complementaryExams: string;
+    complementaryExams: ComplementaryExam;
     createDate: Date;
     reevaluations: MedicalReevaluationModel[];
 }
@@ -42,7 +43,7 @@ export const MedicalConsultationSchema = new mongoose.Schema({
         type: Object,
     },
     complementaryExams: {
-        type: String,
+        type: [],
         default: 'ninguno'
     },
     medicalDiagnostic: {
