@@ -11,6 +11,7 @@ const doctorRoutes: Router = Router();
 
 doctorRoutes.get('/getAll', UserValidation.validation, doctorCtr.getAllDoctors);
 doctorRoutes.post('/save', UserValidation.validation, doctorCtr.createDoctor);
+doctorRoutes.put('/update', UserValidation.validation, doctorCtr.updateDoctor);
 doctorRoutes.get('/findBySpecialty/:idSpecialty', UserValidation.validation, doctorCtr.getByIdSpecialty);
 doctorRoutes.post('/doctorAvailability/save', UserValidation.validation, doctorAvailabilityCtr.createDoctorAvailability);
 doctorRoutes.get('/doctorAvailability/getAll', UserValidation.validation, doctorAvailabilityCtr.getAllDoctorAvailabilities);

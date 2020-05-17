@@ -5,7 +5,7 @@ import RolService from '../../services/rol.service';
 import { RolModel } from '../../models/role';
 import { UserModel } from '../../models/user';
 import JsonResp, { ErrorDetail } from '../../models/jsonResp';
-import { DoctorCreateDto } from '../../dto/doctor.dto';
+import { DoctorCreateDto, DoctorUpdateDto } from '../../dto/doctor.dto';
 import User from '../../models/user';
 import UserController from '../user/userController';
 import bcrypt from 'bcrypt';
@@ -111,11 +111,48 @@ export class DoctorController {
                 true,
                 'Doctores por especialidad cargados correctamente',
                 await userSrv.getBySpecialtyId(idSpecilaty)
-            ))
+            ));
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error en la base de datos al registrar doctor',
+                error
+            ));
+        }
+    }
+
+    public async updateDoctor(req: Request, res: Response): Promise<Response>{
+
+        const doctor: DoctorUpdateDto = req.body;
+        const userController: UserController = new UserController();
+        const userSrv: UserService = new UserService();
+
+        if (doctor.image && doctor.image.length > 100) {
+            doctor.image = await userController.setUserImage(doctor.image, doctor);
+        }
+
+        const doctorUpdate: UserModel = new User({
+            _id: doctor._id,
+            names: doctor.names,
+            surenames: doctor.surenames,
+            email: doctor.email,
+            mobilePhone: doctor.mobilePhone,
+            image: doctor.image,
+            specialty: doctor.specialty,
+            updatedBy: doctor.updatedBy,
+            updateDate: doctor.updateDate,
+        });
+
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Doctor actualizado correctamente',
+                await userSrv.update(doctorUpdate)
+,            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al actualizar doctor',
                 error
             ));
         }

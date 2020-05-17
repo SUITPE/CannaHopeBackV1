@@ -97,5 +97,32 @@ class DoctorController {
             }
         });
     }
+    updateDoctor(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctor = req.body;
+            const userController = new userController_1.default();
+            const userSrv = new user_service_1.default();
+            if (doctor.image && doctor.image.length > 100) {
+                doctor.image = yield userController.setUserImage(doctor.image, doctor);
+            }
+            const doctorUpdate = new user_1.default({
+                _id: doctor._id,
+                names: doctor.names,
+                surenames: doctor.surenames,
+                email: doctor.email,
+                mobilePhone: doctor.mobilePhone,
+                image: doctor.image,
+                specialty: doctor.specialty,
+                updatedBy: doctor.updatedBy,
+                updateDate: doctor.updateDate,
+            });
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor actualizado correctamente', yield userSrv.update(doctorUpdate)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al actualizar doctor', error));
+            }
+        });
+    }
 }
 exports.DoctorController = DoctorController;
