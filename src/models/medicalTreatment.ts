@@ -9,7 +9,10 @@ export interface MedicalTreatmentModel extends mongoose.Document {
     viaAdministracion?: string;
     ratio?: string;
     concentracion?: string;
+    frequency: string;
+    amountPerDose: string;
 }
+
 
 export const MedicalTreatmentSchema = new mongoose.Schema({
     patient: {
@@ -45,6 +48,13 @@ export const MedicalTreatmentSchema = new mongoose.Schema({
     concentracion: {
         type: String,
         required: true
+    },
+    frequency: {
+        type: String,
+        required: true
+    },
+    amountPerDose: {
+        type: String
     }
 });
 

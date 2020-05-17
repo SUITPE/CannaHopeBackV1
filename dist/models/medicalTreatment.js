@@ -38,6 +38,13 @@ exports.MedicalTreatmentSchema = new mongoose_1.default.Schema({
     concentracion: {
         type: String,
         required: true
+    },
+    frequency: {
+        type: String,
+        required: true
+    },
+    amountPerDose: {
+        type: String
     }
 });
 exports.MedicalTreatment = mongoose_1.default.model('MedicalTreatment', exports.MedicalTreatmentSchema);

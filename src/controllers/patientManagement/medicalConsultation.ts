@@ -77,7 +77,6 @@ export default class MedicalConsultationController {
                     medicalConsultation.medicalEvaluation.clinicalExamination._id, false
                     )
 
-
                 resolve(medicalConsultationSaved);
 
             } catch (error) {

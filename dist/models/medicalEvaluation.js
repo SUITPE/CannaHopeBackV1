@@ -21,15 +21,12 @@ exports.MedicalEvaluationSchema = new mongoose_1.default.Schema({
     },
     clinicalExamination: {
         type: Object,
-        required: [true, 'Es obligatorio ingresar un examen medico']
     },
     ectoscopy: {
         type: String,
-        required: [true, 'Es obligatorio ingresar la estetoscopia']
     },
     mentalStatus: {
         type: String,
-        required: [true, 'Es necesario definir el estado mental del paciente']
     },
     createDate: {
         type: Date,

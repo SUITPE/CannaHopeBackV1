@@ -15,7 +15,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     physicalExam: PhysicalExamModel;
     medicalDiagnostic: MedicalDiagnosticModel;
     patientStory: string;
-    complementaryExams: ComplementaryExam;
+    complementaryExams: ComplementaryExam[];
     createDate: Date;
     reevaluations: MedicalReevaluationModel[];
 }
