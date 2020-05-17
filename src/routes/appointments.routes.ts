@@ -8,6 +8,7 @@ const appointmentCtr: AppointmentController = new AppointmentController();
 
 
 appointmentsRoutes.post('/save', UserValidation.validation, appointmentCtr.registerAppointment);
+appointmentsRoutes.get('/getAll', UserValidation.validation, appointmentCtr.getAll);
 
 
 export default appointmentsRoutes;

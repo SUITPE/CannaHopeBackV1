@@ -39,5 +39,24 @@ class AppointmentService {
             }
         });
     }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.find()
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone' } })
+                    .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                    .populate({ path: 'specialty', select: 'name description' })
+                    .populate('doctorAvailability', 'timeTo timeFrom')
+                    .populate('createdBy', 'names surenames email');
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al momento de la consulta para cargar todas la citas medicas registradas',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;

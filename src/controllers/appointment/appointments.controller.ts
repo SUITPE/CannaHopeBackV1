@@ -11,6 +11,10 @@ const moment = require('moment-timezone');
 
 export class AppointmentController {
 
+    public static appointmentSrv: AppointmentService = new AppointmentService();
+
+    constructor() { }
+
     public async registerAppointment(req: any, res: Response): Promise<Response> {
 
         const appointmentSrv: AppointmentService = new AppointmentService();
@@ -29,6 +33,7 @@ export class AppointmentController {
                 paymentData: appointment.paymentData,
                 createdBy: user._id,
                 createdAt: environments.currentDate(),
+                status: appointment.paymentStatus === 'PAGADO'? 'POR ATENDER': 'PENDIENTE DE PAGO'
             });
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
@@ -41,6 +46,22 @@ export class AppointmentController {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al regsitrar cita',
+                error
+            ));
+        }
+    }
+
+    public async getAll(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(httpstatus.OK).send(new JsonResp(
+                true,
+                'Lista de citas consutlas cargadas correctamente',
+                await AppointmentController.appointmentSrv.findAll()
+            ))
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar citas registradas',
                 error
             ));
         }

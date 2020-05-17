@@ -9,4 +9,5 @@ const userValidation_middleware_1 = __importDefault(require("../middlewares/user
 const appointmentsRoutes = express_1.Router();
 const appointmentCtr = new appointments_controller_1.AppointmentController();
 appointmentsRoutes.post('/save', userValidation_middleware_1.default.validation, appointmentCtr.registerAppointment);
+appointmentsRoutes.get('/getAll', userValidation_middleware_1.default.validation, appointmentCtr.getAll);
 exports.default = appointmentsRoutes;

@@ -19,6 +19,7 @@ const appointment_schema_1 = require("../../schema/appointment.schema");
 const varEnvironments_1 = require("../../environments/varEnvironments");
 const moment = require('moment-timezone');
 class AppointmentController {
+    constructor() { }
     registerAppointment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const appointmentSrv = new appointment_service_1.AppointmentService();
@@ -36,6 +37,7 @@ class AppointmentController {
                     paymentData: appointment.paymentData,
                     createdBy: user._id,
                     createdAt: varEnvironments_1.environments.currentDate(),
+                    status: appointment.paymentStatus === 'PAGADO' ? 'POR ATENDER' : 'PENDIENTE DE PAGO'
                 });
                 return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta medica registrada correctamente', yield appointmentSrv.save(newAppointment)));
             }
@@ -44,5 +46,16 @@ class AppointmentController {
             }
         });
     }
+    getAll(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(http_status_1.default.OK).send(new jsonResp_1.default(true, 'Lista de citas consutlas cargadas correctamente', yield AppointmentController.appointmentSrv.findAll()));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar citas registradas', error));
+            }
+        });
+    }
 }
 exports.AppointmentController = AppointmentController;
+AppointmentController.appointmentSrv = new appointment_service_1.AppointmentService();

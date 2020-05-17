@@ -76,7 +76,7 @@ class DoctorAvailabilityController {
             const appointmentSrv = new appointment_service_1.AppointmentService();
             const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
             try {
-                const appointmentsRegistered = yield appointmentSrv.findByDateAndDoctor(userData.idDoctor, userData.date);
+                const appointmentsRegistered = yield appointmentSrv.findByDateAndDoctor(userData.idDoctor, new Date(userData.date));
                 const doctorAvailabilityList = yield doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
                 const currentDoctorAvailability = [];
                 for (const item of doctorAvailabilityList) {
