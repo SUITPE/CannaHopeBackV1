@@ -32,6 +32,7 @@ const UserValidation = {
             }
             else {
                 req.user = decoded.user;
+                req.params.user = decoded.user;
                 next();
             }
         });

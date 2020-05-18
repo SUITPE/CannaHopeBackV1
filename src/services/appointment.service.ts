@@ -2,6 +2,7 @@ import { IAppointment } from '../models/appointment.interface';
 import { ErrorDetail } from '../models/jsonResp';
 import { Appointment } from '../schema/appointment.schema';
 import { IPaymentDetail } from '../models/paymentDetail.interface';
+import { AppointmentUpdateDto } from '../dto/appointment.dto';
 
 
 export class AppointmentService {
@@ -72,6 +73,18 @@ export class AppointmentService {
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async update(_id: string, appointment: AppointmentUpdateDto): Promise<any> {
+        try {
+            return Appointment.updateOne({_id}, appointment);
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al actualizar consulta',
                 description: error
             }
             throw errorDetail;

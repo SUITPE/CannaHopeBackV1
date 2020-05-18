@@ -34,6 +34,7 @@ const UserValidation = {
                 return res.status(401).send(resp);
             } else {
                 req.user = decoded.user;
+                req.params.user = decoded.user;
                 next();
             }
         });

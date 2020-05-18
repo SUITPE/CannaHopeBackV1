@@ -50,8 +50,9 @@ class AppointmentController {
     }
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const appointmentSrv = new appointment_service_1.AppointmentService();
             try {
-                return res.status(http_status_1.default.OK).send(new jsonResp_1.default(true, 'Lista de citas consutlas cargadas correctamente', yield AppointmentController.appointmentSrv.findAll()));
+                return res.status(http_status_1.default.OK).send(new jsonResp_1.default(true, 'Lista de citas consutlas cargadas correctamente', yield appointmentSrv.findAll()));
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar citas registradas', error));
@@ -110,6 +111,36 @@ class AppointmentController {
             }
         });
     }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const appointmentSrv = new appointment_service_1.AppointmentService();
+            const appointmentData = req.body;
+            const user = req.params.user;
+            try {
+                const updated = yield appointmentSrv.update(appointmentData._id, yield setProperties());
+                const appointment = yield appointmentSrv.findById(appointmentData._id);
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta actualizada correctamente', appointment));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al actualizar consulta medica', null, error));
+            }
+            function setProperties() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        appointmentData.updatedBy = user._id;
+                        appointmentData.updatedDate = varEnvironments_1.environments.currentDate();
+                        return appointmentData;
+                    }
+                    catch (error) {
+                        const errorDetail = {
+                            name: 'Error al mapear información de consulta para insertar a la base de datos',
+                            description: error
+                        };
+                        throw errorDetail;
+                    }
+                });
+            }
+        });
+    }
 }
 exports.AppointmentController = AppointmentController;
-AppointmentController.appointmentSrv = new appointment_service_1.AppointmentService();

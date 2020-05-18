@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import httpstatus from 'http-status';
 import JsonResp from '../../models/jsonResp';
 import { AppointmentService } from '../../services/appointment.service';
-import { AppointmentCreateDto, AppointmentUpdateStatusDto } from '../../dto/appointment.dto';
+import { AppointmentCreateDto, AppointmentUpdateStatusDto, AppointmentUpdateDto } from '../../dto/appointment.dto';
 import { UserModel } from '../../models/user';
 import { IAppointment } from '../../models/appointment.interface';
 import { Appointment } from '../../schema/appointment.schema';
@@ -13,8 +13,6 @@ import { ErrorDetail } from '../../models/jsonResp';
 const moment = require('moment-timezone');
 
 export class AppointmentController {
-
-    public static appointmentSrv: AppointmentService = new AppointmentService();
 
     constructor() {
     }
@@ -56,11 +54,14 @@ export class AppointmentController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
+
+        const appointmentSrv: AppointmentService = new AppointmentService();
+
         try {
             return res.status(httpstatus.OK).send(new JsonResp(
                 true,
                 'Lista de citas consutlas cargadas correctamente',
-                await AppointmentController.appointmentSrv.findAll()
+                await appointmentSrv.findAll()
             ))
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
@@ -139,6 +140,46 @@ export class AppointmentController {
                 'Error al obtener consulta por id',
                 null, error
             ));
+        }
+    }
+
+    public async update(req: Request, res: Response): Promise<Response> {
+
+        const appointmentSrv: AppointmentService = new AppointmentService();
+        const appointmentData: AppointmentUpdateDto = req.body;
+        const user: any = req.params.user;
+
+        try {
+
+            const updated: any = await appointmentSrv.update(appointmentData._id, await setProperties());
+            const appointment: IAppointment = await appointmentSrv.findById(appointmentData._id);
+
+            return res.status(httpstatus.CREATED).send(new JsonResp(
+                true,
+                'Consulta actualizada correctamente',
+                appointment
+            ));
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al actualizar consulta medica',
+                null, error
+            ));
+        }
+
+        async function setProperties(): Promise<AppointmentUpdateDto>  {
+            try {
+                appointmentData.updatedBy = user._id;
+                appointmentData.updatedDate = environments.currentDate();
+                return appointmentData;
+            } catch (error) {
+                const errorDetail: ErrorDetail = {
+                    name: 'Error al mapear información de consulta para insertar a la base de datos',
+                    description: error
+                }
+                throw errorDetail;
+            }
         }
     }
 }

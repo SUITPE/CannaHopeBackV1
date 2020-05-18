@@ -93,5 +93,19 @@ class AppointmentService {
             }
         });
     }
+    update(_id, appointment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return appointment_schema_1.Appointment.updateOne({ _id }, appointment);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al actualizar consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;

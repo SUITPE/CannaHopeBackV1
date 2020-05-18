@@ -12,4 +12,5 @@ appointmentsRoutes.post('/save', userValidation_middleware_1.default.validation,
 appointmentsRoutes.get('/getAll', userValidation_middleware_1.default.validation, appointmentCtr.getAll);
 appointmentsRoutes.post('/updateStatus', userValidation_middleware_1.default.validation, appointmentCtr.updateStatus);
 appointmentsRoutes.get('/getById/:id', userValidation_middleware_1.default.validation, appointmentCtr.getById);
+appointmentsRoutes.put('/update', userValidation_middleware_1.default.validation, appointmentCtr.update);
 exports.default = appointmentsRoutes;
