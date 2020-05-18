@@ -112,5 +112,24 @@ class AppointmentService {
             }
         });
     }
+    findByDoctor(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.find({ doctor: id })
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                    .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                    .populate({ path: 'specialty', select: 'name description' })
+                    .populate('doctorAvailability', 'timeTo timeFrom')
+                    .populate('createdBy', 'names surenames email');
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al cargar consultas por id de doctor',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;

@@ -198,7 +198,6 @@ export class AppointmentController {
 
 
         } catch (error) {
-            console.log(error);
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 `Error al cargar consultas registradas para doctor`,
@@ -237,4 +236,21 @@ export class AppointmentController {
             throw errorDetail
         }
     }
+
+    public async getByIdDoctor(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                false,
+                'Consultas por doctor cargadas correctamente',
+                await this.appointmentSrv.findByDoctor(req.params.id)
+            ))
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                `Error al cargar consultas registradas por doctor establecido`,
+                null, error
+            ));
+        }
+    }
+
 }

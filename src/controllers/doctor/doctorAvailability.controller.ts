@@ -103,13 +103,14 @@ export class DoctorAvailabilityController {
 
         try {
 
+
             const appointmentsRegistered: IAppointment[] = await appointmentSrv.findByDateAndDoctor(userData.idDoctor, new Date(userData.date));
             const doctorAvailabilityList: DoctorAvailabilityModel[] = await doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
 
             const currentDoctorAvailability: any[] = [];
             for (const item of doctorAvailabilityList) {
                 // tslint:disable-next-line: triple-equals
-                const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability == item.id);
+                const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability._id == item.id);
                 if (!founded) {
                     currentDoctorAvailability.push(item);
                 }

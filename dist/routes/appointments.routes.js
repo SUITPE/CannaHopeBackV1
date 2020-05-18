@@ -16,4 +16,5 @@ appointmentsRoutes.post('/updateStatus', userValidation_middleware_1.default.val
 appointmentsRoutes.get('/getById/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getById(req, res));
 appointmentsRoutes.put('/update', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.update(req, res));
 appointmentsRoutes.get('/getTodayByIdDoctor/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getDoctorAppointments(req, res));
+appointmentsRoutes.get('/getByIdDoctor/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getByIdDoctor(req, res));
 exports.default = appointmentsRoutes;

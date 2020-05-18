@@ -149,7 +149,6 @@ class AppointmentController {
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, appointments.length > 0 ? `Consultas por doctor cargadas correctamente` : `No hay consultas registradas con el doctor y la fecha indicados`, appointments));
             }
             catch (error) {
-                console.log(error);
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, `Error al cargar consultas registradas para doctor`, null, error));
             }
         });
@@ -181,6 +180,16 @@ class AppointmentController {
                     description: error
                 };
                 throw errorDetail;
+            }
+        });
+    }
+    getByIdDoctor(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(false, 'Consultas por doctor cargadas correctamente', yield this.appointmentSrv.findByDoctor(req.params.id)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, `Error al cargar consultas registradas por doctor establecido`, null, error));
             }
         });
     }

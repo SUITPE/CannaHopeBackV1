@@ -81,7 +81,7 @@ class DoctorAvailabilityController {
                 const currentDoctorAvailability = [];
                 for (const item of doctorAvailabilityList) {
                     // tslint:disable-next-line: triple-equals
-                    const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability == item.id);
+                    const founded = appointmentsRegistered.find(appointment => appointment.doctorAvailability._id == item.id);
                     if (!founded) {
                         currentDoctorAvailability.push(item);
                     }

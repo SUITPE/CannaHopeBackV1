@@ -95,4 +95,21 @@ export class AppointmentService {
             throw errorDetail;
         }
     }
+
+    public async findByDoctor(id: string): Promise<IAppointment[]> {
+        try {
+            return await Appointment.find({doctor: id})
+            .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+            .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+            .populate({ path: 'specialty', select: 'name description' })
+            .populate('doctorAvailability', 'timeTo timeFrom')
+            .populate('createdBy', 'names surenames email');
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al cargar consultas por id de doctor',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }
