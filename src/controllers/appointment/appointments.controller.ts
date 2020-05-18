@@ -14,12 +14,14 @@ const moment = require('moment-timezone');
 
 export class AppointmentController {
 
-    constructor() {
+    constructor(
+        private appointmentSrv: AppointmentService,
+        private appointmentStatusSrv: AppointmentStatusService
+    ) {
     }
 
     public async registerAppointment(req: any, res: Response): Promise<Response> {
 
-        const appointmentSrv: AppointmentService = new AppointmentService();
         const appointment: AppointmentCreateDto = req.body;
         const user: UserModel = req.user;
         try {
@@ -41,7 +43,7 @@ export class AppointmentController {
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
                 'Consulta medica registrada correctamente',
-                await appointmentSrv.save(newAppointment)
+                await this.appointmentSrv.save(newAppointment)
             ));
 
         } catch (error) {
@@ -54,14 +56,14 @@ export class AppointmentController {
     }
 
     public async getAll(req: Request, res: Response): Promise<Response> {
-
-        const appointmentSrv: AppointmentService = new AppointmentService();
-
         try {
+            const validated: boolean = await this.validateAppointmentsData();
+            const appointmentList: IAppointment[] = await this.appointmentSrv.findAll();
+
             return res.status(httpstatus.OK).send(new JsonResp(
                 true,
                 'Lista de citas consutlas cargadas correctamente',
-                await appointmentSrv.findAll()
+                appointmentList
             ))
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
@@ -74,14 +76,12 @@ export class AppointmentController {
 
     public async updateStatus(req: Request, res: Response): Promise<Response> {
 
-        const appointmentStatusSrv: AppointmentStatusService = new AppointmentStatusService();
-        const appointmentSrv: AppointmentService = new AppointmentService();
         const data: AppointmentUpdateStatusDto = req.body;
 
         try {
 
-            const appointment: IAppointment = await appointmentSrv.findById(data.idAppointment);
-            const appointemntStatusList: AppointmentStatusInterface[] = await appointmentStatusSrv.findAll();
+            const appointment: IAppointment = await this.appointmentSrv.findById(data.idAppointment);
+            const appointemntStatusList: AppointmentStatusInterface[] = await this.appointmentStatusSrv.findAll();
 
             const founded: any = appointemntStatusList.find(item => item.name === data.status);
 
@@ -108,7 +108,7 @@ export class AppointmentController {
                 }
                 throw errorDetail;
             } else {
-                const updated: any = await appointmentSrv.updateStatus(data.idAppointment, data.status);
+                const updated: any = await this.appointmentSrv.updateStatus(data.idAppointment, data.status);
             }
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
@@ -125,14 +125,13 @@ export class AppointmentController {
 
     public async getById(req: Request, res: Response): Promise<Response> {
 
-        const appointmentSrv: AppointmentService = new AppointmentService();
         const idAppointment: string = req.params.id;
 
         try {
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
                 'Consulta actualizada correctamente',
-                await appointmentSrv.findById(idAppointment)
+                await this.appointmentSrv.findById(idAppointment)
             ));
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
@@ -145,14 +144,13 @@ export class AppointmentController {
 
     public async update(req: Request, res: Response): Promise<Response> {
 
-        const appointmentSrv: AppointmentService = new AppointmentService();
         const appointmentData: AppointmentUpdateDto = req.body;
         const user: any = req.params.user;
 
         try {
 
-            const updated: any = await appointmentSrv.update(appointmentData._id, await setProperties());
-            const appointment: IAppointment = await appointmentSrv.findById(appointmentData._id);
+            const updated: any = await this.appointmentSrv.update(appointmentData._id, await setProperties());
+            const appointment: IAppointment = await this.appointmentSrv.findById(appointmentData._id);
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
@@ -168,7 +166,7 @@ export class AppointmentController {
             ));
         }
 
-        async function setProperties(): Promise<AppointmentUpdateDto>  {
+        async function setProperties(): Promise<AppointmentUpdateDto> {
             try {
                 appointmentData.updatedBy = user._id;
                 appointmentData.updatedDate = environments.currentDate();
@@ -180,6 +178,63 @@ export class AppointmentController {
                 }
                 throw errorDetail;
             }
+        }
+    }
+
+    public async getDoctorAppointments(req: Request, res: Response): Promise<Response> {
+
+        const idDoctor: string = req.params.id;
+
+        try {
+
+            const dateToday = moment(environments.currentDate()).format(`YYYY-MM-DD`);
+            const finalDate = moment(dateToday).format(`YYYY-MM-DD HH:mm:ss`);
+            const appointments: IAppointment[] = await this.appointmentSrv.findByDateAndDoctor(idDoctor, new Date(finalDate));
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                appointments.length > 0 ? `Consultas por doctor cargadas correctamente` : `No hay consultas registradas con el doctor y la fecha indicados`,
+                appointments
+            ));
+
+
+        } catch (error) {
+            console.log(error);
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                `Error al cargar consultas registradas para doctor`,
+                null, error
+            ));
+        }
+    }
+
+    public async validateAppointmentsData(): Promise<boolean> {
+
+        const appointmentSrv: AppointmentService = new AppointmentService();
+
+        try {
+            const appointmnentList: IAppointment[] = await appointmentSrv.findAll();
+            const currentDate: Date = new Date(environments.currentDate());
+
+            for (const appointment of appointmnentList) {
+                try {
+                    if (appointment.status !== 'VENCIDA') {
+                        const appointmentDate = moment(moment(appointment.date).format('YYYY-MM-DD') + ' ' + appointment.doctorAvailability.timeFrom).format('YYYY-MM-DD HH:mm:ss');
+                        if (moment(new Date(appointmentDate)).diff(currentDate, 'minutes') < 0) {
+                            const updated: any = await appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
+                        }
+                    }
+                } catch (error) {
+                    throw error
+                }
+            }
+
+            return true;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al validar datos de vencimiento de fecha',
+                description: error
+            }
+            throw errorDetail
         }
     }
 }
