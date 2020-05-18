@@ -17,9 +17,11 @@ const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const appointment_service_1 = require("../../services/appointment.service");
 const appointment_schema_1 = require("../../schema/appointment.schema");
 const varEnvironments_1 = require("../../environments/varEnvironments");
+const appointmentStatus_service_1 = require("../../services/appointmentStatus.service");
 const moment = require('moment-timezone');
 class AppointmentController {
-    constructor() { }
+    constructor() {
+    }
     registerAppointment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const appointmentSrv = new appointment_service_1.AppointmentService();
@@ -53,6 +55,58 @@ class AppointmentController {
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar citas registradas', error));
+            }
+        });
+    }
+    updateStatus(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const appointmentStatusSrv = new appointmentStatus_service_1.AppointmentStatusService();
+            const appointmentSrv = new appointment_service_1.AppointmentService();
+            const data = req.body;
+            try {
+                const appointment = yield appointmentSrv.findById(data.idAppointment);
+                const appointemntStatusList = yield appointmentStatusSrv.findAll();
+                const founded = appointemntStatusList.find(item => item.name === data.status);
+                if (appointment.paymentStatus === 'PENDIENTE') {
+                    const errorDetail = {
+                        name: `No se puede confirmar asistencia de consulta si aún está pendiente de pago.`,
+                        description: null
+                    };
+                    throw errorDetail;
+                }
+                if (appointment.status === data.status) {
+                    const errorDetail = {
+                        name: `La consulta ya se encuentra  ${data.status}`,
+                        description: null
+                    };
+                    throw errorDetail;
+                }
+                if (!founded) {
+                    const errorDetail = {
+                        name: 'El estatus enviado no corresponde a ninguno registrado en la base de datos',
+                        description: null
+                    };
+                    throw errorDetail;
+                }
+                else {
+                    const updated = yield appointmentSrv.updateStatus(data.idAppointment, data.status);
+                }
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Consulta actualizada correctamente'));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al actualizar consulta medica', null, error));
+            }
+        });
+    }
+    getById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const appointmentSrv = new appointment_service_1.AppointmentService();
+            const idAppointment = req.params.id;
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Consulta actualizada correctamente', yield appointmentSrv.findById(idAppointment)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al obtener consulta por id', null, error));
             }
         });
     }

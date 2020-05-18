@@ -8,3 +8,8 @@ export interface AppointmentCreateDto  {
     paymentStatus: string;
     paymentData: [];
 }
+
+export interface AppointmentUpdateStatusDto {
+    status: string;
+    idAppointment: string;
+}

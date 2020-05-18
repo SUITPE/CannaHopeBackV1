@@ -10,4 +10,6 @@ const appointmentsRoutes = express_1.Router();
 const appointmentCtr = new appointments_controller_1.AppointmentController();
 appointmentsRoutes.post('/save', userValidation_middleware_1.default.validation, appointmentCtr.registerAppointment);
 appointmentsRoutes.get('/getAll', userValidation_middleware_1.default.validation, appointmentCtr.getAll);
+appointmentsRoutes.post('/updateStatus', userValidation_middleware_1.default.validation, appointmentCtr.updateStatus);
+appointmentsRoutes.get('/getById/:id', userValidation_middleware_1.default.validation, appointmentCtr.getById);
 exports.default = appointmentsRoutes;

@@ -33,7 +33,7 @@ export class AppointmentService {
     public async findAll(): Promise<IAppointment[]> {
         try {
             return await Appointment.find()
-            .populate({path: 'patient',select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone' } })
+            .populate({path: 'patient',select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
             .populate({path: 'doctor', select: 'names surenames email mobilePhone'})
             .populate({path: 'specialty', select: 'name description'})
             .populate('doctorAvailability', 'timeTo timeFrom')
@@ -41,6 +41,37 @@ export class AppointmentService {
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al momento de la consulta para cargar todas la citas medicas registradas',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async updateStatus(id: string, status: string): Promise<boolean> {
+        try {
+            const updated: any = await Appointment.updateOne({_id: id}, {status});
+            return true;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async findById(id: string): Promise<IAppointment> {
+        try {
+            const founded: any =  await Appointment.findById(id)
+            .populate({path: 'patient',select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+            .populate({path: 'doctor', select: 'names surenames email mobilePhone'})
+            .populate({path: 'specialty', select: 'name description'})
+            .populate('doctorAvailability', 'timeTo timeFrom')
+            .populate('createdBy', 'names surenames email');
+            return founded;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al momento de actualizar estado de consulta',
                 description: error
             }
             throw errorDetail;

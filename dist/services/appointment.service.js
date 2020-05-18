@@ -43,7 +43,7 @@ class AppointmentService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield appointment_schema_1.Appointment.find()
-                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone' } })
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
@@ -52,6 +52,41 @@ class AppointmentService {
             catch (error) {
                 const errorDetail = {
                     name: 'Error al momento de la consulta para cargar todas la citas medicas registradas',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    updateStatus(id, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const updated = yield appointment_schema_1.Appointment.updateOne({ _id: id }, { status });
+                return true;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const founded = yield appointment_schema_1.Appointment.findById(id)
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                    .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                    .populate({ path: 'specialty', select: 'name description' })
+                    .populate('doctorAvailability', 'timeTo timeFrom')
+                    .populate('createdBy', 'names surenames email');
+                return founded;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al momento de actualizar estado de consulta',
                     description: error
                 };
                 throw errorDetail;
