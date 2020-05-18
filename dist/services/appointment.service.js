@@ -131,5 +131,19 @@ class AppointmentService {
             }
         });
     }
+    deleteById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.deleteOne({ _id: id });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en consulta a la base de datos pára eliminar consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;

@@ -146,5 +146,15 @@ class DoctorController {
             }
         });
     }
+    doctorResumen(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Resumen de doctor cargado correctamente'));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en la base de datos al eliminar doctor', error));
+            }
+        });
+    }
 }
 exports.DoctorController = DoctorController;

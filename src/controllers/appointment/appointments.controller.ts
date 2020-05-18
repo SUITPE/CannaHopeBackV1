@@ -253,4 +253,20 @@ export class AppointmentController {
         }
     }
 
+    public async cancelAppointment(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Consulta eliminada correctamente',
+                await this.appointmentSrv.deleteById(req.params.id)
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cancelar consulta medica',
+                null, error
+            ));
+        }
+    }
+
 }

@@ -17,4 +17,5 @@ appointmentsRoutes.get('/getById/:id', userValidation_middleware_1.default.valid
 appointmentsRoutes.put('/update', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.update(req, res));
 appointmentsRoutes.get('/getTodayByIdDoctor/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getDoctorAppointments(req, res));
 appointmentsRoutes.get('/getByIdDoctor/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getByIdDoctor(req, res));
+appointmentsRoutes.delete('/delete/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.cancelAppointment(req, res));
 exports.default = appointmentsRoutes;

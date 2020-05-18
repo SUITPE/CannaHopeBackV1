@@ -18,5 +18,7 @@ appointmentsRoutes.get('/getById/:id', UserValidation.validation, (req, res) => 
 appointmentsRoutes.put('/update', UserValidation.validation, (req, res) => appointmentCtr.update(req, res));
 appointmentsRoutes.get('/getTodayByIdDoctor/:id', UserValidation.validation, (req, res) => appointmentCtr.getDoctorAppointments(req, res));
 appointmentsRoutes.get('/getByIdDoctor/:id', UserValidation.validation, (req, res) => appointmentCtr.getByIdDoctor(req, res));
+appointmentsRoutes.delete('/delete/:id', UserValidation.validation, (req, res) => appointmentCtr.cancelAppointment(req, res));
+
 
 export default appointmentsRoutes;

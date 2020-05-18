@@ -194,5 +194,19 @@ export class DoctorController {
         }
     }
 
+    public async doctorResumen(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Resumen de doctor cargado correctamente',
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error en la base de datos al eliminar doctor',
+                error
+            ));
+        }
+    }
 
 }

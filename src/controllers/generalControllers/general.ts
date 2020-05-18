@@ -16,7 +16,7 @@ export default class GeneralServices {
 
             if (fs.existsSync(pathImage)) {
                 res.sendFile(pathImage);
-            }else {
+            } else {
                 const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
                 res.sendFile(pathNoImage);
             }
@@ -25,6 +25,14 @@ export default class GeneralServices {
             res.sendFile(pathNoImage);
         }
     }
+
+    // public async getDashboardData(req: Request, res: Response): Promise<Response> {
+    //     try {
+
+    //     } catch (error) {
+
+    //     }
+    // }
 
 
 }

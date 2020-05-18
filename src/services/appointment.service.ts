@@ -112,4 +112,16 @@ export class AppointmentService {
             throw errorDetail;
         }
     }
+
+    public async deleteById(id: string): Promise<any> {
+        try {
+            return await Appointment.deleteOne({_id: id}) ;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en consulta a la base de datos pára eliminar consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

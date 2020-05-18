@@ -193,5 +193,15 @@ class AppointmentController {
             }
         });
     }
+    cancelAppointment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Consulta eliminada correctamente', yield this.appointmentSrv.deleteById(req.params.id)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cancelar consulta medica', null, error));
+            }
+        });
+    }
 }
 exports.AppointmentController = AppointmentController;
