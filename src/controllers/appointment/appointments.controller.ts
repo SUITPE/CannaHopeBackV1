@@ -10,6 +10,7 @@ import { environments } from '../../environments/varEnvironments';
 import { AppointmentStatusInterface } from '../../schema/appointmentStatus.schema';
 import { AppointmentStatusService } from '../../services/appointmentStatus.service';
 import { ErrorDetail } from '../../models/jsonResp';
+import { AppointmentData } from '../../models/appointment.model';
 const moment = require('moment-timezone');
 
 export class AppointmentController {
@@ -80,7 +81,7 @@ export class AppointmentController {
 
         try {
 
-            const appointment: IAppointment = await this.appointmentSrv.findById(data.idAppointment);
+            const appointment: AppointmentData = await this.appointmentSrv.findById(data.idAppointment);
             const appointemntStatusList: AppointmentStatusInterface[] = await this.appointmentStatusSrv.findAll();
 
             const founded: any = appointemntStatusList.find(item => item.name === data.status);
@@ -150,7 +151,7 @@ export class AppointmentController {
         try {
 
             const updated: any = await this.appointmentSrv.update(appointmentData._id, await setProperties());
-            const appointment: IAppointment = await this.appointmentSrv.findById(appointmentData._id);
+            const appointment: AppointmentData = await this.appointmentSrv.findById(appointmentData._id);
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,

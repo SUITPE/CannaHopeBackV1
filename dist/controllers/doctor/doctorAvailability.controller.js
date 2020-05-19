@@ -42,6 +42,7 @@ class DoctorAvailabilityController {
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Franja de disponibilidad de doctor cargada correctamente', yield doctorAvailabilitySrv.findAll()));
             }
             catch (error) {
+                console.log(error);
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar franja de disponibilidad de doctor', error));
             }
         });

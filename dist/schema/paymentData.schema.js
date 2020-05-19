@@ -25,7 +25,7 @@ exports.PaymentDetailSchema = new mongoose_1.default.Schema({
         type: String
     },
     registerDate: {
-        type: Date,
+        type: String,
         required: [true, 'Debe ingresar la fehca en la que se realizó el pago']
     },
     createdBy: {
@@ -44,5 +44,5 @@ exports.PaymentDetailSchema = new mongoose_1.default.Schema({
     updatedDate: {
         type: Date
     }
-}, { collection: 'paymentDetails' });
-exports.PaymentDetail = mongoose_1.default.model('PaymentDetail', exports.PaymentDetailSchema);
+}, { collection: 'Payments' });
+exports.Payment = mongoose_1.default.model('Payment', exports.PaymentDetailSchema);

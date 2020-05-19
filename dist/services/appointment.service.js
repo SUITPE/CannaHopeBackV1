@@ -145,5 +145,33 @@ class AppointmentService {
             }
         });
     }
+    updatePaymentStatus(id, paymentStatus) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.updateOne({ _id: id }, { paymentStatus });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
+    updatePaymentData(id, paymentData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.updateOne({ _id: id }, { paymentData });
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;

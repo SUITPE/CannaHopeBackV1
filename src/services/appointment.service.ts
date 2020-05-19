@@ -1,8 +1,8 @@
 import { IAppointment } from '../models/appointment.interface';
 import { ErrorDetail } from '../models/jsonResp';
 import { Appointment } from '../schema/appointment.schema';
-import { IPaymentDetail } from '../models/paymentDetail.interface';
 import { AppointmentUpdateDto } from '../dto/appointment.dto';
+import { AppointmentData } from '../models/appointment.model';
 
 
 export class AppointmentService {
@@ -66,7 +66,7 @@ export class AppointmentService {
         }
     }
 
-    public async findById(id: string): Promise<IAppointment> {
+    public async findById(id: string): Promise<AppointmentData> {
         try {
             const founded: any = await Appointment.findById(id)
                 .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
@@ -98,12 +98,12 @@ export class AppointmentService {
 
     public async findByDoctor(id: string): Promise<IAppointment[]> {
         try {
-            return await Appointment.find({doctor: id})
-            .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
-            .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
-            .populate({ path: 'specialty', select: 'name description' })
-            .populate('doctorAvailability', 'timeTo timeFrom')
-            .populate('createdBy', 'names surenames email');
+            return await Appointment.find({ doctor: id })
+                .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                .populate({ path: 'specialty', select: 'name description' })
+                .populate('doctorAvailability', 'timeTo timeFrom')
+                .populate('createdBy', 'names surenames email');
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en la base de datos al cargar consultas por id de doctor',
@@ -115,10 +115,34 @@ export class AppointmentService {
 
     public async deleteById(id: string): Promise<any> {
         try {
-            return await Appointment.deleteOne({_id: id}) ;
+            return await Appointment.deleteOne({ _id: id });
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en consulta a la base de datos pára eliminar consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async updatePaymentStatus(id: string, paymentStatus: string): Promise<boolean> {
+        try {
+            return await Appointment.updateOne({_id: id}, {paymentStatus});
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al momento de actualizar estado de consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async updatePaymentData(id: string, paymentData: any): Promise<boolean> {
+        try {
+            return await Appointment.updateOne({_id: id}, {paymentData});
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al momento de actualizar estado de consulta',
                 description: error
             }
             throw errorDetail;

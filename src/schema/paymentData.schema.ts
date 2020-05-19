@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IPaymentDetail } from '../models/paymentDetail.interface';
+import { PaymentDataModel } from '../models/paymentDetail.interface';
 
 
 export const PaymentDetailSchema  = new mongoose.Schema({
@@ -23,7 +23,7 @@ export const PaymentDetailSchema  = new mongoose.Schema({
         type: String
     },
     registerDate: {
-        type: Date,
+        type: String,
         required: [true, 'Debe ingresar la fehca en la que se realizó el pago']
     },
     createdBy: {
@@ -42,6 +42,6 @@ export const PaymentDetailSchema  = new mongoose.Schema({
     updatedDate: {
         type: Date
     }
-}, {collection: 'paymentDetails'})
+}, {collection: 'Payments'})
 
-export const PaymentDetail = mongoose.model<IPaymentDetail>('PaymentDetail', PaymentDetailSchema);
+export const Payment = mongoose.model<PaymentDataModel>('Payment', PaymentDetailSchema);

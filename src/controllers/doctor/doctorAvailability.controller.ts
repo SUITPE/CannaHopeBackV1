@@ -47,6 +47,7 @@ export class DoctorAvailabilityController {
                 await doctorAvailabilitySrv.findAll()
             ));
         } catch (error) {
+            console.log(error)
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al cargar franja de disponibilidad de doctor',
@@ -102,7 +103,6 @@ export class DoctorAvailabilityController {
         const doctorAvailabilitySrv: DoctorAvailabilityService = new DoctorAvailabilityService();
 
         try {
-
 
             const appointmentsRegistered: IAppointment[] = await appointmentSrv.findByDateAndDoctor(userData.idDoctor, new Date(userData.date));
             const doctorAvailabilityList: DoctorAvailabilityModel[] = await doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
