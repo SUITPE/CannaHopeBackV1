@@ -32,7 +32,7 @@ class ConsultationAdmitionController {
                     reject(errorDetail);
                 }
                 else {
-                    yield this.appointmentSrv.updateStatus(appointment._id, 'EN ATENCION');
+                    yield this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
                 }
                 const newConsultationAdmition = new consultationAdmision_1.default({
                     talla: consultationAdmition.talla,

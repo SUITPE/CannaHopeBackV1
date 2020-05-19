@@ -14,5 +14,6 @@ export interface IAppointment extends mongoose.Document {
     createdAt: Date;
     updatedBy: string;
     updatedDate: Date,
-    status: string
+    status: string;
+    dateString: string;
 }

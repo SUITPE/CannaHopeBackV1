@@ -104,7 +104,7 @@ export class DoctorAvailabilityController {
 
         try {
 
-            const appointmentsRegistered: IAppointment[] = await appointmentSrv.findByDateAndDoctor(userData.idDoctor, new Date(userData.date));
+            const appointmentsRegistered: IAppointment[] = await appointmentSrv.findByDateAndDoctor(userData.idDoctor, userData.date);
             const doctorAvailabilityList: DoctorAvailabilityModel[] = await doctorAvailabilitySrv.findByDoctorId(userData.idDoctor);
 
             const currentDoctorAvailability: any[] = [];

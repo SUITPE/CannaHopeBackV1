@@ -8,5 +8,5 @@ export interface DoctorAvailabilityCreateDto extends mongoose.Document {
 
 export interface GetCurrentDoctorAvailabilityDto {
     idDoctor: string;
-    date: Date;
+    date: string;
 }

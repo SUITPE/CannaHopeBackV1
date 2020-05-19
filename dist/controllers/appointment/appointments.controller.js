@@ -39,7 +39,8 @@ class AppointmentController {
                     paymentData: appointment.paymentData,
                     createdBy: user._id,
                     createdAt: varEnvironments_1.environments.currentDate(),
-                    status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO'
+                    status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
+                    dateString: appointment.dateString
                 });
                 return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta medica registrada correctamente', yield this.appointmentSrv.save(newAppointment)));
             }
@@ -144,8 +145,7 @@ class AppointmentController {
             const idDoctor = req.params.id;
             try {
                 const dateToday = moment(varEnvironments_1.environments.currentDate()).format(`YYYY-MM-DD`);
-                const finalDate = moment(dateToday).format(`YYYY-MM-DD HH:mm:ss`);
-                const appointments = yield this.appointmentSrv.findByDateAndDoctor(idDoctor, new Date(finalDate));
+                const appointments = yield this.appointmentSrv.findByDateAndDoctor(idDoctor, dateToday);
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, appointments.length > 0 ? `Consultas por doctor cargadas correctamente` : `No hay consultas registradas con el doctor y la fecha indicados`, appointments));
             }
             catch (error) {

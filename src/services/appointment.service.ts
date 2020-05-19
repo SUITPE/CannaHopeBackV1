@@ -19,9 +19,9 @@ export class AppointmentService {
         }
     }
 
-    public async findByDateAndDoctor(idDoctor: string, date: Date): Promise<IAppointment[]> {
+    public async findByDateAndDoctor(idDoctor: string, dateString: string): Promise<IAppointment[]> {
         try {
-            return await Appointment.find({ doctor: idDoctor, date })
+            return await Appointment.find({ doctor: idDoctor, dateString, status: 'ADMITIDA'})
                 .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
                 .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                 .populate({ path: 'specialty', select: 'name description' })

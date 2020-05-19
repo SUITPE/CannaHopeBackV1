@@ -7,6 +7,7 @@ export interface AppointmentCreateDto  {
     doctorAvailability: string;
     paymentStatus: string;
     paymentData: [];
+    dateString: string;
 }
 
 export interface AppointmentUpdateStatusDto {
@@ -25,4 +26,5 @@ export interface AppointmentUpdateDto {
     paymentStatus: string;
     updatedBy: string;
     updatedDate: Date,
+    dateString: string;
 }

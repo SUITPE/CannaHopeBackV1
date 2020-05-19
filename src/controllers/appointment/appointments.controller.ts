@@ -38,7 +38,8 @@ export class AppointmentController {
                 paymentData: appointment.paymentData,
                 createdBy: user._id,
                 createdAt: environments.currentDate(),
-                status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO'
+                status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
+                dateString: appointment.dateString
             });
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
@@ -189,8 +190,7 @@ export class AppointmentController {
         try {
 
             const dateToday = moment(environments.currentDate()).format(`YYYY-MM-DD`);
-            const finalDate = moment(dateToday).format(`YYYY-MM-DD HH:mm:ss`);
-            const appointments: IAppointment[] = await this.appointmentSrv.findByDateAndDoctor(idDoctor, new Date(finalDate));
+            const appointments: IAppointment[] = await this.appointmentSrv.findByDateAndDoctor(idDoctor, dateToday);
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
                 appointments.length > 0 ? `Consultas por doctor cargadas correctamente` : `No hay consultas registradas con el doctor y la fecha indicados`,

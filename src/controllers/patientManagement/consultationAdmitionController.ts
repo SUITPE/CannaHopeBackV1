@@ -23,7 +23,7 @@ export default class ConsultationAdmitionController {
                     errorDetail.name = 'No se puede registrar una admisión si aun esta pendiente de pago';
                     reject(errorDetail);
                 } else {
-                    await this.appointmentSrv.updateStatus(appointment._id, 'EN ATENCION');
+                    await this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
                 }
 
 

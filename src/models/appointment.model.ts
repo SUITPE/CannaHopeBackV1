@@ -21,4 +21,5 @@ export interface AppointmentData {
     updatedBy: UserModel;
     updatedDate: Date,
     status: string
+    dateString: string;
 }

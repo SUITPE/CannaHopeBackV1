@@ -25,10 +25,10 @@ class AppointmentService {
             }
         });
     }
-    findByDateAndDoctor(idDoctor, date) {
+    findByDateAndDoctor(idDoctor, dateString) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield appointment_schema_1.Appointment.find({ doctor: idDoctor, date })
+                return yield appointment_schema_1.Appointment.find({ doctor: idDoctor, dateString, status: 'ADMITIDA' })
                     .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })

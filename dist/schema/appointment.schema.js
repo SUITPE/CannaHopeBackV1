@@ -58,6 +58,9 @@ exports.AppointmentSchema = new mongoose_1.default.Schema({
     status: {
         type: String,
         default: 'POR ATENDER'
+    },
+    dateString: {
+        type: String
     }
 }, { collection: 'appointments' });
 exports.Appointment = mongoose_1.default.model('Appointment', exports.AppointmentSchema);

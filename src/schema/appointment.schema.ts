@@ -56,6 +56,9 @@ export const AppointmentSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'POR ATENDER'
+    },
+    dateString: {
+        type: String
     }
 }, {collection: 'appointments'});
 
