@@ -38,7 +38,7 @@ export class AppointmentController {
                 paymentData: appointment.paymentData,
                 createdBy: user._id,
                 createdAt: environments.currentDate(),
-                status: appointment.paymentStatus === 'PAGADO' ? 'POR ATENDER' : 'PENDIENTE DE PAGO'
+                status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO'
             });
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
@@ -186,7 +186,6 @@ export class AppointmentController {
 
         const idDoctor: string = req.params.id;
 
-        
         try {
 
             const dateToday = moment(environments.currentDate()).format(`YYYY-MM-DD`);

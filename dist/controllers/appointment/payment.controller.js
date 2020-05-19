@@ -31,6 +31,7 @@ class PaymentController {
                 const paymentSaved = yield this.paymentSrv.save(paymentData);
                 yield this.appointmentSrv.updatePaymentData(appointment._id, payment);
                 yield this.appointmentSrv.updatePaymentStatus(appointment._id, 'PAGADO');
+                yield this.appointmentSrv.updateStatus(appointment._id, 'CONFIRMADA');
                 return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Pago de consulta registrado exitosamente', paymentSaved));
             }
             catch (error) {

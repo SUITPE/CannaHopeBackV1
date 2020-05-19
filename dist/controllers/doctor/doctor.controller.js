@@ -56,7 +56,7 @@ class DoctorController {
                     createdBy: doctor.createdBy,
                     image: doctor.image,
                     specialty: doctor.specialty,
-                    rol: doctorRol._id
+                    rol: doctorRol._id,
                 });
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor registrado exitosamente', yield userSrv.save(newDoctor)));
             }

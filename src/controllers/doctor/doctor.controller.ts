@@ -10,7 +10,6 @@ import User from '../../models/user';
 import UserController from '../user/userController';
 import bcrypt from 'bcrypt';
 
-
 export class DoctorController {
 
     public async getAllDoctors(req: Request, res: Response): Promise<Response> {
@@ -64,7 +63,7 @@ export class DoctorController {
                 createdBy: doctor.createdBy,
                 image: doctor.image,
                 specialty: doctor.specialty,
-                rol: doctorRol._id
+                rol: doctorRol._id,
             });
 
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(

@@ -1,11 +1,13 @@
 import ConsultationAdmition, { ConsultationAdmitionModel } from '../../models/consultationAdmision';
 import { ErrorDetail } from '../../models/jsonResp';
 import { ConsultationAdmitionService } from '../../services/consultationAdminiton.service';
-
+import { AppointmentService } from '../../services/appointment.service';
+import { AppointmentData } from '../../models/appointment.model';
 
 export default class ConsultationAdmitionController {
 
     private consultationAdmitionSrv: ConsultationAdmitionService = new ConsultationAdmitionService();
+    private appointmentSrv: AppointmentService = new AppointmentService();
     private error: ErrorDetail = new ErrorDetail();
 
     constructor(){}
@@ -14,6 +16,17 @@ export default class ConsultationAdmitionController {
         return new Promise(async(resolve, reject) => {
             const errorDetail:ErrorDetail = new ErrorDetail();
             try {
+
+                const appointment: AppointmentData = await this.appointmentSrv.findById(consultationAdmition.appointment);
+
+                if (appointment.status === 'PENDIENTE DE PAGO') {
+                    errorDetail.name = 'No se puede registrar una admisión si aun esta pendiente de pago';
+                    reject(errorDetail);
+                } else {
+                    await this.appointmentSrv.updateStatus(appointment._id, 'EN ATENCION');
+                }
+
+
                 const newConsultationAdmition: ConsultationAdmitionModel = new ConsultationAdmition({
                     talla: consultationAdmition.talla,
                     peso: consultationAdmition.peso,
@@ -24,7 +37,8 @@ export default class ConsultationAdmitionController {
                     pa: consultationAdmition.pa,
                     patient: consultationAdmition.patient,
                     createdAt: consultationAdmition.createdAt,
-                    createdBy: consultationAdmition.createdBy
+                    createdBy: consultationAdmition.createdBy,
+                    appointment: consultationAdmition.appointment
                 });
 
                 resolve(await this.consultationAdmitionSrv.save(newConsultationAdmition));

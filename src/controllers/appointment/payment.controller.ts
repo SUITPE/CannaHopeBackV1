@@ -31,6 +31,8 @@ export class PaymentController {
             const paymentSaved: PaymentDataModel = await this.paymentSrv.save(paymentData);
             await this.appointmentSrv.updatePaymentData(appointment._id, payment)
             await this.appointmentSrv.updatePaymentStatus(appointment._id, 'PAGADO');
+            await this.appointmentSrv.updateStatus(appointment._id, 'CONFIRMADA');
+
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
@@ -68,4 +70,5 @@ export class PaymentController {
             }
         }
     }
+
 }

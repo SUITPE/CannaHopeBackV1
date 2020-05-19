@@ -58,7 +58,9 @@ class UserService {
                     ocupation: 1,
                     email: 1,
                     mobilePhone: 1,
-                });
+                    specialty: 1
+                })
+                    .populate('specialty', 'name description');
             }
             catch (error) {
                 const errorDetail = {
@@ -95,6 +97,7 @@ class UserService {
                     ocupation: 1,
                     email: 1,
                     mobilePhone: 1,
+                    specialty: 1
                 });
             }
             catch (error) {

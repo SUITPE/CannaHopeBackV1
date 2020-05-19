@@ -39,7 +39,7 @@ class AppointmentController {
                     paymentData: appointment.paymentData,
                     createdBy: user._id,
                     createdAt: varEnvironments_1.environments.currentDate(),
-                    status: appointment.paymentStatus === 'PAGADO' ? 'POR ATENDER' : 'PENDIENTE DE PAGO'
+                    status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO'
                 });
                 return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta medica registrada correctamente', yield this.appointmentSrv.save(newAppointment)));
             }

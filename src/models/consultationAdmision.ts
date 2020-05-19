@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface ConsultationAdmitionModel extends mongoose.Document {
+    appointment: string;
     talla: number,
     peso: number,
     perimetroabdominal: number,
@@ -15,6 +16,11 @@ export interface ConsultationAdmitionModel extends mongoose.Document {
 }
 
 export const ConsultationAdmitionSchema = new mongoose.Schema({
+    appointment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Appointment',
+        required: [true, 'Debe ingresar a que consulta pertenece esta admisión']
+    },
     talla: {
         type: Number,
         required: [true, 'La talla actual del paciente es requerida']

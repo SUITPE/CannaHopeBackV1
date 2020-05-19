@@ -1,4 +1,3 @@
-
 export interface PaymentCreateDto {
     appointment: string
     paymentMethod: string

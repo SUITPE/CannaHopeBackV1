@@ -40,6 +40,14 @@ class ConsultationAdmitionService {
                     .populate({
                     path: 'createdBy',
                     select: 'names surenames email sex mobilePhone'
+                })
+                    .populate({
+                    path: 'appointment',
+                    select: 'doctor createdBy patientProblem',
+                    populate: {
+                        path: 'createdBy doctor',
+                        select: 'names surenames email mobilePhone'
+                    }
                 }));
             }
             catch (error) {

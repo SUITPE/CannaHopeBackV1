@@ -46,7 +46,9 @@ export default class UserService {
                     ocupation: 1,
                     email: 1,
                     mobilePhone: 1,
-                });
+                    specialty:1
+                })
+                .populate('specialty', 'name description', )
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en consulta en la base de datos al obtener usuario por id de rol',
@@ -80,6 +82,7 @@ export default class UserService {
                 ocupation: 1,
                 email: 1,
                 mobilePhone: 1,
+                specialty:1
             })
         } catch (error) {
             const errorDetail: ErrorDetail = {

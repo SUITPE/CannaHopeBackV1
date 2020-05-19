@@ -5,6 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.ConsultationAdmitionSchema = new mongoose_1.default.Schema({
+    appointment: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'Appointment',
+        required: [true, 'Debe ingresar a que consulta pertenece esta admisión']
+    },
     talla: {
         type: Number,
         required: [true, 'La talla actual del paciente es requerida']

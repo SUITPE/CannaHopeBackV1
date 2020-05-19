@@ -15,15 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const consultationAdmision_1 = __importDefault(require("../../models/consultationAdmision"));
 const jsonResp_1 = require("../../models/jsonResp");
 const consultationAdminiton_service_1 = require("../../services/consultationAdminiton.service");
+const appointment_service_1 = require("../../services/appointment.service");
 class ConsultationAdmitionController {
     constructor() {
         this.consultationAdmitionSrv = new consultationAdminiton_service_1.ConsultationAdmitionService();
+        this.appointmentSrv = new appointment_service_1.AppointmentService();
         this.error = new jsonResp_1.ErrorDetail();
     }
     saveConsultationAdmition(consultationAdmition) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             const errorDetail = new jsonResp_1.ErrorDetail();
             try {
+                const appointment = yield this.appointmentSrv.findById(consultationAdmition.appointment);
+                if (appointment.status === 'PENDIENTE DE PAGO') {
+                    errorDetail.name = 'No se puede registrar una admisión si aun esta pendiente de pago';
+                    reject(errorDetail);
+                }
+                else {
+                    yield this.appointmentSrv.updateStatus(appointment._id, 'EN ATENCION');
+                }
                 const newConsultationAdmition = new consultationAdmision_1.default({
                     talla: consultationAdmition.talla,
                     peso: consultationAdmition.peso,
@@ -34,7 +44,8 @@ class ConsultationAdmitionController {
                     pa: consultationAdmition.pa,
                     patient: consultationAdmition.patient,
                     createdAt: consultationAdmition.createdAt,
-                    createdBy: consultationAdmition.createdBy
+                    createdBy: consultationAdmition.createdBy,
+                    appointment: consultationAdmition.appointment
                 });
                 resolve(yield this.consultationAdmitionSrv.save(newConsultationAdmition));
             }
