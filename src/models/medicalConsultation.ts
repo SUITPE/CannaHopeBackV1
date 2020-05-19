@@ -64,7 +64,6 @@ export const MedicalConsultationSchema = new mongoose.Schema({
     },
     consultationReason:{
         type: String,
-        required: [true, ' Debe ingresar un motivo de consulta']
     }
 });
 

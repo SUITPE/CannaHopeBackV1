@@ -184,6 +184,8 @@ export class AppointmentController {
     public async getDoctorAppointments(req: Request, res: Response): Promise<Response> {
 
         const idDoctor: string = req.params.id;
+
+        
         try {
 
             const dateToday = moment(environments.currentDate()).format(`YYYY-MM-DD`);
