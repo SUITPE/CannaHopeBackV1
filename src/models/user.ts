@@ -32,6 +32,7 @@ export class UserModel extends mongoose.Document   {
     public numberOfDependents?: number;
     public children?: number;
     public specialty: string = '';
+    public doctorCmp: string = '';
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -63,7 +64,6 @@ export const UserSchema = new mongoose.Schema({
     },
     document: {
         type: String,
-        unique: true
     },
     documentType:{
         type: String,
@@ -147,6 +147,9 @@ export const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MedialSpeciality',
         default: null
+    },
+    doctorCmp: {
+        type: String,
     }
 });
 

@@ -91,7 +91,7 @@ export default class UserController {
                     user.image = userImage;
                 }
 
-                if (user.password) {
+                if (user.password !== null) {
                     user.password = bcrypt.hashSync((user.password).toString(), 10)
                 }
 
@@ -104,7 +104,6 @@ export default class UserController {
                                 name: 'Error en la consulta al actualizar usuario',
                                 description: error
                             }
-
                             throw errorDetail;
                         }
                     });

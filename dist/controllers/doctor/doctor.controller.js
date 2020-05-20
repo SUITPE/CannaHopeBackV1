@@ -42,7 +42,7 @@ class DoctorController {
             const doctor = req.body;
             try {
                 const validated = yield validateIfUserExist();
-                const doctorRol = yield rolSrv.findByNane('MEDICO');
+                const doctorRol = yield rolSrv.findByNane('Médico');
                 if (doctor.image) {
                     doctor.image = yield userController.setUserImage(doctor.image, doctor);
                 }
@@ -57,6 +57,8 @@ class DoctorController {
                     image: doctor.image,
                     specialty: doctor.specialty,
                     rol: doctorRol._id,
+                    doctorCmp: doctor.doctorCmp,
+                    document: new Date().getMilliseconds()
                 });
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor registrado exitosamente', yield userSrv.save(newDoctor)));
             }
@@ -115,6 +117,7 @@ class DoctorController {
                 specialty: doctor.specialty,
                 updatedBy: doctor.updatedBy,
                 updateDate: doctor.updateDate,
+                doctorCmp: doctor.doctorCmp
             });
             try {
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor actualizado correctamente', yield userSrv.update(doctorUpdate)));

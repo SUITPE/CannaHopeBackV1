@@ -33,6 +33,7 @@ class UserModel extends mongoose_1.default.Document {
         this.lastAccesDate = String();
         this.token = String();
         this.specialty = '';
+        this.doctorCmp = '';
     }
 }
 exports.UserModel = UserModel;
@@ -65,7 +66,6 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     document: {
         type: String,
-        unique: true
     },
     documentType: {
         type: String,
@@ -149,6 +149,9 @@ exports.UserSchema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: 'MedialSpeciality',
         default: null
+    },
+    doctorCmp: {
+        type: String,
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

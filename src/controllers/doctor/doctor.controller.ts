@@ -47,7 +47,7 @@ export class DoctorController {
         try {
 
             const validated: boolean = await validateIfUserExist();
-            const doctorRol: RolModel = await rolSrv.findByNane('MEDICO');
+            const doctorRol: RolModel = await rolSrv.findByNane('Médico');
 
             if (doctor.image) {
                 doctor.image = await userController.setUserImage(doctor.image, doctor);
@@ -64,6 +64,8 @@ export class DoctorController {
                 image: doctor.image,
                 specialty: doctor.specialty,
                 rol: doctorRol._id,
+                doctorCmp: doctor.doctorCmp,
+                document: new Date().getMilliseconds()
             });
 
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
@@ -140,6 +142,7 @@ export class DoctorController {
             specialty: doctor.specialty,
             updatedBy: doctor.updatedBy,
             updateDate: doctor.updateDate,
+            doctorCmp: doctor.doctorCmp
         });
 
         try {

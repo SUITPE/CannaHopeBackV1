@@ -10,6 +10,7 @@ export interface DoctorCreateDto {
     createdBy: string;
     image: string;
     specialty: string;
+    doctorCmp: string;
 }
 
 export interface DoctorUpdateDto {
@@ -23,5 +24,6 @@ export interface DoctorUpdateDto {
     specialty: string;
     updatedBy: string;
     updateDate: string;
+    doctorCmp: string;
 }
 

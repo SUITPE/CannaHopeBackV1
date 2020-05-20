@@ -88,7 +88,7 @@ class UserController {
                     userImage = yield this.setUserImage(user.image, user);
                     user.image = userImage;
                 }
-                if (user.password) {
+                if (user.password !== null) {
                     user.password = bcrypt_1.default.hashSync((user.password).toString(), 10);
                 }
                 user_1.default.findByIdAndUpdate(idUser, user)

@@ -6,7 +6,6 @@ import { Request, Response } from 'express';
 import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
 import { PatientUpdateDto } from '../../dto/patient.dto';
-import UserService from '../../services/user.service';
 import PatientService from '../../services/patient.service';
 
 export default class PatientController {
@@ -193,6 +192,7 @@ export default class PatientController {
             }
 
             const patientUpdated = await patietnSrv.update(patient);
+
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
                 true,
                 'Paciente actualizado correctamente',
