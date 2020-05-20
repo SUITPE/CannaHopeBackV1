@@ -7,7 +7,7 @@ exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (currentEnv === 'PROD') {
-            return 'mongodb://localhost:27017';
+            return 'mongodb://127.0.0.1:27017';
         }
         else {
             return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
