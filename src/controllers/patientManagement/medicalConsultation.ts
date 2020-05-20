@@ -14,13 +14,14 @@ import { Request, Response } from 'express';
 import httpstatus from 'http-status';
 import JsonResp from '../../models/jsonResp';
 import MedicalConsultationService from '../../services/medicalConsultation.service';
+import { AppointmentService } from '../../services/appointment.service';
 
 export default class MedicalConsultationController {
 
     private static medicalConsultationSrv: MedicalConsultationService = new MedicalConsultationService();
     private consultationAdmitionSrv: ConsultationAdmitionService = new ConsultationAdmitionService();
 
-    public save(medicalConsultation: MedicalConsultationModel): Promise<MedicalConsultationModel> {
+    public save(medicalConsultation: any): Promise<MedicalConsultationModel> {
         return new Promise(async (resolve, reject) => {
 
             const errorDetail: ErrorDetail = new ErrorDetail();
@@ -29,6 +30,7 @@ export default class MedicalConsultationController {
             const patientCtr: PatientController = new PatientController();
             const medicalDiagnosticCtr: MedicalDiagnosticController = new MedicalDiagnosticController();
             const medicalTreatmentCtr: MedicalTreatmentController = new MedicalTreatmentController();
+            const appointmentSrv: AppointmentService = new AppointmentService();
 
             try {
                 const newMedicalConsultation: MedicalConsultationModel = new MedicalConsultation({
@@ -66,7 +68,9 @@ export default class MedicalConsultationController {
                 const appointmentUpdated: boolean = await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
                 const consultationAdmitionUpdate: ConsultationAdmitionModel = await this.consultationAdmitionSrv.updateIsEnabled(
                     medicalConsultation.medicalEvaluation.clinicalExamination._id, false
-                )
+                );
+
+                const appointmetnUpdated = await appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
 
                 resolve(medicalConsultationSaved);
 

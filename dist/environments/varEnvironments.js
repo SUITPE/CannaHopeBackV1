@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const moment = require('moment-timezone');
-const currentEnv = 'DEV';
+const currentEnv = 'PROD';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';
 exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (currentEnv === 'PROD') {
-            return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
+            return 'mongodb://localhost:27017';
         }
         else {
             return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';

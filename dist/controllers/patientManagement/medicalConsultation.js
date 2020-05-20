@@ -23,6 +23,7 @@ const consultationAdminiton_service_1 = require("../../services/consultationAdmi
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_2 = __importDefault(require("../../models/jsonResp"));
 const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
+const appointment_service_1 = require("../../services/appointment.service");
 class MedicalConsultationController {
     constructor() {
         this.consultationAdmitionSrv = new consultationAdminiton_service_1.ConsultationAdmitionService();
@@ -35,6 +36,7 @@ class MedicalConsultationController {
             const patientCtr = new patientsController_1.default();
             const medicalDiagnosticCtr = new medicalDiagnosticController_1.MedicalDiagnosticController();
             const medicalTreatmentCtr = new medicalTreatment_1.default();
+            const appointmentSrv = new appointment_service_1.AppointmentService();
             try {
                 const newMedicalConsultation = new medicalConsultation_1.MedicalConsultation({
                     patient: medicalConsultation.patient,
@@ -65,6 +67,7 @@ class MedicalConsultationController {
                 const medicalDiagnostic = yield medicalDiagnosticCtr.save(newMedicalDiagnostic);
                 const appointmentUpdated = yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
                 const consultationAdmitionUpdate = yield this.consultationAdmitionSrv.updateIsEnabled(medicalConsultation.medicalEvaluation.clinicalExamination._id, false);
+                const appointmetnUpdated = yield appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
                 resolve(medicalConsultationSaved);
             }
             catch (error) {
