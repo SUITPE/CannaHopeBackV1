@@ -31,6 +31,9 @@ exports.MedicalEvaluationSchema = new mongoose_1.default.Schema({
     createDate: {
         type: Date,
         required: [true, 'Debe ingresar una fecha de registro']
+    },
+    painScale: {
+        type: String
     }
 });
 exports.MedicalEvaluation = mongoose_1.default.model('MedicalEvaluation', exports.MedicalEvaluationSchema);

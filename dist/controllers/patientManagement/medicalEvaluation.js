@@ -13,7 +13,8 @@ class MedicalEvaluationController {
                     clinicalExamination: medialEvaluation.clinicalExamination,
                     ectoscopy: medialEvaluation.ectoscopy,
                     mentalStatus: medialEvaluation.mentalStatus,
-                    createDate: medialEvaluation.createDate
+                    createDate: medialEvaluation.createDate,
+                    painScale: medialEvaluation.painScale
                 });
                 newMedicalEvaluation.save({}, (error, medicalEvaluationSaved) => {
                     if (error) {

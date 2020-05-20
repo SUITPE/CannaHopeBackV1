@@ -1,5 +1,6 @@
 import { ConsultationAdmitionModel } from '../models/consultationAdmision';
 import ConsultationAdmition from '../models/consultationAdmision';
+import { ErrorDetail } from '../models/jsonResp';
 
 export class ConsultationAdmitionService {
 
@@ -55,6 +56,19 @@ export class ConsultationAdmitionService {
                 reject(error);
             }
         });
+    }
+
+    public async findByIdAppointment(idAppointment: string): Promise<ConsultationAdmitionModel> {
+        try {
+            const founded: any = await ConsultationAdmition.findOne({appointment: idAppointment})
+            return founded;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la consulta a la base de datos para obtener admision por id de consulta',
+                description: error
+            }
+            throw errorDetail;
+        }
     }
 
 }

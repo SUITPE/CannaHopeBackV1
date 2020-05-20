@@ -10,20 +10,24 @@ export default class ConsultationAdmitionController {
     private appointmentSrv: AppointmentService = new AppointmentService();
     private error: ErrorDetail = new ErrorDetail();
 
-    constructor(){}
+    constructor() { }
 
     public saveConsultationAdmition(consultationAdmition: any): Promise<ConsultationAdmitionModel> {
-        return new Promise(async(resolve, reject) => {
-            const errorDetail:ErrorDetail = new ErrorDetail();
+        return new Promise(async (resolve, reject) => {
+            const errorDetail: ErrorDetail = new ErrorDetail();
             try {
 
                 const appointment: AppointmentData = await this.appointmentSrv.findById(consultationAdmition.appointment);
+                const admitionFounded: ConsultationAdmitionModel = await this.consultationAdmitionSrv.findByIdAppointment(appointment._id);
 
                 if (appointment.status === 'PENDIENTE DE PAGO') {
                     errorDetail.name = 'No se puede registrar una admisión si aun esta pendiente de pago';
                     reject(errorDetail);
-                } else {
-                    await this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
+                }
+
+                if (admitionFounded) {
+                    errorDetail.name = 'Ya se ha registrado una admisión para esta consulta.';
+                    reject(errorDetail);
                 }
 
 
@@ -41,10 +45,11 @@ export default class ConsultationAdmitionController {
                     appointment: consultationAdmition.appointment
                 });
 
+                await this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
                 resolve(await this.consultationAdmitionSrv.save(newConsultationAdmition));
             } catch (error) {
                 errorDetail.name = 'Error al registrar admision de paciente para consulta',
-                errorDetail.description = error;
+                    errorDetail.description = error;
                 errorDetail.status = 500;
                 reject(errorDetail);
             }
@@ -52,7 +57,7 @@ export default class ConsultationAdmitionController {
     }
 
     public getConsultationAdmitionByPatientId(idPatient: string): Promise<ConsultationAdmitionModel[]> {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 resolve(await this.consultationAdmitionSrv.getByIdPatient(idPatient))
             } catch (error) {

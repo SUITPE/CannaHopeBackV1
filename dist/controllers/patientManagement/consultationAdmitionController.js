@@ -27,12 +27,14 @@ class ConsultationAdmitionController {
             const errorDetail = new jsonResp_1.ErrorDetail();
             try {
                 const appointment = yield this.appointmentSrv.findById(consultationAdmition.appointment);
+                const admitionFounded = yield this.consultationAdmitionSrv.findByIdAppointment(appointment._id);
                 if (appointment.status === 'PENDIENTE DE PAGO') {
                     errorDetail.name = 'No se puede registrar una admisión si aun esta pendiente de pago';
                     reject(errorDetail);
                 }
-                else {
-                    yield this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
+                if (admitionFounded) {
+                    errorDetail.name = 'Ya se ha registrado una admisión para esta consulta.';
+                    reject(errorDetail);
                 }
                 const newConsultationAdmition = new consultationAdmision_1.default({
                     talla: consultationAdmition.talla,
@@ -47,6 +49,7 @@ class ConsultationAdmitionController {
                     createdBy: consultationAdmition.createdBy,
                     appointment: consultationAdmition.appointment
                 });
+                yield this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
                 resolve(yield this.consultationAdmitionSrv.save(newConsultationAdmition));
             }
             catch (error) {

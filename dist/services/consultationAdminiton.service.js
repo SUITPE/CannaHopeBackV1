@@ -65,5 +65,20 @@ class ConsultationAdmitionService {
             }
         }));
     }
+    findByIdAppointment(idAppointment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const founded = yield consultationAdmision_1.default.findOne({ appointment: idAppointment });
+                return founded;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la consulta a la base de datos para obtener admision por id de consulta',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.ConsultationAdmitionService = ConsultationAdmitionService;

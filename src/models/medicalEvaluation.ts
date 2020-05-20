@@ -10,6 +10,7 @@ export interface MedicalEvaluationModel extends mongoose.Document {
     ectoscopy: string;
     mentalStatus: string;
     createDate: Date;
+    painScale: string;
 }
 
 export interface ClinicalExamination {
@@ -46,6 +47,9 @@ export const MedicalEvaluationSchema = new mongoose.Schema({
     createDate: {
         type: Date,
         required: [true, 'Debe ingresar una fecha de registro']
+    },
+    painScale: {
+        type: String
     }
 });
 

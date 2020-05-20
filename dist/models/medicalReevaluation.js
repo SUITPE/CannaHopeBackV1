@@ -17,6 +17,9 @@ exports.MedicalReevaluationSchema = new mongoose_1.default.Schema({
     createDate: {
         type: Date,
         default: new Date()
+    },
+    painScale: {
+        type: String
     }
 });
 exports.MedicalReevaluation = mongoose_1.default.model('MedicalReevaluation', exports.MedicalReevaluationSchema);
