@@ -19,7 +19,7 @@ export class DoctorController {
 
         try {
 
-            const doctorRol: RolModel = await rolSrv.findByNane('MEDICO');
+            const doctorRol: RolModel = await rolSrv.findByNane('Médico');
             const doctorList: UserModel[] = await userSrv.findByRolId(doctorRol._id);
 
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(

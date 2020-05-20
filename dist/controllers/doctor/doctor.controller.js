@@ -25,7 +25,7 @@ class DoctorController {
             const userSrv = new user_service_1.default();
             const rolSrv = new rol_service_1.default();
             try {
-                const doctorRol = yield rolSrv.findByNane('MEDICO');
+                const doctorRol = yield rolSrv.findByNane('Médico');
                 const doctorList = yield userSrv.findByRolId(doctorRol._id);
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Lista de doctores cargada correctamente', doctorList));
             }

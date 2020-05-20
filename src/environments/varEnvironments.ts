@@ -2,7 +2,7 @@ const moment = require('moment-timezone');
 
 
 
-const currentEnv: string =  'PROD';
+const currentEnv: string =  'DEV';
 export const seed: string = 'PRIVATE-SEED-CANNAHOPE-API'
 export const tokenExpiration: number = 60*60*24;
 
