@@ -14,38 +14,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const patientPh_1 = __importDefault(require("../../models/patientPh"));
 const jsonResp_1 = require("../../models/jsonResp");
+const varEnvironments_1 = require("../../environments/varEnvironments");
+const jsonResp_2 = __importDefault(require("../../models/jsonResp"));
+const http_status_1 = __importDefault(require("http-status"));
 // PatientPathologicalHistory controller
 class PatientPhController {
-    constructor() {
+    constructor(patientPhSrv) {
+        this.patientPhSrv = patientPhSrv;
         this.errorDetail = new jsonResp_1.ErrorDetail();
     }
-    save(patientPh) {
-        return new Promise((resolve, reject) => {
+    save(req, res) {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const patientPh = req.body;
+            const user = req.user;
             try {
-                const newPatientPh = new patientPh_1.default({
-                    patient: patientPh.patient,
-                    diseaseList: patientPh.diseaseList,
-                    description: patientPh.description,
-                    createdBy: patientPh.createdBy,
-                    harmfulHabitsList: patientPh.harmfulHabitsList,
-                    familyPph: patientPh.familyPph,
-                    currentMedication: patientPh.currentMedication
-                });
-                newPatientPh.save({}, (error, patientPhSaved) => {
-                    if (error) {
-                        this.errorDetail.name = 'Error al registrar Historial patologico de paciente';
-                        this.errorDetail.description = error;
-                        reject(this.errorDetail);
-                    }
-                    else {
-                        resolve(patientPhSaved);
-                    }
-                });
+                // const dataValidated: boolean = await validatePatientPhData();
+                const newPatientPh = yield mapPatientPhData();
+                const patientPhSaved = yield this.patientPhSrv.save(newPatientPh);
+                resolve(res.status(http_status_1.default.CREATED).send(new jsonResp_2.default(true, 'Historial patologico registrado exitosamene', patientPhSaved)));
             }
             catch (error) {
-                reject(error);
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_2.default(false, 'Error al registrar historial patologico de paciente', error));
             }
-        });
+            function validatePatientPhData() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        if (patientPh.diseaseList.length === 0) {
+                            throw new Error('Error en validacion - no se ha registrado una lista de antecendeces patologicos');
+                        }
+                        if (!patientPh.harmfulHabitsList || patientPh.harmfulHabitsList.length === 0) {
+                            throw new Error('Error en validacion - no se ha registrado una lista de habitos nocivos');
+                        }
+                        return true;
+                    }
+                    catch (error) {
+                        const errorDetail = {
+                            name: 'Error en validacion de datos',
+                            description: error
+                        };
+                        throw errorDetail;
+                    }
+                });
+            }
+            function mapPatientPhData() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const newPatientPh = new patientPh_1.default({
+                            patient: patientPh.patient,
+                            diseaseList: patientPh.diseaseList,
+                            description: patientPh.description,
+                            createdBy: user._id,
+                            createDate: varEnvironments_1.environments.currentDate(),
+                            harmfulHabitsList: patientPh.harmfulHabitsList,
+                            familyPph: patientPh.familyPph,
+                            currentMedication: patientPh.currentMedication,
+                            surgeries: patientPh.surgeries,
+                            fu: patientPh.fur,
+                            pregnancies: patientPh.pregnancies,
+                            poisonings: patientPh.poisonings,
+                            hospitalizations: patientPh.hospitalizations
+                        });
+                        return newPatientPh;
+                    }
+                    catch (error) {
+                        const errorDetail = {
+                            name: 'Error al estructurar información de historial patologico para ser guardado',
+                            description: error
+                        };
+                        throw errorDetail;
+                    }
+                });
+            }
+        }));
     }
     findAndUpdate(patientPh) {
         return __awaiter(this, void 0, void 0, function* () {

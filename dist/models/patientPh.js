@@ -24,8 +24,7 @@ exports.PphSchema = new mongoose_1.default.Schema({
         required: [true, 'Debe asignar un historial patologico de familia al paciente']
     },
     description: {
-        type: String,
-        minlength: [2, 'La descripcion debe tener como minimo dos caracteres']
+        type: String
     },
     createdBy: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -50,6 +49,26 @@ exports.PphSchema = new mongoose_1.default.Schema({
     },
     currentMedication: {
         type: []
+    },
+    surgeries: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    fur: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    pregnancies: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    poisonings: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    hospitalizations: {
+        type: String,
+        default: 'Sin registrar'
     }
 });
 const PatientPh = mongoose_1.default.model('PatientPh', exports.PphSchema);

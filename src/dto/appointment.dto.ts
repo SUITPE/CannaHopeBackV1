@@ -6,7 +6,7 @@ export interface AppointmentCreateDto  {
     patientProblem: string;
     doctorAvailability: string;
     paymentStatus: string;
-    paymentData: [];
+    paymentData: any;
     dateString: string;
 }
 

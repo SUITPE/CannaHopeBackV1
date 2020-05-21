@@ -12,13 +12,17 @@ import { AppointmentStatusService } from '../../services/appointmentStatus.servi
 import { ErrorDetail } from '../../models/jsonResp';
 import { AppointmentData } from '../../models/appointment.model';
 import { DoctorAvailabilityService } from '../../services/doctorAvailability.service';
+import { PaymentService } from '../../services/payment.service';
+import { PaymentDataModel } from '../../models/paymentDetail.interface';
+import { Payment } from '../../schema/paymentData.schema';
 const moment = require('moment-timezone');
 
 export class AppointmentController {
 
     constructor(
         private appointmentSrv: AppointmentService,
-        private appointmentStatusSrv: AppointmentStatusService
+        private appointmentStatusSrv: AppointmentStatusService,
+        private paymentSrv: PaymentService = new PaymentService()
     ) {
     }
 
@@ -28,33 +32,59 @@ export class AppointmentController {
         const user: UserModel = req.user;
         try {
 
-            const newAppointment: IAppointment = new Appointment({
-                patient: appointment.patient,
-                doctor: appointment.doctor,
-                date: appointment.date,
-                specialty: appointment.specialty,
-                patientProblem: appointment.patientProblem,
-                doctorAvailability: appointment.doctorAvailability,
-                paymentStatus: appointment.paymentStatus,
-                paymentData: appointment.paymentData,
-                createdBy: user._id,
-                createdAt: environments.currentDate(),
-                status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
-                dateString: appointment.dateString
-            });
+            if (appointment.paymentData) {
+                appointment.paymentStatus = 'PAGADO';
+            }
+
+            const newAppointment: IAppointment = await setAppointmentData();
+            const appointmentSaved: IAppointment = await this.appointmentSrv.save(newAppointment);
+
+            if (appointment.paymentData) {
+                appointment.paymentData.appointment = appointmentSaved._id;
+                appointment.paymentData.createdBy = req.user._id;
+                appointment.paymentData.createdAt = environments.currentDate();
+                const paymentSaved: PaymentDataModel = await this.paymentSrv.save(new Payment(appointment.paymentData));
+            }
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
                 'Consulta medica registrada correctamente',
-                await this.appointmentSrv.save(newAppointment)
+                appointmentSaved
             ));
 
         } catch (error) {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
-                'Error al regsitrar cita',
+                'Error al registrar cita',
                 error
             ));
+        }
+
+        async function setAppointmentData(): Promise<IAppointment> {
+            try {
+                const newAppointment: IAppointment = new Appointment({
+                    patient: appointment.patient,
+                    doctor: appointment.doctor,
+                    date: appointment.date,
+                    specialty: appointment.specialty,
+                    patientProblem: appointment.patientProblem,
+                    doctorAvailability: appointment.doctorAvailability,
+                    paymentStatus: appointment.paymentStatus,
+                    paymentData: appointment.paymentData,
+                    createdBy: user._id,
+                    createdAt: environments.currentDate(),
+                    status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
+                    dateString: appointment.dateString
+                });
+
+                return newAppointment
+            } catch (error) {
+                const errorDetail: ErrorDetail = {
+                    name: 'Error en la validacion de datos de consulta',
+                    description: JSON.stringify(error)
+                }
+                throw errorDetail;
+            }
         }
     }
 

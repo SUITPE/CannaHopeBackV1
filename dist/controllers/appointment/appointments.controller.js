@@ -18,35 +18,63 @@ const appointment_service_1 = require("../../services/appointment.service");
 const appointment_schema_1 = require("../../schema/appointment.schema");
 const varEnvironments_1 = require("../../environments/varEnvironments");
 const doctorAvailability_service_1 = require("../../services/doctorAvailability.service");
+const payment_service_1 = require("../../services/payment.service");
+const paymentData_schema_1 = require("../../schema/paymentData.schema");
 const moment = require('moment-timezone');
 class AppointmentController {
-    constructor(appointmentSrv, appointmentStatusSrv) {
+    constructor(appointmentSrv, appointmentStatusSrv, paymentSrv = new payment_service_1.PaymentService()) {
         this.appointmentSrv = appointmentSrv;
         this.appointmentStatusSrv = appointmentStatusSrv;
+        this.paymentSrv = paymentSrv;
     }
     registerAppointment(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const appointment = req.body;
             const user = req.user;
             try {
-                const newAppointment = new appointment_schema_1.Appointment({
-                    patient: appointment.patient,
-                    doctor: appointment.doctor,
-                    date: appointment.date,
-                    specialty: appointment.specialty,
-                    patientProblem: appointment.patientProblem,
-                    doctorAvailability: appointment.doctorAvailability,
-                    paymentStatus: appointment.paymentStatus,
-                    paymentData: appointment.paymentData,
-                    createdBy: user._id,
-                    createdAt: varEnvironments_1.environments.currentDate(),
-                    status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
-                    dateString: appointment.dateString
-                });
-                return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta medica registrada correctamente', yield this.appointmentSrv.save(newAppointment)));
+                if (appointment.paymentData) {
+                    appointment.paymentStatus = 'PAGADO';
+                }
+                const newAppointment = yield setAppointmentData();
+                const appointmentSaved = yield this.appointmentSrv.save(newAppointment);
+                if (appointment.paymentData) {
+                    appointment.paymentData.appointment = appointmentSaved._id;
+                    appointment.paymentData.createdBy = req.user._id;
+                    appointment.paymentData.createdAt = varEnvironments_1.environments.currentDate();
+                    const paymentSaved = yield this.paymentSrv.save(new paymentData_schema_1.Payment(appointment.paymentData));
+                }
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Consulta medica registrada correctamente', appointmentSaved));
             }
             catch (error) {
-                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al regsitrar cita', error));
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al registrar cita', error));
+            }
+            function setAppointmentData() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const newAppointment = new appointment_schema_1.Appointment({
+                            patient: appointment.patient,
+                            doctor: appointment.doctor,
+                            date: appointment.date,
+                            specialty: appointment.specialty,
+                            patientProblem: appointment.patientProblem,
+                            doctorAvailability: appointment.doctorAvailability,
+                            paymentStatus: appointment.paymentStatus,
+                            paymentData: appointment.paymentData,
+                            createdBy: user._id,
+                            createdAt: varEnvironments_1.environments.currentDate(),
+                            status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
+                            dateString: appointment.dateString
+                        });
+                        return newAppointment;
+                    }
+                    catch (error) {
+                        const errorDetail = {
+                            name: 'Error en la validacion de datos de consulta',
+                            description: JSON.stringify(error)
+                        };
+                        throw errorDetail;
+                    }
+                });
             }
         });
     }

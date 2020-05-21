@@ -16,7 +16,12 @@ export interface PatientPhModel extends mongoose.Document {
     updatedBy: string;
     harmfulHabitsList: HarmfulHabitModel[];
     familyPph: FamilyPphModel;
-    currentMedication: CurrentMedication
+    currentMedication: CurrentMedication;
+    surgeries: string;
+    fu: string;
+    pregnancies: string;
+    poisonings: string;
+    hospitalizations: string;
 }
 
 export const PphSchema = new mongoose.Schema({
@@ -39,8 +44,7 @@ export const PphSchema = new mongoose.Schema({
         required: [true, 'Debe asignar un historial patologico de familia al paciente']
     },
     description: {
-        type: String,
-        minlength: [2, 'La descripcion debe tener como minimo dos caracteres']
+        type: String
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -65,6 +69,26 @@ export const PphSchema = new mongoose.Schema({
     },
     currentMedication: {
         type: []
+    },
+    surgeries: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    fur: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    pregnancies: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    poisonings: {
+        type: String,
+        default: 'Sin registrar'
+    },
+    hospitalizations: {
+        type: String,
+        default: 'Sin registrar'
     }
 });
 

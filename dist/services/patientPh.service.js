@@ -9,22 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class PaymentService {
-    constructor() { }
-    save(payment) {
+class PatientPhService {
+    save(pateintPh) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(payment);
-                return yield payment.save();
+                return yield pateintPh.save();
             }
             catch (error) {
                 const errorDetail = {
-                    name: 'Error en consulta de base de datos al registrar pago de consulta',
+                    name: 'Error al guardar historial patologico de paciente',
                     description: error
                 };
-                throw errorDetail;
+                throw (errorDetail);
             }
         });
     }
 }
-exports.PaymentService = PaymentService;
+exports.PatientPhService = PatientPhService;

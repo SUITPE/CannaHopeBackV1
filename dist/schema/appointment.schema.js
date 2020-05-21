@@ -37,7 +37,7 @@ exports.AppointmentSchema = new mongoose_1.default.Schema({
         required: [true, 'Debe ingresar el estado de pago actual de la consulta']
     },
     paymentData: {
-        type: []
+        type: Object
     },
     createdBy: {
         type: mongoose_1.default.Schema.Types.ObjectId,

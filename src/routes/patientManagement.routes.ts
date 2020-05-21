@@ -11,10 +11,14 @@ import MedicalReevaluationController from '../controllers/patientManagement/medi
 import { DiseaseService } from '../services/disease.service';
 import ConsultationAdmitionController from '../controllers/patientManagement/consultationAdmitionController';
 import { ErrorDetail } from '../models/jsonResp';
+import { PatientPhService } from '../services/patientPh.service';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
-const patientPhCtr: PatientPhController = new PatientPhController();
+
+const patientPhCtr: PatientPhController = new PatientPhController(
+    new PatientPhService()
+);
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
@@ -76,15 +80,6 @@ patientManagementRoutes.post('/medicalConsultation/save', UserValidation.validat
 });
 
 
-patientManagementRoutes.post('/patientPh/save', UserValidation.validation, (req, res) => {
-    patientPhCtr.save(req.body)
-    .then(patientPhSaved => {
-        return res.status(200).send(new JsonResp(true, 'Historial patologico de paciente guardado correctamente', patientPhSaved));
-    })
-    .catch(error => {
-        return res.status(500).send(new JsonResp(false, 'Error al registrar historial patologico de paciente', null, error));
-    });
-});
 
 patientManagementRoutes.put('/patientPh/update', UserValidation.validation, (req, res) => {
     patientPhCtr.findAndUpdate(req.body)
@@ -194,6 +189,10 @@ patientManagementRoutes.get('/consultationAdmition/findByIdPatient/:idPatient', 
 patientManagementRoutes.delete('/disease/delete/:id', UserValidation.validation, diseaseCtr.delete);
 patientManagementRoutes.put('/disease/update', UserValidation.validation, diseaseCtr.update);
 patientManagementRoutes.get('/medicalConsultation/getById/:id', UserValidation.validation, medicalConsultationCtr.getById);
+
+// patient ph
+patientManagementRoutes.post('/patientPh/save', UserValidation.validation, (req, res) => patientPhCtr.save(req, res));
+
 export default patientManagementRoutes;
 
 

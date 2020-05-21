@@ -8,6 +8,9 @@ export class PaymentService {
 
     public async save(payment: PaymentDataModel): Promise<PaymentDataModel> {
         try {
+
+            console.log(payment);
+            
             return await payment.save();
         } catch (error) {
             const errorDetail: ErrorDetail = {

@@ -10,7 +10,8 @@ const appointmentsRoutes: Router = Router();
 
 const appointmentCtr: AppointmentController = new AppointmentController(
     new AppointmentService(),
-    new AppointmentStatusService()
+    new AppointmentStatusService(),
+    new PaymentService()
 );
 
 const paymentCtr: PaymentController = new PaymentController(
