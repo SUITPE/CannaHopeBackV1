@@ -45,7 +45,7 @@ class DoctorAvailabilityService {
     findByDoctorId(idDoctor) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ doctor: idDoctor }, { isEnabled: true }).populate({
+                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ doctor: idDoctor, isEnabled: true }).populate({
                     path: 'doctor',
                     select: 'names surenames email image nickName'
                 });

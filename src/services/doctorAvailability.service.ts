@@ -37,7 +37,7 @@ export class DoctorAvailabilityService {
 
     public async findByDoctorId(idDoctor: string): Promise<DoctorAvailabilityModel[]>{
         try {
-            return await DoctorAvailability.find({doctor: idDoctor }, {isEnabled: true}).populate(
+            return await DoctorAvailability.find({doctor: idDoctor, isEnabled: true }).populate(
                 {
                     path: 'doctor',
                     select: 'names surenames email image nickName'

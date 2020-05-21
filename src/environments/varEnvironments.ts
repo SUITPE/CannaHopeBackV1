@@ -6,9 +6,7 @@ export const tokenExpiration: number = 60*60*24;
 
 
 export const environments = {
-
     getDbUrl(): string {
-
         if (currentEnv === 'PROD') {
             return 'mongodb://167.71.119.143:27017/cannahope';
         } else {
