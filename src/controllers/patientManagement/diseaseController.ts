@@ -1,18 +1,32 @@
 import { DiseaseModel } from '../../models/disease';
 import Disease from '../../models/disease';
 import { DiseaseService } from '../../services/disease.service';
-import JsonResp from '../../models/jsonResp';
+import JsonResp, { ErrorDetail } from '../../models/jsonResp';
 import { Request, Response } from 'express';
 import httpstatus from 'http-status';
 import { DiseaseUpdateDto } from '../../dto/diseace.dto';
+import { PatientProblem } from '../../models/patientProblem';
 
 export class DiseaseController {
 
     constructor(private diseaseSrv: DiseaseService) { }
 
     public saveNewDisease(diseaseData: DiseaseModel): Promise<DiseaseModel> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
+
+            console.log(diseaseData);
             try {
+
+                const founded: any = await  PatientProblem.findOne({name: diseaseData.name});
+
+                if (founded) {
+                    const errorDetail : ErrorDetail = {
+                        name: 'La enfermedad que intenta registrar ya se encuentra registrada en sistema',
+                        description: 'La enfermedad que intenta registrar ya se encuentra registrada',
+                    }
+                    throw errorDetail
+                }
+
                 const newDisease: DiseaseModel = new Disease({
                     name: diseaseData.name,
                     description: diseaseData.description
@@ -21,7 +35,7 @@ export class DiseaseController {
                 resolve(this.diseaseSrv.save(newDisease));
 
             } catch (error) {
-                reject(JSON.stringify(error));
+                reject(error);
             }
 
         });

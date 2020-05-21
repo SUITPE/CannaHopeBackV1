@@ -10,7 +10,7 @@ export default class PatientProblemController {
 
 
     public save(patientProblem: PatientProblemModel): Promise<PatientProblemModel> {
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             try {
                 const errorDetail: ErrorDetail = new ErrorDetail();
 
@@ -30,6 +30,7 @@ export default class PatientProblemController {
                 });
 
             } catch (error) {
+
                 reject(error);
             }
         });
@@ -41,7 +42,7 @@ export default class PatientProblemController {
 
                 const errorDetail: ErrorDetail = new ErrorDetail();
 
-                PatientProblem.find({isEnabled: true}, (error, patientProblemList) => {
+                PatientProblem.find({ isEnabled: true }, (error, patientProblemList) => {
                     if (error) {
                         errorDetail.name = 'error al cargar lista de problemas de paciente';
                         errorDetail.description = error;

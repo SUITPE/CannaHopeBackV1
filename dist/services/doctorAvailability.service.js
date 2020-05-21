@@ -28,7 +28,7 @@ class DoctorAvailabilityService {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield DoctorAvailability_schema_1.DoctorAvailability.find().populate({
+                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ isEnabled: true }).populate({
                     path: 'doctor',
                     select: 'names surenames email image nickName'
                 });
@@ -45,7 +45,7 @@ class DoctorAvailabilityService {
     findByDoctorId(idDoctor) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ doctor: idDoctor }).populate({
+                return yield DoctorAvailability_schema_1.DoctorAvailability.find({ doctor: idDoctor }, { isEnabled: true }).populate({
                     path: 'doctor',
                     select: 'names surenames email image nickName'
                 });
@@ -59,10 +59,25 @@ class DoctorAvailabilityService {
             }
         });
     }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const founded = yield DoctorAvailability_schema_1.DoctorAvailability.findOne({ _id: id }, { isEnabled: true });
+                return founded;
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Erro al consultar franja por id',
+                    description: error
+                };
+                throw (errorDetail);
+            }
+        });
+    }
     delete(IdDoctorAvailability) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const deleted = yield DoctorAvailability_schema_1.DoctorAvailability.deleteOne({ _id: IdDoctorAvailability });
+                const deleted = yield DoctorAvailability_schema_1.DoctorAvailability.updateOne({ _id: IdDoctorAvailability }, { isEnabled: false });
                 return true;
             }
             catch (error) {

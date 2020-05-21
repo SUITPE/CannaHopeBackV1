@@ -16,13 +16,23 @@ const disease_1 = __importDefault(require("../../models/disease"));
 const disease_service_1 = require("../../services/disease.service");
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const http_status_1 = __importDefault(require("http-status"));
+const patientProblem_1 = require("../../models/patientProblem");
 class DiseaseController {
     constructor(diseaseSrv) {
         this.diseaseSrv = diseaseSrv;
     }
     saveNewDisease(diseaseData) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            console.log(diseaseData);
             try {
+                const founded = yield patientProblem_1.PatientProblem.findOne({ name: diseaseData.name });
+                if (founded) {
+                    const errorDetail = {
+                        name: 'La enfermedad que intenta registrar ya se encuentra registrada en sistema',
+                        description: 'La enfermedad que intenta registrar ya se encuentra registrada',
+                    };
+                    throw errorDetail;
+                }
                 const newDisease = new disease_1.default({
                     name: diseaseData.name,
                     description: diseaseData.description
@@ -30,9 +40,9 @@ class DiseaseController {
                 resolve(this.diseaseSrv.save(newDisease));
             }
             catch (error) {
-                reject(JSON.stringify(error));
+                reject(error);
             }
-        });
+        }));
     }
     getDiseaseList() {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {

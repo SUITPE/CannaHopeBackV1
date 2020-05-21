@@ -17,6 +17,7 @@ const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const appointment_service_1 = require("../../services/appointment.service");
 const appointment_schema_1 = require("../../schema/appointment.schema");
 const varEnvironments_1 = require("../../environments/varEnvironments");
+const doctorAvailability_service_1 = require("../../services/doctorAvailability.service");
 const moment = require('moment-timezone');
 class AppointmentController {
     constructor(appointmentSrv, appointmentStatusSrv) {
@@ -156,6 +157,7 @@ class AppointmentController {
     validateAppointmentsData() {
         return __awaiter(this, void 0, void 0, function* () {
             const appointmentSrv = new appointment_service_1.AppointmentService();
+            const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
             try {
                 const appointmnentList = yield appointmentSrv.findAll();
                 const currentDate = new Date(varEnvironments_1.environments.currentDate());
@@ -175,6 +177,7 @@ class AppointmentController {
                 return true;
             }
             catch (error) {
+                console.log(error);
                 const errorDetail = {
                     name: 'Error al validar datos de vencimiento de fecha',
                     description: error

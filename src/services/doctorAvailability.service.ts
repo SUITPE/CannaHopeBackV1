@@ -20,7 +20,7 @@ export class DoctorAvailabilityService {
 
     public async findAll(): Promise<DoctorAvailabilityModel[]> {
         try {
-            return await DoctorAvailability.find().populate(
+            return await DoctorAvailability.find({isEnabled: true}).populate(
                 {
                     path: 'doctor',
                     select: 'names surenames email image nickName'
@@ -37,7 +37,7 @@ export class DoctorAvailabilityService {
 
     public async findByDoctorId(idDoctor: string): Promise<DoctorAvailabilityModel[]>{
         try {
-            return await DoctorAvailability.find({doctor: idDoctor }).populate(
+            return await DoctorAvailability.find({doctor: idDoctor }, {isEnabled: true}).populate(
                 {
                     path: 'doctor',
                     select: 'names surenames email image nickName'
@@ -52,9 +52,23 @@ export class DoctorAvailabilityService {
         }
     }
 
+    public async findById(id: string): Promise<DoctorAvailabilityModel>{
+        try {
+            const founded: any =  await DoctorAvailability.findOne({_id: id}, {isEnabled: true});
+            return founded;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Erro al consultar franja por id',
+                description: error
+            }
+            throw(errorDetail);
+        }
+    }
+
+
     public async delete(IdDoctorAvailability: string): Promise<boolean> {
         try {
-            const deleted: any = await DoctorAvailability.deleteOne({_id: IdDoctorAvailability});
+            const deleted: any = await DoctorAvailability.updateOne({_id: IdDoctorAvailability}, {isEnabled: false});
             return true;
         } catch (error) {
             const errorDetail: ErrorDetail = {

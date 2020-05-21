@@ -11,6 +11,7 @@ import { AppointmentStatusInterface } from '../../schema/appointmentStatus.schem
 import { AppointmentStatusService } from '../../services/appointmentStatus.service';
 import { ErrorDetail } from '../../models/jsonResp';
 import { AppointmentData } from '../../models/appointment.model';
+import { DoctorAvailabilityService } from '../../services/doctorAvailability.service';
 const moment = require('moment-timezone');
 
 export class AppointmentController {
@@ -210,6 +211,7 @@ export class AppointmentController {
     public async validateAppointmentsData(): Promise<boolean> {
 
         const appointmentSrv: AppointmentService = new AppointmentService();
+        const doctorAvailabilitySrv: DoctorAvailabilityService = new DoctorAvailabilityService();
 
         try {
             const appointmnentList: IAppointment[] = await appointmentSrv.findAll();
@@ -218,7 +220,10 @@ export class AppointmentController {
             for (const appointment of appointmnentList) {
                 try {
                     if (appointment.status !== 'VENCIDA') {
+
                         const appointmentDate = moment(moment(appointment.date).format('YYYY-MM-DD') + ' ' + appointment.doctorAvailability.timeFrom).format('YYYY-MM-DD HH:mm:ss');
+
+
                         if (moment(new Date(appointmentDate)).diff(currentDate, 'minutes') < 0) {
                             const updated: any = await appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
                         }
@@ -230,6 +235,8 @@ export class AppointmentController {
 
             return true;
         } catch (error) {
+            console.log(error);
+
             const errorDetail: ErrorDetail = {
                 name: 'Error al validar datos de vencimiento de fecha',
                 description: error
