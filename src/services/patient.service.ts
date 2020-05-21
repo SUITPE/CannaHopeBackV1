@@ -17,6 +17,5 @@ export default class PatientService {
             }
             throw (errorDetail);
         }
-
     }
 }

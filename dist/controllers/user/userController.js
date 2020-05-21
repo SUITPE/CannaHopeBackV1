@@ -91,6 +91,9 @@ class UserController {
                 if (user.password !== null) {
                     user.password = bcrypt_1.default.hashSync((user.password).toString(), 10);
                 }
+                else {
+                    delete user.password;
+                }
                 user_1.default.findByIdAndUpdate(idUser, user)
                     .populate('rol')
                     .populate('createdBy', 'names surenames nickName')

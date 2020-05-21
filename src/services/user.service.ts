@@ -118,4 +118,5 @@ export default class UserService {
             throw errorDetail;
         }
     }
+
 }

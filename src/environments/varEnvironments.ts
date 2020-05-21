@@ -42,6 +42,10 @@ export const environments = {
 
     currentDate(): any {
         return  moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss')
+    },
+
+    currentDateString(): string {
+        return  moment().tz('America/Lima').format('YYYY-MM-DD')
     }
 }
 

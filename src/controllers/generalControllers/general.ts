@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+import PatientService from '../../services/patient.service';
+import UserService from '../../services/user.service';
+import User from '../../models/user';
+import Patient from '../../models/patient';
+import { Appointment } from '../../schema/appointment.schema';
+import { environments } from '../../environments/varEnvironments';
+import JsonResp from '../../models/jsonResp';
+import httpstatus from 'http-status';
 
 
 export default class GeneralServices {
@@ -26,13 +34,34 @@ export default class GeneralServices {
         }
     }
 
-    // public async getDashboardData(req: Request, res: Response): Promise<Response> {
-    //     try {
+    public static async getDashboardData(req: Request, res: Response): Promise<Response> {
 
-    //     } catch (error) {
+        const userSrv: UserService = new UserService();
 
-    //     }
-    // }
+        try {
+
+            const data = {
+                totalPatients: await Patient.countDocuments(),
+                appointmentsToday: await Appointment.countDocuments({ dateString: environments.currentDateString() }),
+                appointmentsAttended: await Appointment.countDocuments({ dateString: environments.currentDateString(), status: 'ATENDIDA' })
+            }
+
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Informacion de dashboard cargada correctamente',
+                data
+            ));
+
+
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar datos de dashboard',
+                error
+            ));
+        }
+    }
 
 
 }

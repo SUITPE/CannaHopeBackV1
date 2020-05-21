@@ -96,8 +96,6 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     password: {
         type: String,
-        minlength: 30,
-        required: true
     },
     rol: {
         type: mongoose_1.default.Schema.Types.ObjectId,

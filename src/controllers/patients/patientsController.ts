@@ -7,6 +7,9 @@ import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
 import { PatientUpdateDto } from '../../dto/patient.dto';
 import PatientService from '../../services/patient.service';
+import bcrypt from 'bcrypt';
+
+
 
 export default class PatientController {
 

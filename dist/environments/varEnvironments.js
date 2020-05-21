@@ -39,5 +39,8 @@ exports.environments = {
     },
     currentDate() {
         return moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
+    },
+    currentDateString() {
+        return moment().tz('America/Lima').format('YYYY-MM-DD');
     }
 };

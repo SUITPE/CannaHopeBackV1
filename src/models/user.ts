@@ -94,8 +94,6 @@ export const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minlength: 30,
-        required: true
     },
     rol: {
         type: mongoose.Schema.Types.ObjectId,
