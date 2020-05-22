@@ -191,7 +191,7 @@ class AppointmentController {
                 const currentDate = new Date(varEnvironments_1.environments.currentDate());
                 for (const appointment of appointmnentList) {
                     try {
-                        if (appointment.status !== 'VENCIDA') {
+                        if (appointment.status === 'POR ATENDER' || appointment.status === 'PENDIENTE DE PAGO') {
                             const appointmentDate = moment(moment(appointment.date).format('YYYY-MM-DD') + ' ' + appointment.doctorAvailability.timeFrom).format('YYYY-MM-DD HH:mm:ss');
                             if (moment(new Date(appointmentDate)).diff(currentDate, 'minutes') < 0) {
                                 const updated = yield appointmentSrv.updateStatus(appointment._id, 'VENCIDA');

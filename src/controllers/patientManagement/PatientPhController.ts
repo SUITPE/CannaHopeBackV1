@@ -103,11 +103,13 @@ export class PatientPhController {
         try {
 
             const newPatiemtPh: PatientPhModel = await mapPatientPhData();
+            const updated: PatientPhModel = await this.patientPhSrv.update(newPatiemtPh);
+            const patientPhResp: PatientPhModel = await this.patientPhSrv.findById(patientPh._id);
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
                 'Historia patologico registrado correctamente',
-                null
+                patientPhResp
             ));
 
         } catch (error) {

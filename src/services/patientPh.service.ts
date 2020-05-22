@@ -1,5 +1,6 @@
 import { PatientPhModel } from '../models/patientPh';
 import { ErrorDetail } from '../models/jsonResp';
+import PatientPh from '../models/patientPh';
 
 
 export class PatientPhService {
@@ -22,6 +23,20 @@ export class PatientPhService {
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al guardar historial patologico de paciente',
+                description: error
+            }
+            throw (errorDetail);
+        }
+    }
+
+    public async findById(id: string): Promise<PatientPhModel> {
+        try {
+            const founded: any = await PatientPh.findById(id)
+            .populate({path:'createdBy updatedBy', select: 'names surenames email'})
+            return founded;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al consultar historial patologico por id',
                 description: error
             }
             throw (errorDetail);

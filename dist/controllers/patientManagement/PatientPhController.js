@@ -94,7 +94,9 @@ class PatientPhController {
             const user = req.user;
             try {
                 const newPatiemtPh = yield mapPatientPhData();
-                return res.status(http_status_1.default.CREATED).send(new jsonResp_2.default(true, 'Historia patologico registrado correctamente', null));
+                const updated = yield this.patientPhSrv.update(newPatiemtPh);
+                const patientPhResp = yield this.patientPhSrv.findById(patientPh._id);
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_2.default(true, 'Historia patologico registrado correctamente', patientPhResp));
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_2.default(false, 'Error al actualizar datos de historial patologico', null, error));
