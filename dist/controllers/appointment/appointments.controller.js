@@ -205,7 +205,6 @@ class AppointmentController {
                 return true;
             }
             catch (error) {
-                console.log(error);
                 const errorDetail = {
                     name: 'Error al validar datos de vencimiento de fecha',
                     description: error
@@ -231,6 +230,16 @@ class AppointmentController {
             }
             catch (error) {
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cancelar consulta medica', null, error));
+            }
+        });
+    }
+    getTodayAppointments(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Consultas para dia de hoy cargadas correctamente', yield this.appointmentSrv.getByDateString(varEnvironments_1.environments.currentDateString())));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error al cargar citas medicas programadas para hoy', null, error));
             }
         });
     }

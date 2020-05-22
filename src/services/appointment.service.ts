@@ -148,4 +148,23 @@ export class AppointmentService {
             throw errorDetail;
         }
     }
+
+    public async getByDateString(date: string): Promise<IAppointment[]> {
+        try {
+            return await Appointment.find({dateString: date})
+            .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+            .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+            .populate({ path: 'specialty', select: 'name description' })
+            .populate({path: 'doctorAvailability', select:'timeTo timeFrom'})
+            .populate('createdBy', 'names surenames email')
+            .sort({date: 1})
+            .exec()
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la base de datos al cargar  consultas registradas',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
 }

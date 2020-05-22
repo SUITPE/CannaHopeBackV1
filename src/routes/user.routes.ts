@@ -5,6 +5,7 @@ import JsonResp from '../models/jsonResp';
 import { ErrorDetail } from '../models/jsonResp';
 import LoginController from '../controllers/user/login';
 import UserValidation from '../middlewares/userValidation.middleware';
+import DocumentTypeController from '../controllers/user/documentType.controller';
 
 
 const userController: UserController = new UserController();

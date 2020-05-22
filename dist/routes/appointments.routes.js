@@ -23,4 +23,5 @@ appointmentsRoutes.get('/getByIdDoctor/:id', userValidation_middleware_1.default
 appointmentsRoutes.delete('/delete/:id', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.cancelAppointment(req, res));
 // Payments
 appointmentsRoutes.post('/payment/save', userValidation_middleware_1.default.validation, (req, res) => paymentCtr.registerPayment(req, res));
+appointmentsRoutes.get('/getAppointmentsToday', userValidation_middleware_1.default.validation, (req, res) => appointmentCtr.getTodayAppointments(req, res));
 exports.default = appointmentsRoutes;

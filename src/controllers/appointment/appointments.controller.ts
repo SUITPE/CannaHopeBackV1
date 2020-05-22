@@ -262,8 +262,6 @@ export class AppointmentController {
 
             return true;
         } catch (error) {
-            console.log(error);
-
             const errorDetail: ErrorDetail = {
                 name: 'Error al validar datos de vencimiento de fecha',
                 description: error
@@ -300,6 +298,22 @@ export class AppointmentController {
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al cancelar consulta medica',
+                null, error
+            ));
+        }
+    }
+
+    public async getTodayAppointments(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(httpstatus.ACCEPTED).send(new JsonResp(
+                true,
+                'Consultas para dia de hoy cargadas correctamente',
+                await this.appointmentSrv.getByDateString(environments.currentDateString())
+            ));
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al cargar citas medicas programadas para hoy',
                 null, error
             ));
         }

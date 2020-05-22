@@ -173,5 +173,26 @@ class AppointmentService {
             }
         });
     }
+    getByDateString(date) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield appointment_schema_1.Appointment.find({ dateString: date })
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                    .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                    .populate({ path: 'specialty', select: 'name description' })
+                    .populate({ path: 'doctorAvailability', select: 'timeTo timeFrom' })
+                    .populate('createdBy', 'names surenames email')
+                    .sort({ date: 1 })
+                    .exec();
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error en la base de datos al cargar  consultas registradas',
+                    description: error
+                };
+                throw errorDetail;
+            }
+        });
+    }
 }
 exports.AppointmentService = AppointmentService;
