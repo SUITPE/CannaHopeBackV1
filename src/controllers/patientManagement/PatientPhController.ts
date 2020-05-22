@@ -1,12 +1,13 @@
 import { PatientPhModel } from '../../models/patientPh';
 import PatientPh from '../../models/patientPh';
 import { ErrorDetail } from '../../models/jsonResp';
-import { PatientPhModelCreateDto } from '../../dto/PatientPhModel.dto';
+import { PatientPhModelCreateDto, PatientPhUpdateDto } from '../../dto/PatientPhModel.dto';
 import { Request, Response } from 'express';
 import { PatientPhService } from '../../services/patientPh.service';
 import { environments, seed } from '../../environments/varEnvironments';
 import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
+import { PatientModel } from '../../models/patient';
 
 
 // PatientPathologicalHistory controller
@@ -14,7 +15,7 @@ export class PatientPhController {
 
     private errorDetail: ErrorDetail = new ErrorDetail();
     constructor(
-        private patientPhSrv: PatientPhService
+        private patientPhSrv: PatientPhService = new PatientPhService()
     ) { }
 
     public save(req: any, res: Response): Promise<Response> {
@@ -75,7 +76,7 @@ export class PatientPhController {
                         familyPph: patientPh.familyPph,
                         currentMedication: patientPh.currentMedication,
                         surgeries: patientPh.surgeries,
-                        fu: patientPh.fur,
+                        fur: patientPh.fur,
                         pregnancies: patientPh.pregnancies,
                         poisonings: patientPh.poisonings,
                         hospitalizations: patientPh.hospitalizations
@@ -94,25 +95,75 @@ export class PatientPhController {
         });
     }
 
-    public async findAndUpdate(patientPh: PatientPhModel): Promise<PatientPhModel> {
-        return new Promise((resolve, reject) => {
+    public async findAndUpdate(req: any, res: Response): Promise<Response> {
 
+        const patientPh: PatientPhUpdateDto = req.body;
+        const user: any = req.user;
+
+        try {
+
+            const newPatiemtPh: PatientPhModel = await mapPatientPhData();
+
+            return res.status(httpstatus.CREATED).send(new JsonResp(
+                true,
+                'Historia patologico registrado correctamente',
+                null
+            ));
+
+        } catch (error) {
+            return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
+                false,
+                'Error al actualizar datos de historial patologico',
+                null, error
+            ));
+        }
+
+        async function mapPatientPhData(): Promise<PatientPhModel> {
             try {
-
-                PatientPh.updateOne({ _id: patientPh._id }, patientPh, async (error, patientPhSaved) => {
-                    if (error) {
-                        this.errorDetail.name = 'Error en la base de datos al actualizar historial patologico de paciente';
-                        this.errorDetail.description = error;
-                        reject(error);
-                    } else {
-                        const patientUpdated: PatientPhModel = await this.findBypatientId(patientPh.patient);
-                        resolve(patientUpdated);
-                    }
+                const newPatientPh = new PatientPh({
+                    _id: patientPh._id,
+                    patient: patientPh.patient,
+                    diseaseList: patientPh.diseaseList,
+                    description: patientPh.description,
+                    updateDate: environments.currentDate(),
+                    updatedBy: user._id,
+                    harmfulHabitsList: patientPh.harmfulHabitsList,
+                    familyPph: patientPh.familyPph,
+                    currentMedication: patientPh.currentMedication,
+                    surgeries: patientPh.surgeries,
+                    fu: patientPh.fu,
+                    pregnancies: patientPh.pregnancies,
+                    poisonings: patientPh.poisonings,
+                    hospitalizations: patientPh.hospitalizations
                 });
+
+                return newPatientPh;
             } catch (error) {
-                reject(error);
+                const errorDetail: ErrorDetail = {
+                    name: 'Error en validacion de datos - mapeo de información de paciente',
+                    description: error
+                }
+                throw (errorDetail);
             }
-        });
+        }
+        // return new Promise((resolve, reject) => {
+
+        //     try {
+
+        //         PatientPh.updateOne({ _id: patientPh._id }, patientPh, async (error, patientPhSaved) => {
+        //             if (error) {
+        //                 this.errorDetail.name = 'Error en la base de datos al actualizar historial patologico de paciente';
+        //                 this.errorDetail.description = error;
+        //                 reject(error);
+        //             } else {
+        //                 const patientUpdated: PatientPhModel = await this.findBypatientId(patientPh.patient);
+        //                 resolve(patientUpdated);
+        //             }
+        //         });
+        //     } catch (error) {
+        //         reject(error);
+        //     }
+        // });
     }
 
     public findBypatientId(idPatient: string): Promise<PatientPhModel> {

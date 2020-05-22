@@ -24,5 +24,19 @@ class PatientPhService {
             }
         });
     }
+    update(patientph) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield patientph.updateOne(patientph);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al guardar historial patologico de paciente',
+                    description: error
+                };
+                throw (errorDetail);
+            }
+        });
+    }
 }
 exports.PatientPhService = PatientPhService;

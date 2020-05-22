@@ -52,7 +52,7 @@ export class DiseaseController {
         });
     }
 
-    public async  delete(req: Request, res: Response): Promise<Response> {
+    public async delete(req: Request, res: Response): Promise<Response> {
 
         const diseaseSrv: DiseaseService = new DiseaseService();
         const idDisease: string = req.params.id;

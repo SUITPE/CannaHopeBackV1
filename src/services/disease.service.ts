@@ -11,7 +11,7 @@ export class DiseaseService{
     public findAll(): Promise<DiseaseModel[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                resolve( await Disease.find({isEnabled: true}, {name:1, description:1, value:1, _id:1 }))
+                resolve( await Disease.find({isEnabled: true}, {name:1, description:1, value:1, _id:1 }).sort('name'))
             } catch (error) {
                 reject(error);
             }

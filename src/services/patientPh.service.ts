@@ -15,4 +15,17 @@ export class PatientPhService {
             throw (errorDetail);
         }
     }
+
+    public async update(patientph: PatientPhModel): Promise<PatientPhModel> {
+        try {
+            return await patientph.updateOne(patientph);
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al guardar historial patologico de paciente',
+                description: error
+            }
+            throw (errorDetail);
+        }
+    }
+
 }

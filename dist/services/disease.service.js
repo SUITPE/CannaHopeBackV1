@@ -18,7 +18,7 @@ class DiseaseService {
     findAll() {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
-                resolve(yield disease_1.default.find({ isEnabled: true }, { name: 1, description: 1, value: 1, _id: 1 }));
+                resolve(yield disease_1.default.find({ isEnabled: true }, { name: 1, description: 1, value: 1, _id: 1 }).sort('name'));
             }
             catch (error) {
                 reject(error);

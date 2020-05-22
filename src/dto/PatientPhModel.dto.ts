@@ -17,3 +17,21 @@ export interface PatientPhModelCreateDto {
     poisonings: string;
     hospitalizations: string;
 }
+
+
+export interface PatientPhUpdateDto {
+    _id: string;
+    patient: string;
+    diseaseList: DiseaseModel[];
+    description: string;
+    updateDate: string;
+    updatedBy: string;
+    harmfulHabitsList: HarmfulHabitModel[];
+    familyPph: FamilyPphModel;
+    currentMedication: CurrentMedication;
+    surgeries: string;
+    fu: string;
+    pregnancies: string;
+    poisonings: string;
+    hospitalizations: string;
+}

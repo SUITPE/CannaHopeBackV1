@@ -16,9 +16,7 @@ import { PatientPhService } from '../services/patientPh.service';
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
 
-const patientPhCtr: PatientPhController = new PatientPhController(
-    new PatientPhService()
-);
+const patientPhCtr: PatientPhController = new PatientPhController();
 const patientProblemCtr: PatientProblemController = new PatientProblemController();
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
@@ -81,15 +79,7 @@ patientManagementRoutes.post('/medicalConsultation/save', UserValidation.validat
 
 
 
-patientManagementRoutes.put('/patientPh/update', UserValidation.validation, (req, res) => {
-    patientPhCtr.findAndUpdate(req.body)
-    .then(patientPhUpdated => {
-        return res.status(200).send(new JsonResp(true, 'Historial patologico de paciente actualizado correctamente', patientPhUpdated));
-    })
-    .catch(error => {
-        return res.status(500).send(new JsonResp(false, 'Error al actualizar historial patologico de paciente', null, error));
-    });
-});
+patientManagementRoutes.put('/patientPh/update', UserValidation.validation, (req, res) => patientPhCtr.findAndUpdate(req, res));
 
 patientManagementRoutes.get('/patientPh/findBypatientId/:id', UserValidation.validation, (req, res) => {
     patientPhCtr.findBypatientId(req.params.id)

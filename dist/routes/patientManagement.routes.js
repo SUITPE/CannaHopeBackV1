@@ -15,10 +15,9 @@ const medicalConsultation_1 = __importDefault(require("../controllers/patientMan
 const medicalReevaluationController_1 = __importDefault(require("../controllers/patientManagement/medicalReevaluationController"));
 const disease_service_1 = require("../services/disease.service");
 const consultationAdmitionController_1 = __importDefault(require("../controllers/patientManagement/consultationAdmitionController"));
-const patientPh_service_1 = require("../services/patientPh.service");
 const diseaseCtr = new diseaseController_1.DiseaseController(new disease_service_1.DiseaseService());
 const harmfulHabitCtr = new harmfulHabitController_1.default();
-const patientPhCtr = new PatientPhController_1.PatientPhController(new patientPh_service_1.PatientPhService());
+const patientPhCtr = new PatientPhController_1.PatientPhController();
 const patientProblemCtr = new patientProblemController_1.default();
 const bodySystemCtr = new bodySystemController_1.default();
 const medicalConsultationCtr = new medicalConsultation_1.default();
@@ -70,15 +69,7 @@ patientManagementRoutes.post('/medicalConsultation/save', userValidation_middlew
         return res.status(500).send(new jsonResp_1.default(false, error.name, null, error));
     });
 });
-patientManagementRoutes.put('/patientPh/update', userValidation_middleware_1.default.validation, (req, res) => {
-    patientPhCtr.findAndUpdate(req.body)
-        .then(patientPhUpdated => {
-        return res.status(200).send(new jsonResp_1.default(true, 'Historial patologico de paciente actualizado correctamente', patientPhUpdated));
-    })
-        .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, 'Error al actualizar historial patologico de paciente', null, error));
-    });
-});
+patientManagementRoutes.put('/patientPh/update', userValidation_middleware_1.default.validation, (req, res) => patientPhCtr.findAndUpdate(req, res));
 patientManagementRoutes.get('/patientPh/findBypatientId/:id', userValidation_middleware_1.default.validation, (req, res) => {
     patientPhCtr.findBypatientId(req.params.id)
         .then(patientPhFounded => {

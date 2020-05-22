@@ -14,12 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const patientPh_1 = __importDefault(require("../../models/patientPh"));
 const jsonResp_1 = require("../../models/jsonResp");
+const patientPh_service_1 = require("../../services/patientPh.service");
 const varEnvironments_1 = require("../../environments/varEnvironments");
 const jsonResp_2 = __importDefault(require("../../models/jsonResp"));
 const http_status_1 = __importDefault(require("http-status"));
 // PatientPathologicalHistory controller
 class PatientPhController {
-    constructor(patientPhSrv) {
+    constructor(patientPhSrv = new patientPh_service_1.PatientPhService()) {
         this.patientPhSrv = patientPhSrv;
         this.errorDetail = new jsonResp_1.ErrorDetail();
     }
@@ -69,7 +70,7 @@ class PatientPhController {
                             familyPph: patientPh.familyPph,
                             currentMedication: patientPh.currentMedication,
                             surgeries: patientPh.surgeries,
-                            fu: patientPh.fur,
+                            fur: patientPh.fur,
                             pregnancies: patientPh.pregnancies,
                             poisonings: patientPh.poisonings,
                             hospitalizations: patientPh.hospitalizations
@@ -87,26 +88,63 @@ class PatientPhController {
             }
         }));
     }
-    findAndUpdate(patientPh) {
+    findAndUpdate(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                try {
-                    patientPh_1.default.updateOne({ _id: patientPh._id }, patientPh, (error, patientPhSaved) => __awaiter(this, void 0, void 0, function* () {
-                        if (error) {
-                            this.errorDetail.name = 'Error en la base de datos al actualizar historial patologico de paciente';
-                            this.errorDetail.description = error;
-                            reject(error);
-                        }
-                        else {
-                            const patientUpdated = yield this.findBypatientId(patientPh.patient);
-                            resolve(patientUpdated);
-                        }
-                    }));
-                }
-                catch (error) {
-                    reject(error);
-                }
-            });
+            const patientPh = req.body;
+            const user = req.user;
+            try {
+                const newPatiemtPh = yield mapPatientPhData();
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_2.default(true, 'Historia patologico registrado correctamente', null));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_2.default(false, 'Error al actualizar datos de historial patologico', null, error));
+            }
+            function mapPatientPhData() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const newPatientPh = new patientPh_1.default({
+                            _id: patientPh._id,
+                            patient: patientPh.patient,
+                            diseaseList: patientPh.diseaseList,
+                            description: patientPh.description,
+                            updateDate: varEnvironments_1.environments.currentDate(),
+                            updatedBy: user._id,
+                            harmfulHabitsList: patientPh.harmfulHabitsList,
+                            familyPph: patientPh.familyPph,
+                            currentMedication: patientPh.currentMedication,
+                            surgeries: patientPh.surgeries,
+                            fu: patientPh.fu,
+                            pregnancies: patientPh.pregnancies,
+                            poisonings: patientPh.poisonings,
+                            hospitalizations: patientPh.hospitalizations
+                        });
+                        return newPatientPh;
+                    }
+                    catch (error) {
+                        const errorDetail = {
+                            name: 'Error en validacion de datos - mapeo de información de paciente',
+                            description: error
+                        };
+                        throw (errorDetail);
+                    }
+                });
+            }
+            // return new Promise((resolve, reject) => {
+            //     try {
+            //         PatientPh.updateOne({ _id: patientPh._id }, patientPh, async (error, patientPhSaved) => {
+            //             if (error) {
+            //                 this.errorDetail.name = 'Error en la base de datos al actualizar historial patologico de paciente';
+            //                 this.errorDetail.description = error;
+            //                 reject(error);
+            //             } else {
+            //                 const patientUpdated: PatientPhModel = await this.findBypatientId(patientPh.patient);
+            //                 resolve(patientUpdated);
+            //             }
+            //         });
+            //     } catch (error) {
+            //         reject(error);
+            //     }
+            // });
         });
     }
     findBypatientId(idPatient) {
