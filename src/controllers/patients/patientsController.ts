@@ -95,7 +95,6 @@ export default class PatientController {
     public getAll(from: number, limit: number): Promise<PatientModel[]> {
         return new Promise((resolve, reject) => {
 
-
             Patient.find()
                 .populate({
                     path: 'user',
@@ -138,7 +137,7 @@ export default class PatientController {
                 Patient.find()
                     .populate({
                         match: {
-                            surenames: regex
+                            names: regex
                         },
                         path: 'user',
                         select: 'image _id names surenames  mobilePhone document email',
