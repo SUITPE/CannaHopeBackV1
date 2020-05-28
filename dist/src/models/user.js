@@ -1,0 +1,156 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+class UserModel extends mongoose_1.default.Document {
+    constructor() {
+        super(...arguments);
+        this.names = String();
+        this.surenames = String();
+        this.nickName = String();
+        this.age = Number();
+        this.birthDate = String();
+        this.sex = String();
+        this.document = Number();
+        this.documentType = String();
+        this.maritalStatus = String();
+        this.ocupation = String();
+        this.address = String();
+        this.email = String();
+        this.mobilePhone = Number();
+        this.landLine = Number();
+        this.healthyEntity = String();
+        this.password = String();
+        this.rol = String();
+        this.status = Boolean();
+        this.createDate = String();
+        this.updateDate = String();
+        this.createdBy = String();
+        this.updatedBy = String();
+        this.image = String();
+        this.lastAccesDate = String();
+        this.token = String();
+        this.specialty = '';
+        this.doctorCmp = '';
+    }
+}
+exports.UserModel = UserModel;
+exports.UserSchema = new mongoose_1.default.Schema({
+    names: {
+        type: String,
+        required: [true, 'No se ha asignado un nombre de usuario'],
+        minlength: [3, 'debe ser un minimo de 5 caracteres parael nombre']
+    },
+    surenames: {
+        type: String,
+        required: [true, 'No se ha ingresado informacion de apellidos'],
+        minlength: [3, 'Debe ser un minimo de 5 caracterespara el apellido']
+    },
+    nickName: {
+        type: String,
+        minlength: [3, 'Debe ser un minimo de 4 caracteres'],
+        default: null
+    },
+    age: {
+        type: Number,
+        minlength: [2, 'Debe ser mayor de edad']
+    },
+    birthDate: {
+        type: Date,
+        minlength: [2, 'Debe ser mayor de edad']
+    },
+    sex: {
+        type: String,
+    },
+    document: {
+        type: String,
+    },
+    documentType: {
+        type: String,
+    },
+    maritalStatus: {
+        type: String,
+    },
+    ocupation: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    email: {
+        type: String,
+        required: [true, 'Debe ingresar un email del usuario']
+    },
+    mobilePhone: {
+        type: Number,
+        required: [true, 'Debe agregar un telefonoo movil de usuario'],
+    },
+    landLine: {
+        type: Number,
+        default: 0
+    },
+    healthyEntity: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    rol: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'Role',
+        required: [true, 'Debe ingresar el rol del usuario'],
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    createDate: {
+        type: Date,
+        default: new Date(),
+    },
+    updateDate: {
+        type: Date,
+        default: null
+    },
+    createdBy: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    updatedBy: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    lastAccesDate: {
+        type: Date,
+        default: null
+    },
+    image: {
+        type: String,
+        default: null
+    },
+    degreeOfInstruction: {
+        type: String,
+        default: 'No tiene'
+    },
+    numberOfDependents: {
+        type: Number,
+        default: 0
+    },
+    children: {
+        type: Number,
+        default: 0
+    },
+    specialty: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'MedialSpeciality',
+        default: null
+    },
+    doctorCmp: {
+        type: String,
+    }
+});
+const User = mongoose_1.default.model('User', exports.UserSchema);
+exports.default = User;

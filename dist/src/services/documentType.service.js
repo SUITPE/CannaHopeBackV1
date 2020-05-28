@@ -9,34 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const medicalConsultation_1 = require("../models/medicalConsultation");
-class MedicalConsultationService {
-    updateMedicaDiagnostic(idConsultation, medicalDiagnostic) {
+const documentType_schema_1 = require("../schema/documentType.schema");
+class DocumentTypeSrevice {
+    constructor() { }
+    save(documentType) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const updated = yield medicalConsultation_1.MedicalConsultation.updateOne({ _id: idConsultation }, { medicalDiagnostic });
-                return true;
+                return yield documentType.save();
             }
             catch (error) {
                 const errorDetail = {
-                    name: 'Error en la consulta a la base de datos al actualizar reevaluación',
+                    name: 'Error en la base de datos al insertar tipo de documento',
                     description: error
                 };
                 throw errorDetail;
             }
         });
     }
-    findById(id) {
+    find() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const founded = yield medicalConsultation_1.MedicalConsultation.findById(id)
-                    .populate({ path: 'doctor', select: 'names surenames specialty', populate: { path: 'specialty', select: 'name' } })
-                    .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: { path: 'user', select: 'names surenames age document' } });
-                return founded;
+                return yield documentType_schema_1.DocumentType.find({ isEnabled: true });
             }
             catch (error) {
                 const errorDetail = {
-                    name: 'Error en la consulta a la base de datos para obtener consulta medica por id',
+                    name: 'Error al consultar tipo de documento',
                     description: error
                 };
                 throw errorDetail;
@@ -44,4 +41,4 @@ class MedicalConsultationService {
         });
     }
 }
-exports.default = MedicalConsultationService;
+exports.DocumentTypeSrevice = DocumentTypeSrevice;

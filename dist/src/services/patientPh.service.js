@@ -8,40 +8,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const medicalConsultation_1 = require("../models/medicalConsultation");
-class MedicalConsultationService {
-    updateMedicaDiagnostic(idConsultation, medicalDiagnostic) {
+const patientPh_1 = __importDefault(require("../models/patientPh"));
+class PatientPhService {
+    save(pateintPh) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const updated = yield medicalConsultation_1.MedicalConsultation.updateOne({ _id: idConsultation }, { medicalDiagnostic });
-                return true;
+                return yield pateintPh.save();
             }
             catch (error) {
                 const errorDetail = {
-                    name: 'Error en la consulta a la base de datos al actualizar reevaluación',
+                    name: 'Error al guardar historial patologico de paciente',
                     description: error
                 };
-                throw errorDetail;
+                throw (errorDetail);
+            }
+        });
+    }
+    update(patientph) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield patientph.updateOne(patientph);
+            }
+            catch (error) {
+                const errorDetail = {
+                    name: 'Error al guardar historial patologico de paciente',
+                    description: error
+                };
+                throw (errorDetail);
             }
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const founded = yield medicalConsultation_1.MedicalConsultation.findById(id)
-                    .populate({ path: 'doctor', select: 'names surenames specialty', populate: { path: 'specialty', select: 'name' } })
-                    .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: { path: 'user', select: 'names surenames age document' } });
+                const founded = yield patientPh_1.default.findById(id)
+                    .populate({ path: 'createdBy updatedBy', select: 'names surenames email' });
                 return founded;
             }
             catch (error) {
                 const errorDetail = {
-                    name: 'Error en la consulta a la base de datos para obtener consulta medica por id',
+                    name: 'Error en la base de datos al consultar historial patologico por id',
                     description: error
                 };
-                throw errorDetail;
+                throw (errorDetail);
             }
         });
     }
 }
-exports.default = MedicalConsultationService;
+exports.PatientPhService = PatientPhService;
