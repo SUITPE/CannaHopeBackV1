@@ -120,7 +120,7 @@ class PatientController {
                 patient_1.default.find()
                     .populate({
                     match: {
-                        names: regex
+                        surenames: regex
                     },
                     path: 'user',
                     select: 'image _id names surenames  mobilePhone document email',
