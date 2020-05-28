@@ -6,8 +6,6 @@ import { seed } from '../environments/varEnvironments';
 
 
 const UserValidation = {
-
-
     validation(req: any, res: Response, next: any) {
         let token: string;
         let errorDetail: ErrorDetail;
@@ -22,7 +20,6 @@ const UserValidation = {
             const resp: JsonResp = new JsonResp(false, 'Aviso de seguridad', null, errorDetail);
             return res.status(401).send(resp);
         }
-
 
         jwt.verify(token, seed, (error: any, decoded: any) => {
             if (error) {
