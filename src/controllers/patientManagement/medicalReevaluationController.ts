@@ -1,6 +1,6 @@
 import { MedicalReevaluationModel, MedicalReevaluation } from '../../models/medicalReevaluation';
 import { ErrorDetail } from '../../models/jsonResp';
-import { MedicalConsultation, MedicalConsultationModel } from '../../models/medicalConsultation';
+import { MedicalConsultationModel } from '../../models/medicalConsultation';
 import MedicalConsultationController from './medicalConsultation';
 import MedicalConsultationService from '../../services/medicalConsultation.service';
 
@@ -15,10 +15,10 @@ export default class MedicalReevaluationController {
 
                 const medicalConsultation: MedicalConsultationModel = await medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
-                const medicalConsultationUpdated: boolean = await medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id)
-                medicalConsultation.medicalDiagnostic.medicalTreatment.push(...medicalReevaluation.medicalTreatment);
+                const medicalConsultationUpdated: boolean = await medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
+                // medicalConsultation.medicalDiagnostic.medicalTreatment.push(...medicalReevaluation.medicalTreatment);
 
-                const medicalTreatamentUpdated: boolean = await medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
+                // const medicalTreatamentUpdated: boolean = await medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
                 const newMedicalReevaluation: MedicalReevaluationModel = new MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,

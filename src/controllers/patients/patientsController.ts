@@ -123,7 +123,7 @@ export default class PatientController {
 
     public getTotalRegistered(): Promise<number> {
         return new Promise((resolve, reject) => {
-            Patient.countDocuments({ patientStatus: 'active' }, (err: any, total) => {
+            Patient.countDocuments({},(err: any, total) => {
                 resolve(total);
             });
         });

@@ -6,6 +6,7 @@ export interface MedicalReevaluationModel extends mongoose.Document {
     description: string;
     createDate: Date;
     painScale: string;
+    treatment: any[];
 }
 
 export const MedicalReevaluationSchema = new mongoose.Schema({
@@ -21,6 +22,10 @@ export const MedicalReevaluationSchema = new mongoose.Schema({
     createDate: {
         type: Date,
         default: new Date()
+    },
+    treatment: {
+        type: [],
+        default:[]
     },
     painScale: {
         type: String

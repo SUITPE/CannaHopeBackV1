@@ -18,6 +18,10 @@ exports.MedicalReevaluationSchema = new mongoose_1.default.Schema({
         type: Date,
         default: new Date()
     },
+    treatment: {
+        type: [],
+        default: []
+    },
     painScale: {
         type: String
     }

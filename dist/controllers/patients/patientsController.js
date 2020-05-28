@@ -108,7 +108,7 @@ class PatientController {
     }
     getTotalRegistered() {
         return new Promise((resolve, reject) => {
-            patient_1.default.countDocuments({ patientStatus: 'active' }, (err, total) => {
+            patient_1.default.countDocuments({}, (err, total) => {
                 resolve(total);
             });
         });
