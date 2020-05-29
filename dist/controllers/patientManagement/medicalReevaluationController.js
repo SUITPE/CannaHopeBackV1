@@ -24,13 +24,12 @@ class MedicalReevaluationController {
                 const medicalConsultation = yield medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
                 const medicalConsultationUpdated = yield medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
-                // medicalConsultation.medicalDiagnostic.medicalTreatment.push(...medicalReevaluation.medicalTreatment);
-                // const medicalTreatamentUpdated: boolean = await medicalCOnsultationSrv.updateMedicaDiagnostic(medicalConsultation._id, medicalConsultation.medicalDiagnostic);
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,
                     painScale: medicalReevaluation.painScale,
-                    createDate: medicalReevaluation.createDate
+                    createDate: medicalReevaluation.createDate,
+                    treatment: medicalReevaluation.tratament
                 });
                 newMedicalReevaluation.save({}, (error, medicalRevaluiationSaved) => {
                     if (error) {

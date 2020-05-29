@@ -9,7 +9,6 @@ import { MedicalDiagnosticModel } from '../../models/medicalDiagnostic';
 import MedicalTreatmentController from './medicalTreatment';
 import { MedicalReevaluationModel } from '../../models/medicalReevaluation';
 import { ConsultationAdmitionService } from '../../services/consultationAdminiton.service';
-import { ConsultationAdmitionModel } from '../../models/consultationAdmision';
 import { Request, Response } from 'express';
 import httpstatus from 'http-status';
 import JsonResp from '../../models/jsonResp';
@@ -63,15 +62,14 @@ export default class MedicalConsultationController {
                 newMedicalDiagnostic.doctor = medicalConsultation.doctor;
                 newMedicalDiagnostic.createDate = medicalConsultation.createDate;
 
-                const medicalEvaluationSaved: MedicalEvaluationModel = await medicalEvaluationCtr.save(newMedicalEvaluation);
-                const medicalDiagnostic: MedicalDiagnosticModel = await medicalDiagnosticCtr.save(newMedicalDiagnostic);
-                const appointmentUpdated: boolean = await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
-                const consultationAdmitionUpdate: ConsultationAdmitionModel = await this.consultationAdmitionSrv.updateIsEnabled(
+
+                await medicalEvaluationCtr.save(newMedicalEvaluation);
+                await medicalDiagnosticCtr.save(newMedicalDiagnostic);
+                await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+                await this.consultationAdmitionSrv.updateIsEnabled(
                     medicalConsultation.medicalEvaluation.clinicalExamination._id, false
                 );
-
-                const appointmetnUpdated = await appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
-
+                appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
                 resolve(medicalConsultationSaved);
 
             } catch (error) {

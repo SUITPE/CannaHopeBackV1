@@ -63,11 +63,11 @@ class MedicalConsultationController {
                 newMedicalDiagnostic.patient = medicalConsultation.patient;
                 newMedicalDiagnostic.doctor = medicalConsultation.doctor;
                 newMedicalDiagnostic.createDate = medicalConsultation.createDate;
-                const medicalEvaluationSaved = yield medicalEvaluationCtr.save(newMedicalEvaluation);
-                const medicalDiagnostic = yield medicalDiagnosticCtr.save(newMedicalDiagnostic);
-                const appointmentUpdated = yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
-                const consultationAdmitionUpdate = yield this.consultationAdmitionSrv.updateIsEnabled(medicalConsultation.medicalEvaluation.clinicalExamination._id, false);
-                const appointmetnUpdated = yield appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
+                yield medicalEvaluationCtr.save(newMedicalEvaluation);
+                yield medicalDiagnosticCtr.save(newMedicalDiagnostic);
+                yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+                yield this.consultationAdmitionSrv.updateIsEnabled(medicalConsultation.medicalEvaluation.clinicalExamination._id, false);
+                appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
                 resolve(medicalConsultationSaved);
             }
             catch (error) {

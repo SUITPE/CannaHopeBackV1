@@ -44,6 +44,7 @@ export class AppointmentService {
                 .populate({ path: 'specialty', select: 'name description' })
                 .populate('doctorAvailability', 'timeTo timeFrom')
                 .populate('createdBy', 'names surenames email')
+                .sort({date: -1 }).exec()
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al momento de la consulta para cargar todas la citas medicas registradas',

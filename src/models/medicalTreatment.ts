@@ -11,6 +11,8 @@ export interface MedicalTreatmentModel extends mongoose.Document {
     concentracion?: string;
     frequency: string;
     amountPerDose: string;
+    observations: string;
+    type: string;
 }
 
 
@@ -54,6 +56,13 @@ export const MedicalTreatmentSchema = new mongoose.Schema({
         required: true
     },
     amountPerDose: {
+        type: String
+    },
+    observations: {
+        type: String,
+        default: 'Sin Observaciones'
+    },
+    type: {
         type: String
     }
 });

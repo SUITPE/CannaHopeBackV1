@@ -52,7 +52,8 @@ class AppointmentService {
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
-                    .populate('createdBy', 'names surenames email');
+                    .populate('createdBy', 'names surenames email')
+                    .sort({ date: -1 }).exec();
             }
             catch (error) {
                 const errorDetail = {

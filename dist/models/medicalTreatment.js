@@ -45,6 +45,13 @@ exports.MedicalTreatmentSchema = new mongoose_1.default.Schema({
     },
     amountPerDose: {
         type: String
+    },
+    observations: {
+        type: String,
+        default: 'Sin Observaciones'
+    },
+    type: {
+        type: String
     }
 });
 exports.MedicalTreatment = mongoose_1.default.model('MedicalTreatment', exports.MedicalTreatmentSchema);
