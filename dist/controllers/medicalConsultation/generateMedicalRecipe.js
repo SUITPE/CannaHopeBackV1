@@ -1,6 +1,6 @@
 "use strict";
 const moment = require('moment-timezone');
-function generateMedicalRecipe(consultationData) {
+function generateMedicalRecipe(consultationData, medicalTreatament) {
     return new Promise((resolve, reject) => {
         try {
             global.window = { document: { createElementNS: () => { return {}; } } };
@@ -29,7 +29,14 @@ function generateMedicalRecipe(consultationData) {
             doc.text(20, 163, 'MÉDICO: ');
             doc.text(62, 163, `Dr. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
             doc.text(20, 173, 'ESPECIALIDAD: ');
-            doc.text(90, 173, `${consultationData.doctor.specialty.name.toUpperCase()}`);
+            let sp;
+            if (consultationData.doctor.specialty) {
+                sp = consultationData.doctor.specialty.name;
+            }
+            else {
+                sp = 'N/A';
+            }
+            doc.text(90, 173, sp.toUpperCase());
             doc.text(20, 183, 'CMP: ');
             doc.text(45, 183, `59489`);
             doc.setFontSize(9);
@@ -52,8 +59,30 @@ function generateMedicalRecipe(consultationData) {
             doc.text(20, 203, 'DIAGNOSTICO: ');
             doc.text(90, 203, diagnostic);
             doc.rect(15, 190, 565, 530);
-            doc.setLineWidth(0.5);
-            const path = `dd.pdf`;
+            doc.setLineWidth(0.3);
+            // -----------------------------------------------
+            let counster = 0;
+            medicalTreatament.forEach((item, i) => {
+                console.log(item);
+                doc.text(20, 230 + counster, 'VIA DE ADMINISTRACIÓN: ');
+                doc.text(135, 230 + counster, `${item.viaAdministracion.toUpperCase()}`);
+                doc.text(20, 245 + counster, 'FITOCANNABINOIDES: ');
+                doc.text(135, 245 + counster, item.fitocannabinoides.toUpperCase());
+                doc.text(20, 260 + counster, 'CONCENTRACION: ');
+                doc.text(135, 260 + counster, item.concentracion.toUpperCase());
+                doc.text(20, 275 + counster, 'RATIO: ');
+                doc.text(135, 275 + counster, item.ratio.toUpperCase());
+                doc.text(20, 290 + counster, 'FRECUENCIA: ');
+                doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
+                doc.setLineWidth(0.1);
+                doc.rect(255, 223 + counster, 320, 68);
+                doc.text(260, 235 + counster, 'OBSERVACIONES: ');
+                doc.text(343, 235 + counster, item.observations.toUpperCase());
+                doc.line(20, 350 + counster, 580, 350 + counster);
+                counster += 143;
+            });
+            // ---------------------------------------
+            const path = `document.pdf`;
             fs.writeFileSync(`./${path}`, new Buffer.from(doc.output('arraybuffer')));
             resolve(path);
         }
