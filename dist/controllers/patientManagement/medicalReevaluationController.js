@@ -14,40 +14,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const medicalReevaluation_1 = require("../../models/medicalReevaluation");
 const medicalConsultation_1 = __importDefault(require("./medicalConsultation"));
-const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
+const http_status_1 = __importDefault(require("http-status"));
+const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
+const varEnvironments_1 = require("../../environments/varEnvironments");
+const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
 class MedicalReevaluationController {
-    save(medicalReevaluation) {
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const medicalConsultationCtr = new medicalConsultation_1.default();
-            const medicalCOnsultationSrv = new medicalConsultation_service_1.default();
+    constructor(medicalConsultationCtr = new medicalConsultation_1.default(), medicalReeevaluation = new medicalReevaluation_service_1.MedicalReevaluationService()) {
+        this.medicalConsultationCtr = medicalConsultationCtr;
+        this.medicalReeevaluation = medicalReeevaluation;
+    }
+    save(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const medicalReevaluation = req.body;
             try {
-                const medicalConsultation = yield medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
+                const medicalConsultation = yield this.medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
-                const medicalConsultationUpdated = yield medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
+                const medicalConsultationUpdated = yield this.medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,
+                    createDate: varEnvironments_1.environments.currentDate(),
                     painScale: medicalReevaluation.painScale,
-                    createDate: medicalReevaluation.createDate,
-                    treatment: medicalReevaluation.tratament
+                    treatment: medicalReevaluation.medicalTreatment
                 });
-                newMedicalReevaluation.save({}, (error, medicalRevaluiationSaved) => {
-                    if (error) {
-                        const errorDetail = {
-                            name: 'Error al guardar reevaluacion medica',
-                            description: error
-                        };
-                        reject(errorDetail);
-                    }
-                    else {
-                        resolve(medicalRevaluiationSaved);
-                    }
-                });
+                return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Reevaluacion emdica registradac crrectametne ', yield this.medicalReeevaluation.save(newMedicalReevaluation)));
             }
             catch (error) {
-                reject(error);
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al guardar reevaluacion medica', null, error));
             }
-        }));
+        });
+    }
+    getByIdConsultation(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            try {
+                return res.status(http_status_1.default.OK).send(new jsonResp_1.default(true, 'Reevaluaciones medicas registradas correctamente ', yield this.medicalReeevaluation.findByMedicalConsultation(id)));
+            }
+            catch (error) {
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al guardar reevaluacion medica', null, error));
+            }
+        });
     }
 }
 exports.default = MedicalReevaluationController;

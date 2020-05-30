@@ -11,5 +11,5 @@ const medicalConsultationsRoutes = express_1.Router();
 const fitocannabinoidesCtr = new fitocannabinoides_controller_1.FitocannabinoidesController();
 const medicalRecipeCtr = new medicalRecipe_controller_1.MedicalRecipeController();
 medicalConsultationsRoutes.get('/fitocannabinoides/getAll', userValidation_middleware_1.default.validation, (req, res) => fitocannabinoidesCtr.getAll(req, res));
-medicalConsultationsRoutes.get('/getConsultationRecipeFile/:idConsultation', (req, res) => medicalRecipeCtr.generateAnSendMedicalRecipe(req, res));
+medicalConsultationsRoutes.get('/getRecipe/:type/:id', (req, res) => medicalRecipeCtr.generateAnSendMedicalRecipe(req, res));
 exports.default = medicalConsultationsRoutes;

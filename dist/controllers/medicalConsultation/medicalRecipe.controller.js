@@ -18,26 +18,39 @@ const fs = require('fs');
 const path_1 = __importDefault(require("path"));
 const generateMedicalRecipe_1 = __importDefault(require("./generateMedicalRecipe"));
 const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
+const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
 class MedicalRecipeController {
-    constructor(medicalConsultationSrv = new medicalConsultation_service_1.default()) {
+    constructor(medicalConsultationSrv = new medicalConsultation_service_1.default(), medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()) {
         this.medicalConsultationSrv = medicalConsultationSrv;
+        this.medicalReevaluationSrv = medicalReevaluationSrv;
     }
     generateAnSendMedicalRecipe(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const idConsultation = req.params.idConsultation;
+            const id = req.params.id;
             const type = req.params.type;
+            let errorFlag = false;
             try {
-                const consultationData = yield this.medicalConsultationSrv.findById(idConsultation);
-                const pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                if (type === 'consultation') {
+                    const consultationData = yield this.medicalConsultationSrv.findById(id);
+                    const pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                }
+                if (type === 'reevaluation') {
+                    const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
+                    const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
+                    const pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
+                }
                 const pathNoImage = path_1.default.resolve(__dirname, `../../../document.pdf`);
                 res.download(pathNoImage);
             }
             catch (error) {
+                errorFlag = true;
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
             }
             finally {
                 setTimeout(() => {
-                    fs.unlinkSync('./document.pdf');
+                    if (!errorFlag) {
+                        fs.unlinkSync('./document.pdf');
+                    }
                 }, 3000);
             }
         });

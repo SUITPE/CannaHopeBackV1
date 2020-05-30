@@ -144,15 +144,9 @@ patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', U
     });
 });
 
-patientManagementRoutes.post('/medicalReevaluation/save', UserValidation.validation, (req, res) => {
-    medicalReevaluestion.save(req.body)
-    .then(medicalReevaluestionSaved => {
-        return res.status(200).send(new JsonResp(true, 'Reevaluación registrada correctamente', medicalReevaluestionSaved));
-    })
-    .catch(error => {
-        return res.status(500).send(new JsonResp(false, 'Error registrar reevaluacion medica', null, error));
-    });
-});
+patientManagementRoutes.post('/medicalReevaluation/save', UserValidation.validation, (req, res) => medicalReevaluestion.save(req, res));
+patientManagementRoutes.get('/medicalReevaluation/getByIdConsultation/:id', UserValidation.validation, (req, res) => medicalReevaluestion.getByIdConsultation(req, res));
+
 
 patientManagementRoutes.post('/consultationAdmition/save', UserValidation.validation, (req, res) => {
     const consultationAdmitionCtr: ConsultationAdmitionController = new ConsultationAdmitionController();

@@ -125,15 +125,8 @@ patientManagementRoutes.get('/medicalConsultation/findByIdPatinet/:idPatient', u
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar consultas registradas al paciente', null, error));
     });
 });
-patientManagementRoutes.post('/medicalReevaluation/save', userValidation_middleware_1.default.validation, (req, res) => {
-    medicalReevaluestion.save(req.body)
-        .then(medicalReevaluestionSaved => {
-        return res.status(200).send(new jsonResp_1.default(true, 'Reevaluación registrada correctamente', medicalReevaluestionSaved));
-    })
-        .catch(error => {
-        return res.status(500).send(new jsonResp_1.default(false, 'Error registrar reevaluacion medica', null, error));
-    });
-});
+patientManagementRoutes.post('/medicalReevaluation/save', userValidation_middleware_1.default.validation, (req, res) => medicalReevaluestion.save(req, res));
+patientManagementRoutes.get('/medicalReevaluation/getByIdConsultation/:id', userValidation_middleware_1.default.validation, (req, res) => medicalReevaluestion.getByIdConsultation(req, res));
 patientManagementRoutes.post('/consultationAdmition/save', userValidation_middleware_1.default.validation, (req, res) => {
     const consultationAdmitionCtr = new consultationAdmitionController_1.default();
     consultationAdmitionCtr.saveConsultationAdmition(req.body)

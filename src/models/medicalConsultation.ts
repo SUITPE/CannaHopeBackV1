@@ -17,7 +17,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     patientStory: string;
     complementaryExams: ComplementaryExam[];
     createDate: Date;
-    reevaluations: MedicalReevaluationModel[];
+    reevaluations: MedicalReevaluationModel[] | any[];
 }
 
 export const MedicalConsultationSchema = new mongoose.Schema({

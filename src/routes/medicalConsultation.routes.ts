@@ -9,7 +9,7 @@ const fitocannabinoidesCtr: FitocannabinoidesController = new FitocannabinoidesC
 const medicalRecipeCtr: MedicalRecipeController = new MedicalRecipeController();
 
 medicalConsultationsRoutes.get('/fitocannabinoides/getAll', UserValidation.validation, (req, res) => fitocannabinoidesCtr.getAll(req, res));
-medicalConsultationsRoutes.get('/getConsultationRecipeFile/:idConsultation',
+medicalConsultationsRoutes.get('/getRecipe/:type/:id',
     (req, res) => medicalRecipeCtr.generateAnSendMedicalRecipe(req, res));
 
 export default medicalConsultationsRoutes;

@@ -21,9 +21,10 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             doc.text(15, 100, 'contacto@centrocannahope.com');
             doc.text(15, 116, '+51 954 761 773');
             doc.setLineWidth(0.5);
-            doc.rect(430, 128, 150, 22);
-            doc.text(435, 145, 'FECHA: ');
-            doc.text(485, 145, `${moment(consultationData.createDate).format('DD-MM-YYYY')}`);
+            doc.setFontSize(10);
+            doc.rect(475, 128, 105, 22);
+            doc.text(482, 145, 'FECHA: ');
+            doc.text(525, 145, `${moment(consultationData.createDate).format('DD-MM-YYYY')}`);
             doc.rect(15, 150, 565, 40);
             doc.setFontSize(9);
             doc.text(20, 163, 'MÉDICO: ');
@@ -58,7 +59,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             doc.rect(15, 190, 565, 20);
             doc.text(20, 203, 'DIAGNOSTICO: ');
             doc.text(90, 203, diagnostic);
-            doc.rect(15, 190, 565, 530);
+            doc.rect(15, 190, 565, 510);
             doc.setLineWidth(0.3);
             // -----------------------------------------------
             let counster = 0;
@@ -81,6 +82,10 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 doc.line(20, 350 + counster, 580, 350 + counster);
                 counster += 143;
             });
+            doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
+            doc.setLineWidth(1.5);
+            doc.line(320, 820, 580, 820);
+            doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
             // ---------------------------------------
             const path = `document.pdf`;
             fs.writeFileSync(`./${path}`, new Buffer.from(doc.output('arraybuffer')));
