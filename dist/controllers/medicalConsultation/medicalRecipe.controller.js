@@ -19,6 +19,8 @@ const path_1 = __importDefault(require("path"));
 const generateMedicalRecipe_1 = __importDefault(require("./generateMedicalRecipe"));
 const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
 const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
+const emailsController_1 = __importDefault(require("../generalControllers/emailsController"));
+const userController_1 = __importDefault(require("../user/userController"));
 class MedicalRecipeController {
     constructor(medicalConsultationSrv = new medicalConsultation_service_1.default(), medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()) {
         this.medicalConsultationSrv = medicalConsultationSrv;
@@ -29,20 +31,34 @@ class MedicalRecipeController {
             const id = req.params.id;
             const type = req.params.type;
             let errorFlag = false;
+            const userCtr = new userController_1.default();
+            let patientFounded;
             try {
                 if (type === 'consultation') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
                     const pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                    patientFounded = consultationData.patient;
                 }
                 if (type === 'reevaluation') {
                     const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
                     const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
                     const pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
+                    patientFounded = consultationData.patient;
                 }
+                const emailFiles = [
+                    {
+                        filename: 'Recetamedica',
+                        path: `./document.pdf`,
+                        contentType: 'application/pdf'
+                    }
+                ];
+                const email = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
+                yield email.sendEmail();
                 const pathNoImage = path_1.default.resolve(__dirname, `../../../document.pdf`);
                 res.download(pathNoImage);
             }
             catch (error) {
+                console.log(error);
                 errorFlag = true;
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
             }

@@ -23,7 +23,7 @@ export default class MedicalConsultationService {
         try {
             const founded: any = await MedicalConsultation.findById(id)
                 .populate({ path: 'doctor', select: 'names surenames specialty', populate:{path: 'specialty', select: 'name'} })
-                .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: {path:'user', select: 'names surenames age document'}});
+                .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: {path:'user', select: 'names surenames age document email'}});
             return founded;
         } catch (error) {
             const errorDetail: ErrorDetail = {

@@ -44,10 +44,11 @@ export default class EmailController {
                     subject: this.subject,
                     text: this.message
                 };
+
+
                 if (this.files) {
                     mailOptions.attachments = this.files;
                 }
-
 
                 trasnporter.sendMail(mailOptions, (error: any, info: any) => {
                     if (error) {
