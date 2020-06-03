@@ -25,7 +25,6 @@ export class PatientPhController {
             const user: any = req.user;
 
             try {
-                // const dataValidated: boolean = await validatePatientPhData();
                 const newPatientPh: PatientPhModel = await mapPatientPhData();
                 const patientPhSaved: PatientPhModel = await this.patientPhSrv.save(newPatientPh);
 
@@ -79,7 +78,8 @@ export class PatientPhController {
                         fur: patientPh.fur,
                         pregnancies: patientPh.pregnancies,
                         poisonings: patientPh.poisonings,
-                        hospitalizations: patientPh.hospitalizations
+                        hospitalizations: patientPh.hospitalizations,
+                        healthyHabits: patientPh.healthyHabits
                     });
 
                     return newPatientPh;

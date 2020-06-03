@@ -16,6 +16,7 @@ export interface PatientPhModelCreateDto {
     pregnancies: string;
     poisonings: string;
     hospitalizations: string;
+    healthyHabits: any[]
 }
 
 

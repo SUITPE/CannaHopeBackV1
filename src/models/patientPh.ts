@@ -22,6 +22,7 @@ export interface PatientPhModel extends mongoose.Document {
     pregnancies: string;
     poisonings: string;
     hospitalizations: string;
+    healthyHabits: any[];
 }
 
 export const PphSchema = new mongoose.Schema({
@@ -89,6 +90,9 @@ export const PphSchema = new mongoose.Schema({
     hospitalizations: {
         type: String,
         default: 'Sin registrar'
+    },
+    healthyHabits: {
+        type: Array
     }
 });
 

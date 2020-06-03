@@ -13,7 +13,7 @@ const userController = new userController_1.default();
 const rolController = new rolController_1.default();
 const login = new login_1.default();
 const userRoutes = express_1.Router();
-userRoutes.post('/Insert', userValidation_middleware_1.default.validation, (req, res) => {
+userRoutes.post('/Insert', (req, res) => {
     userController.save(req.body)
         .then(userSaved => {
         return res.status(200).send(new jsonResp_1.default(true, 'Usuario registrado correctamente', userSaved));

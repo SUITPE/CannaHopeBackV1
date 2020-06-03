@@ -29,7 +29,6 @@ class PatientPhController {
             const patientPh = req.body;
             const user = req.user;
             try {
-                // const dataValidated: boolean = await validatePatientPhData();
                 const newPatientPh = yield mapPatientPhData();
                 const patientPhSaved = yield this.patientPhSrv.save(newPatientPh);
                 resolve(res.status(http_status_1.default.CREATED).send(new jsonResp_2.default(true, 'Historial patologico registrado exitosamene', patientPhSaved)));
@@ -73,7 +72,8 @@ class PatientPhController {
                             fur: patientPh.fur,
                             pregnancies: patientPh.pregnancies,
                             poisonings: patientPh.poisonings,
-                            hospitalizations: patientPh.hospitalizations
+                            hospitalizations: patientPh.hospitalizations,
+                            healthyHabits: patientPh.healthyHabits
                         });
                         return newPatientPh;
                     }

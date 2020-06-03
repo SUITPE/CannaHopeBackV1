@@ -33,6 +33,9 @@ exports.HarmfulHabitsSchema = new mongoose_1.default.Schema({
         type: String,
         default: null
     },
+    type: {
+        type: String
+    }
 });
 const HarmfulHabit = mongoose_1.default.model('HarmfulHabit', exports.HarmfulHabitsSchema);
 exports.default = HarmfulHabit;

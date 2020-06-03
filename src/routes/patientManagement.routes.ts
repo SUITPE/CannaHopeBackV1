@@ -2,7 +2,7 @@ import { Router } from 'express';
 import UserValidation from '../middlewares/userValidation.middleware';
 import { DiseaseController } from '../controllers/patientManagement/diseaseController';
 import JsonResp from '../models/jsonResp';
-import HarmfulHabitController from '../controllers/patientManagement/harmfulHabitController';
+import HarmfulHabitController from '../controllers/patientManagement/habits/harmfulHabitController';
 import { PatientPhController } from '../controllers/patientManagement/PatientPhController';
 import PatientProblemController from '../controllers/patientManagement/patientProblemController';
 import BodySystemController from '../controllers/patientManagement/bodySystemController';

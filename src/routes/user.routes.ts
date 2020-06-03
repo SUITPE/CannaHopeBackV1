@@ -14,7 +14,7 @@ const login: LoginController = new LoginController();
 const userRoutes: Router = Router();
 
 
-userRoutes.post('/Insert', UserValidation.validation, (req, res) => {
+userRoutes.post('/Insert',  (req, res) => {
 
     userController.save(req.body)
         .then(userSaved => {

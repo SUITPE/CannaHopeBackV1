@@ -8,6 +8,7 @@ export interface HarmfulHabitModel extends mongoose.Document {
     value: string;
     quantity: string;
     frequency: string;
+    type: string;
 }
 
 export const HarmfulHabitsSchema = new mongoose.Schema({
@@ -39,6 +40,9 @@ export const HarmfulHabitsSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    type: {
+        type: String
+    }
 
 });
 

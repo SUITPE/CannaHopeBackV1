@@ -69,6 +69,9 @@ exports.PphSchema = new mongoose_1.default.Schema({
     hospitalizations: {
         type: String,
         default: 'Sin registrar'
+    },
+    healthyHabits: {
+        type: Array
     }
 });
 const PatientPh = mongoose_1.default.model('PatientPh', exports.PphSchema);

@@ -1,9 +1,9 @@
-import HarmfulHabit, { HarmfulHabitModel } from '../../models/harmfulHabits';
-import { ErrorDetail } from '../../models/jsonResp';
+import HarmfulHabit, { HarmfulHabitModel } from '../../../models/harmfulHabits';
+import { ErrorDetail } from '../../../models/jsonResp';
 import { Response, Request } from 'express';
-import HarmfulHabitService from '../../services/harmfulHabit.service';
+import HarmfulHabitService from '../../../services/harmfulHabit.service';
 import httpstatus from 'http-status';
-import JsonResp from '../../models/jsonResp';
+import JsonResp from '../../../models/jsonResp';
 
 export default class HarmfulHabitController {
 
@@ -15,10 +15,10 @@ export default class HarmfulHabitController {
         return new Promise((resolve, reject) => {
 
             try {
-
                 const newHarmfulHabit: HarmfulHabitModel = new HarmfulHabit({
                     name: harmfulHabit.name,
                     description: harmfulHabit.description,
+                    type: harmfulHabit.type
                 });
 
                 newHarmfulHabit.save({}, (error, harmfulHabitSaved) => {
@@ -42,7 +42,6 @@ export default class HarmfulHabitController {
 
     public findAlll(): Promise<HarmfulHabitModel[]> {
         return new Promise((resolve, reject) => {
-
             try {
                 HarmfulHabit.find({ isEnabled: true }, {
                     name: 1,
@@ -50,6 +49,7 @@ export default class HarmfulHabitController {
                     value: 1,
                     quantity: 1,
                     frequency: 1,
+                    type: 1,
                     _id: 1
                 }, (error, HarmfulHabitList) => {
 
