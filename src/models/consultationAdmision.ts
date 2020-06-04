@@ -31,7 +31,6 @@ export const ConsultationAdmitionSchema = new mongoose.Schema({
     },
     perimetroabdominal: {
         type: Number,
-        required: [true, 'El perimetro abdominal actual del paciente es requerida']
     },
     satO2: {
         type: Number,
