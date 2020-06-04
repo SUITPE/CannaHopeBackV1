@@ -58,7 +58,8 @@ class DoctorController {
                     specialty: doctor.specialty,
                     rol: doctorRol._id,
                     doctorCmp: doctor.doctorCmp,
-                    document: new Date().getMilliseconds()
+                    document: new Date().getMilliseconds(),
+                    signatureImage: doctor.signatureImage
                 });
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor registrado exitosamente', yield userSrv.save(newDoctor)));
             }
@@ -107,6 +108,9 @@ class DoctorController {
             if (doctor.image && doctor.image.length > 100) {
                 doctor.image = yield userController.setUserImage(doctor.image, doctor);
             }
+            if (doctor.signatureImage && doctor.signatureImage.length > 100) {
+                doctor.signatureImage = yield userController.setSignatureImage(doctor.signatureImage, doctor);
+            }
             const doctorUpdate = new user_1.default({
                 _id: doctor._id,
                 names: doctor.names,
@@ -117,7 +121,8 @@ class DoctorController {
                 specialty: doctor.specialty,
                 updatedBy: doctor.updatedBy,
                 updateDate: doctor.updateDate,
-                doctorCmp: doctor.doctorCmp
+                doctorCmp: doctor.doctorCmp,
+                signatureImage: doctor.signatureImage
             });
             try {
                 return res.status(http_status_1.default.ACCEPTED).send(new jsonResp_1.default(true, 'Doctor actualizado correctamente', yield userSrv.update(doctorUpdate)));

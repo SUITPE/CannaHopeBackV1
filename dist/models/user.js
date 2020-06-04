@@ -34,6 +34,7 @@ class UserModel extends mongoose_1.default.Document {
         this.token = String();
         this.specialty = '';
         this.doctorCmp = '';
+        this.signatureImage = '';
     }
 }
 exports.UserModel = UserModel;
@@ -150,6 +151,9 @@ exports.UserSchema = new mongoose_1.default.Schema({
     },
     doctorCmp: {
         type: String,
+    },
+    signatureImage: {
+        type: String
     }
 });
 const User = mongoose_1.default.model('User', exports.UserSchema);

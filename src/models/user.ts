@@ -33,6 +33,7 @@ export class UserModel extends mongoose.Document   {
     public children?: number;
     public specialty: string = '';
     public doctorCmp: string = '';
+    public signatureImage: string = '';
 }
 
 export const UserSchema = new mongoose.Schema({
@@ -148,6 +149,9 @@ export const UserSchema = new mongoose.Schema({
     },
     doctorCmp: {
         type: String,
+    },
+    signatureImage: {
+        type: String
     }
 });
 

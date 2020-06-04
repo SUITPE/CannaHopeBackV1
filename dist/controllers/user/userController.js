@@ -277,5 +277,21 @@ class UserController {
             }
         }));
     }
+    setSignatureImage(base64Imgae, user) {
+        return new Promise((resolve, reject) => {
+            const date = new Date();
+            try {
+                const extention = base64Imgae.split(';')[0].split('/')[1];
+                const imageName = `signature-${user._id}-${date.getMilliseconds()}.${extention}`;
+                const finalImageName = base64Imgae.split(';base64,').pop() || '';
+                const buf = Buffer.from(finalImageName, 'base64');
+                fs_1.default.writeFileSync(`docs/doctorSignatures/${imageName}`, buf);
+                resolve(imageName);
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 exports.default = UserController;

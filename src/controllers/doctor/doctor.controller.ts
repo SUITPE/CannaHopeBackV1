@@ -65,7 +65,8 @@ export class DoctorController {
                 specialty: doctor.specialty,
                 rol: doctorRol._id,
                 doctorCmp: doctor.doctorCmp,
-                document: new Date().getMilliseconds()
+                document: new Date().getMilliseconds(),
+                signatureImage: doctor.signatureImage
             });
 
             return res.status(httpstatus.ACCEPTED).send(new JsonResp(
@@ -123,13 +124,17 @@ export class DoctorController {
     }
 
     public async updateDoctor(req: Request, res: Response): Promise<Response> {
-
+        
         const doctor: DoctorUpdateDto = req.body;
         const userController: UserController = new UserController();
         const userSrv: UserService = new UserService();
 
         if (doctor.image && doctor.image.length > 100) {
             doctor.image = await userController.setUserImage(doctor.image, doctor);
+        }
+
+        if (doctor.signatureImage && doctor.signatureImage.length > 100) {
+            doctor.signatureImage = await userController.setSignatureImage(doctor.signatureImage, doctor);
         }
 
         const doctorUpdate: UserModel = new User({
@@ -142,7 +147,8 @@ export class DoctorController {
             specialty: doctor.specialty,
             updatedBy: doctor.updatedBy,
             updateDate: doctor.updateDate,
-            doctorCmp: doctor.doctorCmp
+            doctorCmp: doctor.doctorCmp,
+            signatureImage: doctor.signatureImage
         });
 
         try {
