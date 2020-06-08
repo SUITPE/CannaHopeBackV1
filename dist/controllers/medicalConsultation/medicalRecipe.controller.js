@@ -46,12 +46,11 @@ class MedicalRecipeController {
                     const pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
                     patientFounded = consultationData.patient;
                 }
-                const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
-                console.log(documentPath);
+                const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
                 const emailFiles = [
                     {
                         filename: 'Recetamedica',
-                        path: '../../docs/document.pdf',
+                        path: documentPath,
                         contentType: 'application/pdf'
                     }
                 ];
@@ -61,15 +60,17 @@ class MedicalRecipeController {
                 res.download(pathNoImage);
             }
             catch (error) {
+                console.log(error);
                 errorFlag = true;
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
             }
             finally {
-                // setTimeout(() => {
-                //     if (!errorFlag) {
-                //         fs.unlinkSync('./document.pdf');
-                //     }
-                // }, 3000);
+                setTimeout(() => {
+                    if (!errorFlag) {
+                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+                        fs.unlinkSync(documentPath);
+                    }
+                }, 3000);
             }
         });
     }

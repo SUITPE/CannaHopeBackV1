@@ -45,15 +45,11 @@ export class MedicalRecipeController {
                 patientFounded = consultationData.patient;
             }
 
-            const documentPath: string = currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
-
-            console.log(documentPath);
-            
-
+            const documentPath: string = currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
             const emailFiles: any[] = [
                 {
                     filename: 'Recetamedica',
-                    path: '../../docs/document.pdf',
+                    path: documentPath,
                     contentType: 'application/pdf'
                 }
             ]
@@ -65,13 +61,13 @@ export class MedicalRecipeController {
                 'RECETA MEDICA - CANNAHOPE',
                 emailFiles
             );
-
             await email.sendEmail();
 
             const pathNoImage = path.resolve(__dirname, `../../../docs/document.pdf`);
             res.download(pathNoImage);
 
         } catch (error) {
+            console.log(error);
             errorFlag = true;
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
@@ -79,11 +75,12 @@ export class MedicalRecipeController {
                 null, error
             ));
         } finally {
-            // setTimeout(() => {
-            //     if (!errorFlag) {
-            //         fs.unlinkSync('./document.pdf');
-            //     }
-            // }, 3000);
+            setTimeout(() => {
+                if (!errorFlag) {
+                    const documentPath: string = currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+                    fs.unlinkSync(documentPath);
+                }
+            }, 3000);
         }
     }
 }

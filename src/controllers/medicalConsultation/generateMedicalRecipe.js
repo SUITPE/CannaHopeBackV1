@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-const currentEnv = require('../../environments/varEnvironments');
+const environments = require('../../environments/varEnvironments');
 
 function generateMedicalRecipe(consultationData, medicalTreatament) {
     return new Promise((resolve, reject) => {
@@ -114,15 +114,15 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             // ---------------------------------------
 
             const path = `document.pdf`;
-            if (currentEnv === 'PROD') {
-                fs.writeFileSync(`../../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+            if (environments.currentEnv === 'PROD') {
+                fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
             } else {
                 fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
             }
-
             resolve(path);
-
         } catch (error) {
+            console.log('error aqui');
+            
             reject(error);
         }
 
