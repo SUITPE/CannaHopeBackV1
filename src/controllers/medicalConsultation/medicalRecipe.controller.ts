@@ -47,7 +47,7 @@ export class MedicalRecipeController {
             const emailFiles: any[] = [
                 {
                     filename: 'Recetamedica',
-                    path: `./document.pdf`,
+                    path: `docs/document.pdf`,
                     contentType: 'application/pdf'
                 }
             ]
@@ -62,7 +62,7 @@ export class MedicalRecipeController {
 
             await email.sendEmail();
 
-            const pathNoImage = path.resolve(__dirname, `../../../document.pdf`);
+            const pathNoImage = path.resolve(__dirname, `../../../docs/document.pdf`);
             res.download(pathNoImage);
 
         } catch (error) {
@@ -73,11 +73,11 @@ export class MedicalRecipeController {
                 null, error
             ));
         } finally {
-            setTimeout(() => {
-                if (!errorFlag) {
-                    fs.unlinkSync('./document.pdf');
-                }
-            }, 3000);
+            // setTimeout(() => {
+            //     if (!errorFlag) {
+            //         fs.unlinkSync('./document.pdf');
+            //     }
+            // }, 3000);
         }
     }
 }

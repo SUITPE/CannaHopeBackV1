@@ -114,7 +114,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             // ---------------------------------------
 
             const path = `document.pdf`;
-            fs.writeFileSync(`./${path}`, new Buffer.from(doc.output('arraybuffer')));
+            fs.writeFileSync(`./docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
 
             resolve(path);
 
