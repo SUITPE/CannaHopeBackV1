@@ -47,10 +47,11 @@ class MedicalRecipeController {
                     patientFounded = consultationData.patient;
                 }
                 const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
+                console.log(documentPath);
                 const emailFiles = [
                     {
                         filename: 'Recetamedica',
-                        path: documentPath,
+                        path: '../../docs/document.pdf',
                         contentType: 'application/pdf'
                     }
                 ];

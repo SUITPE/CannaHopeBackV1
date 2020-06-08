@@ -47,10 +47,13 @@ export class MedicalRecipeController {
 
             const documentPath: string = currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
 
+            console.log(documentPath);
+            
+
             const emailFiles: any[] = [
                 {
                     filename: 'Recetamedica',
-                    path: documentPath,
+                    path: '../../docs/document.pdf',
                     contentType: 'application/pdf'
                 }
             ]
