@@ -1,9 +1,8 @@
 const moment = require('moment-timezone');
 
-const currentEnv: string =  'PROD';
+const currentEnv: string =  'DEV';
 export const seed: string = 'PRIVATE-SEED-CANNAHOPE-API'
 export const tokenExpiration: number = 60*60*24;
-
 
 export const environments = {
     getDbUrl(): string {
@@ -24,17 +23,17 @@ export const environments = {
 
     companyEmail(): string {
         if (currentEnv === 'PROD'){
-            return 'igjonatanpadilla@gmail.com'
+            return 'app@centrocannahope.com'
         } else {
-            return 'igjonatanpadilla@gmail.com'
+            return 'app@centrocannahope.com'
         }
     },
 
     companyPasswordEmail(): string {
         if (currentEnv === 'PROD'){
-            return 'wingardiumleviosa'
+            return 'cannahope2020'
         } else {
-            return 'wingardiumleviosa'
+            return 'cannahope2020'
         }
     },
 

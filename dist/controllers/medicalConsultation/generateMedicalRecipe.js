@@ -47,7 +47,6 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             doc.text(320, 173, `${consultationData.patient.user.document}`);
             doc.text(300, 183, 'EDAD: ');
             doc.text(330, 183, `${consultationData.patient.user.age}`);
-            console.log(consultationData.medicalDiagnostic.disease);
             let diagnostic = '';
             if (consultationData.medicalDiagnostic.disease.length) {
                 consultationData.medicalDiagnostic.disease.forEach(item => {
@@ -65,7 +64,6 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             // -----------------------------------------------
             let counster = 0;
             medicalTreatament.forEach((item, i) => {
-                console.log(item);
                 doc.text(20, 230 + counster, 'VIA DE ADMINISTRACIÓN: ');
                 doc.text(135, 230 + counster, `${item.viaAdministracion.toUpperCase()}`);
                 doc.text(20, 245 + counster, 'FITOCANNABINOIDES: ');

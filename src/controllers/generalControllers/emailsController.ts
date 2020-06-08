@@ -23,13 +23,12 @@ export default class EmailController {
         }
     }
 
-
     public sendEmail(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             try {
 
                 const trasnporter = nodemailer.createTransport({
-                    host: 'smtp.ethereal.email',
+                    host: 'gator3014.hostgator.com',
                     port: 587,
                     service: this.service,
                     auth: {

@@ -22,7 +22,7 @@ class EmailController {
         return new Promise((resolve, reject) => {
             try {
                 const trasnporter = nodemailer_1.default.createTransport({
-                    host: 'smtp.ethereal.email',
+                    host: 'gator3014.hostgator.com',
                     port: 587,
                     service: this.service,
                     auth: {

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const moment = require('moment-timezone');
-const currentEnv = 'PROD';
+const currentEnv = 'DEV';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';
 exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
@@ -23,18 +23,18 @@ exports.environments = {
     },
     companyEmail() {
         if (currentEnv === 'PROD') {
-            return 'igjonatanpadilla@gmail.com';
+            return 'app@centrocannahope.com';
         }
         else {
-            return 'igjonatanpadilla@gmail.com';
+            return 'app@centrocannahope.com';
         }
     },
     companyPasswordEmail() {
         if (currentEnv === 'PROD') {
-            return 'wingardiumleviosa';
+            return 'cannahope2020';
         }
         else {
-            return 'wingardiumleviosa';
+            return 'cannahope2020';
         }
     },
     currentDate() {

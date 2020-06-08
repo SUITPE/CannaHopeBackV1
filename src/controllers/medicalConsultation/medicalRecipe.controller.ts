@@ -53,7 +53,7 @@ export class MedicalRecipeController {
             ]
 
             const email: EmailController = new EmailController(
-                'gmail',
+                'hostgator',
                 `Receta medica emitida por cannahope`,
                 patientFounded.user.email ,
                 'RECETA MEDICA - CANNAHOPE',
@@ -66,7 +66,6 @@ export class MedicalRecipeController {
             res.download(pathNoImage);
 
         } catch (error) {
-            console.log(error);
             errorFlag = true;
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,

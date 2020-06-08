@@ -52,13 +52,12 @@ class MedicalRecipeController {
                         contentType: 'application/pdf'
                     }
                 ];
-                const email = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
+                const email = new emailsController_1.default('hostgator', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
                 yield email.sendEmail();
                 const pathNoImage = path_1.default.resolve(__dirname, `../../../document.pdf`);
                 res.download(pathNoImage);
             }
             catch (error) {
-                console.log(error);
                 errorFlag = true;
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
             }
