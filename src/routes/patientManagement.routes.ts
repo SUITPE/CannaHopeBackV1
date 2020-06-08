@@ -12,6 +12,7 @@ import { DiseaseService } from '../services/disease.service';
 import ConsultationAdmitionController from '../controllers/patientManagement/consultationAdmitionController';
 import { ErrorDetail } from '../models/jsonResp';
 import { PatientPhService } from '../services/patientPh.service';
+import { MaritalStatusController } from '../controllers/user/maritalStatus.controller';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -21,7 +22,6 @@ const patientProblemCtr: PatientProblemController = new PatientProblemController
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
 const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluationController();
-
 
 const patientManagementRoutes: Router = Router();
 patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, res) => {
@@ -176,6 +176,11 @@ patientManagementRoutes.get('/medicalConsultation/getById/:id', UserValidation.v
 
 // patient ph
 patientManagementRoutes.post('/patientPh/save', UserValidation.validation, (req, res) => patientPhCtr.save(req, res));
+
+patientManagementRoutes.get('/maritalStatus', UserValidation.validation, (req, res) => {
+    const maritalStatusSrv: MaritalStatusController = new MaritalStatusController();
+    return maritalStatusSrv.getAll(req, res);
+});
 
 export default patientManagementRoutes;
 

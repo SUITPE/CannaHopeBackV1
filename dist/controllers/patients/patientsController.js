@@ -119,15 +119,12 @@ class PatientController {
             try {
                 patient_1.default.find()
                     .populate({
-                    match: {
-                        names: regex
-                    },
                     path: 'user',
-                    select: 'image _id names surenames  mobilePhone document email',
+                    select: 'image _id names surenames  mobilePhone document email sex',
                     populate: {
                         path: 'rol',
                         select: 'description name'
-                    }
+                    },
                 })
                     .exec((error, patients) => {
                     if (error) {
@@ -140,7 +137,9 @@ class PatientController {
                     if (patients.length > 0) {
                         patients = patients.filter(patient => patient.user !== null);
                     }
-                    resolve(patients);
+                    const param = searchParams.toUpperCase();
+                    const founded = patients.filter(patient => patient.user.names.toUpperCase().includes(param) || patient.user.surenames.toUpperCase().includes(param));
+                    resolve(founded);
                 });
             }
             catch (error) {

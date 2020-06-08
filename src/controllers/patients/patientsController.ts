@@ -7,9 +7,6 @@ import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
 import { PatientUpdateDto } from '../../dto/patient.dto';
 import PatientService from '../../services/patient.service';
-import bcrypt from 'bcrypt';
-
-
 
 export default class PatientController {
 
@@ -136,15 +133,12 @@ export default class PatientController {
 
                 Patient.find()
                     .populate({
-                        match: {
-                            names: regex
-                        },
                         path: 'user',
-                        select: 'image _id names surenames  mobilePhone document email',
+                        select: 'image _id names surenames  mobilePhone document email sex',
                         populate: {
                             path: 'rol',
                             select: 'description name'
-                        }
+                        },
                     })
                     .exec((error: any, patients) => {
 
@@ -155,12 +149,12 @@ export default class PatientController {
                             }
                             reject(error);
                         }
-
                         if (patients.length > 0) {
                             patients = patients.filter(patient => patient.user !== null);
                         }
-
-                        resolve(patients);
+                        const param: string = searchParams.toUpperCase();
+                        const founded = patients.filter(patient => patient.user.names.toUpperCase().includes(param)  || patient.user.surenames.toUpperCase().includes(param))
+                        resolve(founded);
                     });
             } catch (error) {
                 reject(JSON.stringify(error));

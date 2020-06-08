@@ -6,6 +6,7 @@ import { ErrorDetail } from '../models/jsonResp';
 import LoginController from '../controllers/user/login';
 import UserValidation from '../middlewares/userValidation.middleware';
 import DocumentTypeController from '../controllers/user/documentType.controller';
+import { MaritalStatusController } from '../controllers/user/maritalStatus.controller';
 
 
 const userController: UserController = new UserController();
@@ -124,6 +125,11 @@ userRoutes.post('/resetPassword', (req, res) => {
     .catch(error => {
         return res.status(500).send(new JsonResp(false, 'Error al cambiar contraseña', null, error));
     });
+});
+
+userRoutes.get('/maritalStatus', UserValidation.validation, (req, res) => {
+    const maritalStatusSrv: MaritalStatusController = new MaritalStatusController();
+    return maritalStatusSrv.getAll(req, res);
 });
 
 userRoutes.post('/Login', LoginController.startSession);

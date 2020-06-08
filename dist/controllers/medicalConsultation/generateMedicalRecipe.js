@@ -30,7 +30,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             doc.text(20, 163, 'MÉDICO: ');
             doc.text(62, 163, `Dr. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
             doc.text(20, 173, 'ESPECIALIDAD: ');
-            let sp;
+            let sp = '';
             if (consultationData.doctor.specialty) {
                 sp = consultationData.doctor.specialty.name;
             }
@@ -44,9 +44,10 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             doc.text(300, 163, 'PACIENTE: ');
             doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
             doc.text(300, 173, 'DNI: ');
-            doc.text(320, 173, `${consultationData.patient.user.document.toUpperCase()}`);
+            doc.text(320, 173, `${consultationData.patient.user.document}`);
             doc.text(300, 183, 'EDAD: ');
             doc.text(330, 183, `${consultationData.patient.user.age}`);
+            console.log(consultationData.medicalDiagnostic.disease);
             let diagnostic = '';
             if (consultationData.medicalDiagnostic.disease.length) {
                 consultationData.medicalDiagnostic.disease.forEach(item => {
@@ -78,7 +79,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
                 doc.text(260, 235 + counster, 'OBSERVACIONES: ');
-                doc.text(343, 235 + counster, item.observations.toUpperCase());
+                doc.text(343, 235 + counster, (item.observations || ''));
                 doc.line(20, 350 + counster, 580, 350 + counster);
                 counster += 143;
             });

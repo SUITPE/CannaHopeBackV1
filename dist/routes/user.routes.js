@@ -9,6 +9,7 @@ const rolController_1 = __importDefault(require("../controllers/user/rolControll
 const jsonResp_1 = __importDefault(require("../models/jsonResp"));
 const login_1 = __importDefault(require("../controllers/user/login"));
 const userValidation_middleware_1 = __importDefault(require("../middlewares/userValidation.middleware"));
+const maritalStatus_controller_1 = require("../controllers/user/maritalStatus.controller");
 const userController = new userController_1.default();
 const rolController = new rolController_1.default();
 const login = new login_1.default();
@@ -109,6 +110,10 @@ userRoutes.post('/resetPassword', (req, res) => {
         .catch(error => {
         return res.status(500).send(new jsonResp_1.default(false, 'Error al cambiar contraseña', null, error));
     });
+});
+userRoutes.get('/maritalStatus', userValidation_middleware_1.default.validation, (req, res) => {
+    const maritalStatusSrv = new maritalStatus_controller_1.MaritalStatusController();
+    return maritalStatusSrv.getAll(req, res);
 });
 userRoutes.post('/Login', login_1.default.startSession);
 exports.default = userRoutes;

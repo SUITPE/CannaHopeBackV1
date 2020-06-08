@@ -15,6 +15,7 @@ const medicalConsultation_1 = __importDefault(require("../controllers/patientMan
 const medicalReevaluationController_1 = __importDefault(require("../controllers/patientManagement/medicalReevaluationController"));
 const disease_service_1 = require("../services/disease.service");
 const consultationAdmitionController_1 = __importDefault(require("../controllers/patientManagement/consultationAdmitionController"));
+const maritalStatus_controller_1 = require("../controllers/user/maritalStatus.controller");
 const diseaseCtr = new diseaseController_1.DiseaseController(new disease_service_1.DiseaseService());
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
@@ -152,4 +153,8 @@ patientManagementRoutes.put('/disease/update', userValidation_middleware_1.defau
 patientManagementRoutes.get('/medicalConsultation/getById/:id', userValidation_middleware_1.default.validation, medicalConsultationCtr.getById);
 // patient ph
 patientManagementRoutes.post('/patientPh/save', userValidation_middleware_1.default.validation, (req, res) => patientPhCtr.save(req, res));
+patientManagementRoutes.get('/maritalStatus', userValidation_middleware_1.default.validation, (req, res) => {
+    const maritalStatusSrv = new maritalStatus_controller_1.MaritalStatusController();
+    return maritalStatusSrv.getAll(req, res);
+});
 exports.default = patientManagementRoutes;
