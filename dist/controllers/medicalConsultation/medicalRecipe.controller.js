@@ -21,6 +21,7 @@ const medicalConsultation_service_1 = __importDefault(require("../../services/me
 const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
 const emailsController_1 = __importDefault(require("../generalControllers/emailsController"));
 const userController_1 = __importDefault(require("../user/userController"));
+const varEnvironments_1 = require("../../environments/varEnvironments");
 class MedicalRecipeController {
     constructor(medicalConsultationSrv = new medicalConsultation_service_1.default(), medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()) {
         this.medicalConsultationSrv = medicalConsultationSrv;
@@ -45,10 +46,11 @@ class MedicalRecipeController {
                     const pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
                     patientFounded = consultationData.patient;
                 }
+                const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
                 const emailFiles = [
                     {
                         filename: 'Recetamedica',
-                        path: `docs/document.pdf`,
+                        path: documentPath,
                         contentType: 'application/pdf'
                     }
                 ];

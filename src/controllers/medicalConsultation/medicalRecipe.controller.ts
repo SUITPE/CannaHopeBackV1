@@ -11,6 +11,7 @@ import { MedicalReevaluationService } from '../../services/medicalReevaluation.s
 import { MedicalReevaluationModel } from '../../models/medicalReevaluation';
 import EmailController from '../generalControllers/emailsController';
 import UserController from '../user/userController';
+import { environments, currentEnv } from '../../environments/varEnvironments';
 
 
 export class MedicalRecipeController {
@@ -44,10 +45,12 @@ export class MedicalRecipeController {
                 patientFounded = consultationData.patient;
             }
 
+            const documentPath: string = currentEnv === 'PROD' ? '../../docs/document.pdf' : 'docs/document.pdf';
+
             const emailFiles: any[] = [
                 {
                     filename: 'Recetamedica',
-                    path: `docs/document.pdf`,
+                    path: documentPath,
                     contentType: 'application/pdf'
                 }
             ]
