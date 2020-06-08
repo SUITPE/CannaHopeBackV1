@@ -30,8 +30,8 @@ class MedicalConsultationService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const founded = yield medicalConsultation_1.MedicalConsultation.findById(id)
-                    .populate({ path: 'doctor', select: 'names surenames specialty', populate: { path: 'specialty', select: 'name' } })
-                    .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: { path: 'user', select: 'names surenames age document email' } });
+                    .populate({ path: 'doctor', select: 'names surenames specialty signatureImage', populate: { path: 'specialty', select: 'name' } })
+                    .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: { path: 'user', select: 'names surenames age document email signatureImage' } });
                 return founded;
             }
             catch (error) {

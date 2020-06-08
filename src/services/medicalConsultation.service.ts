@@ -18,12 +18,11 @@ export default class MedicalConsultationService {
             throw errorDetail;
         }
     }
-
     public async findById(id: string): Promise<MedicalConsultationModel> {
         try {
             const founded: any = await MedicalConsultation.findById(id)
-                .populate({ path: 'doctor', select: 'names surenames specialty', populate:{path: 'specialty', select: 'name'} })
-                .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: {path:'user', select: 'names surenames age document email'}});
+                .populate({ path: 'doctor', select: 'names surenames specialty signatureImage', populate:{path: 'specialty', select: 'name'} })
+                .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: {path:'user', select: 'names surenames age document email signatureImage'}});
             return founded;
         } catch (error) {
             const errorDetail: ErrorDetail = {

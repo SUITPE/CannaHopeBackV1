@@ -1,8 +1,19 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const moment = require('moment-timezone');
 const environments = require('../../environments/varEnvironments');
+const fs = require('fs');
+const Jimp = require("jimp");
 function generateMedicalRecipe(consultationData, medicalTreatament) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
         try {
             global.window = { document: { createElementNS: () => { return {}; } } };
             global.navigator = {};
@@ -82,24 +93,53 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 doc.line(20, 350 + counster, 580, 350 + counster);
                 counster += 143;
             });
-            doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
-            doc.setLineWidth(1.5);
-            doc.line(320, 820, 580, 820);
-            doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
-            // ---------------------------------------
-            const path = `document.pdf`;
-            if (environments.currentEnv === 'PROD') {
-                fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+            const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
+            if (consultationData.doctor.signatureImage) {
+                Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`, (error, image) => __awaiter(this, void 0, void 0, function* () {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
+                        const x = yield image.write(newPath);
+                        setTimeout(() => {
+                            var vitmap = fs.readFileSync(`${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`);
+                            doc.addImage(vitmap, 'JPEG', 330, 630, 190, 190);
+                            doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
+                            doc.setLineWidth(1.5);
+                            doc.line(320, 820, 580, 820);
+                            doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
+                            // ---------------------------------------
+                            const path = `document.pdf`;
+                            if (environments.currentEnv === 'PROD') {
+                                fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                            }
+                            else {
+                                fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                            }
+                            resolve(path);
+                        }, 2000);
+                    }
+                }));
+                // const image = await Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`);
+                // const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
+                // image.write(newPath);
+                // var vitmap = fs.readFileSync('docs/doctorSignatures/doctor-signature-5ebe9d1d5cf2e73074a1b276-578.jpg');
+                // console.log(vitmap)
+                // const file = new Buffer(vitmap).toString('base64');
+                // doc.addImage(file, 'JPEG', 15, 40, 180, 180);
             }
-            else {
-                fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
-            }
-            resolve(path);
         }
         catch (error) {
             console.log('error aqui');
             reject(error);
         }
-    });
+    }));
+    function dadada(path) {
+        return new Promise((resolve, reject) => {
+            var vitmap = fs.readFileSync('docs/doctorSignatures/doctor-signature-5ebe9d1d5cf2e73074a1b276-578.jpg');
+            resolve(vitmap);
+        });
+    }
 }
 module.exports = generateMedicalRecipe;

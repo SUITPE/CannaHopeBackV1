@@ -18,12 +18,14 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "http-status": "^1.4.2",
+    "jimp": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
     "mongoose": "^5.9.10",
     "nodemailer": "^6.4.8",
+    "pngjs": "^5.0.0",
     "validator": "^13.0.0"
   },
   "devDependencies": {
