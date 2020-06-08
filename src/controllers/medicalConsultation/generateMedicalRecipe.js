@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-
+const currentEnv = require('../../environments/varEnvironments');
 
 function generateMedicalRecipe(consultationData, medicalTreatament) {
     return new Promise((resolve, reject) => {
@@ -80,24 +80,24 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             medicalTreatament.forEach((item, i) => {
                 doc.text(20, 230 + counster, 'VIA DE ADMINISTRACIÓN: ');
                 doc.text(135, 230 + counster, `${item.viaAdministracion.toUpperCase()}`);
-    
+
                 doc.text(20, 245 + counster, 'FITOCANNABINOIDES: ');
-                doc.text(135, 245 + counster, item.fitocannabinoides.toUpperCase() );
-    
+                doc.text(135, 245 + counster, item.fitocannabinoides.toUpperCase());
+
                 doc.text(20, 260 + counster, 'CONCENTRACION: ');
                 doc.text(135, 260 + counster, item.concentracion.toUpperCase());
-    
+
                 doc.text(20, 275 + counster, 'RATIO: ');
                 doc.text(135, 275 + counster, item.ratio.toUpperCase());
-    
+
                 doc.text(20, 290 + counster, 'FRECUENCIA: ');
                 doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
 
-    
+
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
                 doc.text(260, 235 + counster, 'OBSERVACIONES: ');
-                doc.text(343, 235 + counster, (item.observations || '') );
+                doc.text(343, 235 + counster, (item.observations || ''));
 
                 doc.line(20, 350 + counster, 580, 350 + counster);
 
@@ -114,7 +114,11 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             // ---------------------------------------
 
             const path = `document.pdf`;
-            fs.writeFileSync(`./docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+            if (currentEnv === 'PROD') {
+                fs.writeFileSync(`../../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+            } else {
+                fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+            }
 
             resolve(path);
 
