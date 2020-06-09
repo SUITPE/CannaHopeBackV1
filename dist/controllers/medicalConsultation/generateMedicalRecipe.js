@@ -98,7 +98,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 counster += 143;
             });
             const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
-            if (consultationData.doctor.signatureImage === '3') {
+            if (consultationData.doctor.signatureImage) {
                 Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`, (error, image) => __awaiter(this, void 0, void 0, function* () {
                     if (error) {
                     }
