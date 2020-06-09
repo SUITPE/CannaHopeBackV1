@@ -47,7 +47,8 @@ class ConsultationAdmitionController {
                     patient: consultationAdmition.patient,
                     createdAt: consultationAdmition.createdAt,
                     createdBy: consultationAdmition.createdBy,
-                    appointment: consultationAdmition.appointment
+                    appointment: consultationAdmition.appointment,
+                    imc: consultationAdmition.imc
                 });
                 yield this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');
                 resolve(yield this.consultationAdmitionSrv.save(newConsultationAdmition));

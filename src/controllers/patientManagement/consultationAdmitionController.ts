@@ -42,7 +42,8 @@ export default class ConsultationAdmitionController {
                     patient: consultationAdmition.patient,
                     createdAt: consultationAdmition.createdAt,
                     createdBy: consultationAdmition.createdBy,
-                    appointment: consultationAdmition.appointment
+                    appointment: consultationAdmition.appointment,
+                    imc: consultationAdmition.imc
                 });
 
                 await this.appointmentSrv.updateStatus(appointment._id, 'ADMITIDA');

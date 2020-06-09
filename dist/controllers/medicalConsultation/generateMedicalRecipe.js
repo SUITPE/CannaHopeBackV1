@@ -86,6 +86,10 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 doc.text(135, 275 + counster, item.ratio.toUpperCase());
                 doc.text(20, 290 + counster, 'FRECUENCIA: ');
                 doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
+                if (item.amountPerDose) {
+                    doc.text(20, 305 + counster, 'GOTAS POR DOSIS: ');
+                    doc.text(135, 305 + counster, item.amountPerDose);
+                }
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
                 doc.text(260, 235 + counster, 'OBSERVACIONES: ');
@@ -94,10 +98,9 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 counster += 143;
             });
             const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
-            if (consultationData.doctor.signatureImage) {
+            if (consultationData.doctor.signatureImage === '3') {
                 Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`, (error, image) => __awaiter(this, void 0, void 0, function* () {
                     if (error) {
-                        console.log(error);
                     }
                     else {
                         const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
@@ -121,17 +124,24 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                         }, 2000);
                     }
                 }));
-                // const image = await Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`);
-                // const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
-                // image.write(newPath);
-                // var vitmap = fs.readFileSync('docs/doctorSignatures/doctor-signature-5ebe9d1d5cf2e73074a1b276-578.jpg');
-                // console.log(vitmap)
-                // const file = new Buffer(vitmap).toString('base64');
-                // doc.addImage(file, 'JPEG', 15, 40, 180, 180);
+            }
+            else {
+                doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
+                doc.setLineWidth(1.5);
+                doc.line(320, 820, 580, 820);
+                doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
+                // ---------------------------------------
+                const path = `document.pdf`;
+                if (environments.currentEnv === 'PROD') {
+                    fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                }
+                else {
+                    fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                }
+                resolve(path);
             }
         }
         catch (error) {
-            console.log('error aqui');
             reject(error);
         }
     }));
