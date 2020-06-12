@@ -52,6 +52,12 @@ exports.MedicalTreatmentSchema = new mongoose_1.default.Schema({
     },
     type: {
         type: String
+    },
+    conditions: {
+        type: String
+    },
+    recommendations: {
+        type: String
     }
 });
 exports.MedicalTreatment = mongoose_1.default.model('MedicalTreatment', exports.MedicalTreatmentSchema);

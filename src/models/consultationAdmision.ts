@@ -13,6 +13,7 @@ export interface ConsultationAdmitionModel extends mongoose.Document {
     createdAt: Date;
     createdBy: string;
     isEnabled: boolean;
+    imc: number
 }
 
 export const ConsultationAdmitionSchema = new mongoose.Schema({
@@ -65,6 +66,9 @@ export const ConsultationAdmitionSchema = new mongoose.Schema({
     isEnabled: {
         type: Boolean,
         default: true
+    },
+    imc : {
+        type: Number
     }
 });
 

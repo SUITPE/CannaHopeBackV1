@@ -54,6 +54,9 @@ exports.ConsultationAdmitionSchema = new mongoose_1.default.Schema({
     isEnabled: {
         type: Boolean,
         default: true
+    },
+    imc: {
+        type: Number
     }
 });
 const ConsultationAdmition = mongoose_1.default.model('ConsultationAdmition', exports.ConsultationAdmitionSchema);
