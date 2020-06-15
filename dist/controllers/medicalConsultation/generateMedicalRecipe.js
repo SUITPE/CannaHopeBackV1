@@ -95,14 +95,23 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     doc.text(135, 320 + counster, `${item.conditions.toUpperCase()}`);
                 }
                 if (item.recommendations) {
-                    doc.text(20, 335 + counster, 'RECOMENDACIONES: ');
-                    doc.text(135, 335 + counster, `${item.recommendations.toUpperCase()}`);
+                    if (item.recommendations && item.recommendations.length > 70) {
+                        const parte1 = item.recommendations.slice(0, 70);
+                        const parte2 = item.recommendations.slice(71, -1);
+                        doc.text(20, 335 + counster, 'RECOMENDACIONES: ');
+                        doc.text(135, 335 + counster, `${parte1.toUpperCase()}`);
+                        doc.text(135, 350 + counster, `${parte2.toUpperCase()}`);
+                    }
+                    else {
+                        doc.text(20, 335 + counster, 'RECOMENDACIONES: ');
+                        doc.text(135, 335 + counster, `${item.recommendations.toUpperCase()}`);
+                    }
                 }
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
                 doc.text(260, 235 + counster, 'OBSERVACIONES: ');
                 doc.text(343, 235 + counster, (item.observations || ''));
-                doc.line(20, 350 + counster, 580, 350 + counster);
+                doc.line(20, 355 + counster, 580, 350 + counster);
                 counster += 143;
             });
             const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
@@ -121,14 +130,16 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                             doc.line(320, 820, 580, 820);
                             doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
                             // ---------------------------------------
-                            const path = `document.pdf`;
+                            const names = consultationData.patient.user.names.replace(" ", "");
+                            const surenames = consultationData.patient.user.surenames.replace(" ", "");
+                            let pathName = `${names}_${surenames}_consulta_${moment(consultationData.createDate).format('DD-MM-YY')}.pdf`;
                             if (environments.currentEnv === 'PROD') {
-                                fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                                fs.writeFileSync(`../docs/${pathName}`, new Buffer.from(doc.output('arraybuffer')));
                             }
                             else {
-                                fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                                fs.writeFileSync(`docs/${pathName}`, new Buffer.from(doc.output('arraybuffer')));
                             }
-                            resolve(path);
+                            resolve(pathName);
                         }, 2000);
                     }
                 }));
@@ -234,25 +245,21 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                         // ---------------------------------------
                     }
                 }
-                const path = `document.pdf`;
+                const names = consultationData.patient.user.names.replace(" ", "");
+                const surenames = consultationData.patient.user.surenames.replace(" ", "");
+                let pathName = `${names}_${surenames}_consulta_${moment(consultationData.createDate).format('DD-MM-YY')}.pdf`;
                 if (environments.currentEnv === 'PROD') {
-                    fs.writeFileSync(`../docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                    fs.writeFileSync(`../docs/${pathName}`, new Buffer.from(doc.output('arraybuffer')));
                 }
                 else {
-                    fs.writeFileSync(`docs/${path}`, new Buffer.from(doc.output('arraybuffer')));
+                    fs.writeFileSync(`docs/${pathName}`, new Buffer.from(doc.output('arraybuffer')));
                 }
-                resolve(path);
+                resolve(pathName);
             }
         }
         catch (error) {
             reject(error);
         }
     }));
-    function dadada(path) {
-        return new Promise((resolve, reject) => {
-            var vitmap = fs.readFileSync('docs/doctorSignatures/doctor-signature-5ebe9d1d5cf2e73074a1b276-578.jpg');
-            resolve(vitmap);
-        });
-    }
 }
 module.exports = generateMedicalRecipe;

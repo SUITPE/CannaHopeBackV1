@@ -29,23 +29,25 @@ export class MedicalRecipeController {
         const userCtr: UserController = new UserController();
         let patientFounded: any;
 
+        let pdfPath: string = '';
+
         try {
 
 
             if (type === 'consultation') {
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(id);
-                const pdfPath: string = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                pdfPath = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
                 patientFounded = consultationData.patient;
             }
 
             if (type === 'reevaluation') {
                 const medicalReevaluation: MedicalReevaluationModel = await this.medicalReevaluationSrv.findById(id);
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
-                const pdfPath: string = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment);
+                pdfPath = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment);
                 patientFounded = consultationData.patient;
             }
 
-            const documentPath: string = currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+            const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
             const emailFiles: any[] = [
                 {
                     filename: 'Recetamedica',
@@ -63,7 +65,7 @@ export class MedicalRecipeController {
             );
             await email.sendEmail();
 
-            const pathNoImage = path.resolve(__dirname, `../../../docs/document.pdf`);
+            const pathNoImage = path.resolve(__dirname, `../../../docs/${pdfPath}`);
             res.download(pathNoImage);
 
         } catch (error) {
@@ -77,7 +79,7 @@ export class MedicalRecipeController {
         } finally {
             setTimeout(() => {
                 if (!errorFlag) {
-                    const documentPath: string = currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+                    const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
                     fs.unlinkSync(documentPath);
                 }
             }, 3000);

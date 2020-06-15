@@ -34,19 +34,20 @@ class MedicalRecipeController {
             let errorFlag = false;
             const userCtr = new userController_1.default();
             let patientFounded;
+            let pdfPath = '';
             try {
                 if (type === 'consultation') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    const pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
                     patientFounded = consultationData.patient;
                 }
                 if (type === 'reevaluation') {
                     const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
                     const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
-                    const pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
+                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
                     patientFounded = consultationData.patient;
                 }
-                const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+                const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
                 const emailFiles = [
                     {
                         filename: 'Recetamedica',
@@ -56,7 +57,7 @@ class MedicalRecipeController {
                 ];
                 const email = new emailsController_1.default('hostgator', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
                 yield email.sendEmail();
-                const pathNoImage = path_1.default.resolve(__dirname, `../../../docs/document.pdf`);
+                const pathNoImage = path_1.default.resolve(__dirname, `../../../docs/${pdfPath}`);
                 res.download(pathNoImage);
             }
             catch (error) {
@@ -67,7 +68,7 @@ class MedicalRecipeController {
             finally {
                 setTimeout(() => {
                     if (!errorFlag) {
-                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? '../docs/document.pdf' : 'docs/document.pdf';
+                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
                         fs.unlinkSync(documentPath);
                     }
                 }, 3000);
