@@ -152,15 +152,11 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                             doc.text(320, 830, `DR. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
 
                             // ---------------------------------------
-
- 
                             const names = consultationData.patient.user.names.replace(" ", "");
                             const surenames = consultationData.patient.user.surenames.replace(" ", "");
             
                             let pathName = `${names}_${surenames}_consulta_${moment(consultationData.createDate).format('DD-MM-YY')}.pdf`;
                             
-
- 
                             if (environments.currentEnv === 'PROD') {
                                 fs.writeFileSync(`../docs/${pathName}`, new Buffer.from(doc.output('arraybuffer')));
                             } else {
