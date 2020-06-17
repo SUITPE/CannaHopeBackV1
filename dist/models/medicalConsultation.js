@@ -48,6 +48,9 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
     },
     consultationReason: {
         type: String,
+    },
+    recomendations: {
+        type: String
     }
 });
 exports.MedicalConsultation = mongoose_1.default.model('MedicalConsultation', exports.MedicalConsultationSchema);

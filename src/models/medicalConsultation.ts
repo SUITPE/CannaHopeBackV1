@@ -18,6 +18,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     complementaryExams: ComplementaryExam[];
     createDate: Date;
     reevaluations: MedicalReevaluationModel[] | any[];
+    recomendations: string;
 }
 
 export const MedicalConsultationSchema = new mongoose.Schema({
@@ -64,6 +65,9 @@ export const MedicalConsultationSchema = new mongoose.Schema({
     },
     consultationReason:{
         type: String,
+    },
+    recomendations: {
+        type: String
     }
 });
 

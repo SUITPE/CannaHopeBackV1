@@ -130,6 +130,7 @@ export class PatientPhController {
                     updateDate: environments.currentDate(),
                     updatedBy: user._id,
                     harmfulHabitsList: patientPh.harmfulHabitsList,
+                    healthyHabits: patientPh.healthyHabits,
                     familyPph: patientPh.familyPph,
                     currentMedication: patientPh.currentMedication,
                     surgeries: patientPh.surgeries,
@@ -148,24 +149,6 @@ export class PatientPhController {
                 throw (errorDetail);
             }
         }
-        // return new Promise((resolve, reject) => {
-
-        //     try {
-
-        //         PatientPh.updateOne({ _id: patientPh._id }, patientPh, async (error, patientPhSaved) => {
-        //             if (error) {
-        //                 this.errorDetail.name = 'Error en la base de datos al actualizar historial patologico de paciente';
-        //                 this.errorDetail.description = error;
-        //                 reject(error);
-        //             } else {
-        //                 const patientUpdated: PatientPhModel = await this.findBypatientId(patientPh.patient);
-        //                 resolve(patientUpdated);
-        //             }
-        //         });
-        //     } catch (error) {
-        //         reject(error);
-        //     }
-        // });
     }
 
     public findBypatientId(idPatient: string): Promise<PatientPhModel> {

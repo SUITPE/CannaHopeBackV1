@@ -43,6 +43,7 @@ export default class MedicalConsultationController {
                     patientStory: medicalConsultation.patientStory,
                     createDate: medicalConsultation.createDate,
                     consultationReason: medicalConsultation.consultationReason,
+                    recomendations: medicalConsultation.recomendations
                 });
 
                 const medicalConsultationSaved: MedicalConsultationModel = await newMedicalConsultation.save();

@@ -47,6 +47,33 @@ export class MedicalRecipeController {
                 patientFounded = consultationData.patient;
             }
 
+            if (type === 'sendEmail') {
+                const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(id);
+                pdfPath = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                patientFounded = consultationData.patient;
+
+                const dp: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                const emf: any[] = [
+                    {
+                        filename: 'Recetamedica',
+                        path: dp,
+                        contentType: 'application/pdf'
+                    }
+                ]
+
+                const emailtos: EmailController = new EmailController(
+                    'gmail',
+                    `Receta medica emitida por cannahope`,
+                    patientFounded.user.email,
+                    'RECETA MEDICA - CANNAHOPE',
+                    emf
+                );
+                await emailtos.sendEmail();
+
+
+                return res.status(httpstatus.OK);
+            }
+
             const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
             const emailFiles: any[] = [
                 {
@@ -57,9 +84,9 @@ export class MedicalRecipeController {
             ]
 
             const email: EmailController = new EmailController(
-                'hostgator',
+                'gmail',
                 `Receta medica emitida por cannahope`,
-                patientFounded.user.email ,
+                patientFounded.user.email,
                 'RECETA MEDICA - CANNAHOPE',
                 emailFiles
             );

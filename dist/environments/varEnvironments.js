@@ -10,8 +10,7 @@ exports.environments = {
             return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
         }
         else {
-            // return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
-            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
+            return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
         }
     },
     getFrontUrl() {
@@ -24,18 +23,19 @@ exports.environments = {
     },
     companyEmail() {
         if (exports.currentEnv === 'PROD') {
-            return 'app@centrocannahope.com';
+            // return 'app@centrocannahope.com'
+            return 'centrocannahope@gmail.com';
         }
         else {
-            return 'app@centrocannahope.com';
+            return 'centrocannahope@gmail.com';
         }
     },
     companyPasswordEmail() {
         if (exports.currentEnv === 'PROD') {
-            return 'cannahope2020';
+            return 'centrocannahope2020';
         }
         else {
-            return 'cannahope2020';
+            return 'centrocannahope2020';
         }
     },
     currentDate() {

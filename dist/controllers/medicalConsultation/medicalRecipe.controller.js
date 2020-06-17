@@ -47,6 +47,22 @@ class MedicalRecipeController {
                     pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
                     patientFounded = consultationData.patient;
                 }
+                if (type === 'sendEmail') {
+                    const consultationData = yield this.medicalConsultationSrv.findById(id);
+                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                    patientFounded = consultationData.patient;
+                    const dp = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                    const emf = [
+                        {
+                            filename: 'Recetamedica',
+                            path: dp,
+                            contentType: 'application/pdf'
+                        }
+                    ];
+                    const emailtos = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emf);
+                    yield emailtos.sendEmail();
+                    return res.status(http_status_1.default.OK);
+                }
                 const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
                 const emailFiles = [
                     {
@@ -55,7 +71,7 @@ class MedicalRecipeController {
                         contentType: 'application/pdf'
                     }
                 ];
-                const email = new emailsController_1.default('hostgator', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
+                const email = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
                 yield email.sendEmail();
                 const pathNoImage = path_1.default.resolve(__dirname, `../../../docs/${pdfPath}`);
                 res.download(pathNoImage);

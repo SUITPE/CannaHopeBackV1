@@ -49,6 +49,7 @@ class MedicalConsultationController {
                     patientStory: medicalConsultation.patientStory,
                     createDate: medicalConsultation.createDate,
                     consultationReason: medicalConsultation.consultationReason,
+                    recomendations: medicalConsultation.recomendations
                 });
                 const medicalConsultationSaved = yield newMedicalConsultation.save();
                 const newMedicalEvaluation = medicalConsultation.medicalEvaluation;

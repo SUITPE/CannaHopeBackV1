@@ -34,4 +34,6 @@ export interface PatientPhUpdateDto {
     pregnancies: string;
     poisonings: string;
     hospitalizations: string;
+    healthyHabits: any[],
+
 }

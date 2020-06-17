@@ -28,8 +28,8 @@ export default class EmailController {
             try {
 
                 const trasnporter = nodemailer.createTransport({
-                    host: 'gator3014.hostgator.com',
-                    port: 587,
+                    host: 'gmail',
+                    port: 25,
                     service: this.service,
                     auth: {
                         user: this.transmitter,
@@ -43,7 +43,6 @@ export default class EmailController {
                     subject: this.subject,
                     text: this.message
                 };
-
 
                 if (this.files) {
                     mailOptions.attachments = this.files;
@@ -61,6 +60,8 @@ export default class EmailController {
                     }
                 });
             } catch (error) {
+                console.log(error);
+
                 reject(error);
             }
         });

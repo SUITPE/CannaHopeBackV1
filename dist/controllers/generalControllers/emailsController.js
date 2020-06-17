@@ -22,8 +22,8 @@ class EmailController {
         return new Promise((resolve, reject) => {
             try {
                 const trasnporter = nodemailer_1.default.createTransport({
-                    host: 'gator3014.hostgator.com',
-                    port: 587,
+                    host: 'gmail',
+                    port: 25,
                     service: this.service,
                     auth: {
                         user: this.transmitter,
@@ -53,6 +53,7 @@ class EmailController {
                 });
             }
             catch (error) {
+                console.log(error);
                 reject(error);
             }
         });
