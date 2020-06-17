@@ -58,7 +58,7 @@ class MedicalRecipeController {
                 const email = new emailsController_1.default('hostgator', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
                 yield email.sendEmail();
                 const pathNoImage = path_1.default.resolve(__dirname, `../../../docs/${pdfPath}`);
-                res.download(pathNoImage);
+                res.sendFile(pathNoImage);
             }
             catch (error) {
                 console.log(error);

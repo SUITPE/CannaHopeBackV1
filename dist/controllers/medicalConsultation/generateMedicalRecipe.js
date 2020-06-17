@@ -91,21 +91,21 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     doc.text(135, 305 + counster, item.amountPerDose);
                 }
                 if (item.conditions) {
-                    const strArrConditions = doc.splitTextToSize(`${item.conditions}`, 250);
-                    doc.text(20, 305 + counster, 'CONDICIONES: ');
-                    doc.text(20, 315 + counster, strArrConditions);
+                    const strArrConditions = doc.splitTextToSize(`${item.conditions}`, 230);
+                    doc.text(20, 320 + counster, 'CONDICIONES: ');
+                    doc.text(20, 330 + counster, strArrConditions);
                 }
                 if (item.recommendations) {
                     const strArrRecommendations = doc.splitTextToSize(`${item.recommendations}`, 250);
-                    doc.text(255, 305 + counster, 'RECOMENDACIONES: ');
-                    doc.text(255, 315 + counster, strArrRecommendations);
+                    doc.text(255, 320 + counster, 'RECOMENDACIONES: ');
+                    doc.text(255, 330 + counster, strArrRecommendations);
                 }
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
                 const strtArrObservations = doc.splitTextToSize(item.observations || '', 360);
                 doc.text(257, 220 + counster, 'OBSERVACIONES: ');
                 doc.text(260, 235 + counster, strtArrObservations);
-                doc.line(20, 355 + counster, 580, 350 + counster);
+                doc.line(20, 370 + counster, 580, 370 + counster);
                 counster += 143;
             });
             const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
@@ -118,7 +118,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                         const x = yield image.write(newPath);
                         setTimeout(() => {
                             var vitmap = fs.readFileSync(`${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`);
-                            doc.addImage(vitmap, 'JPEG', 330, 630, 190, 190);
+                            doc.addImage(vitmap, 'JPEG', 330, 680, 180, 180);
                             doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
                             doc.setLineWidth(1.5);
                             doc.line(320, 820, 580, 820);

@@ -66,7 +66,7 @@ export class MedicalRecipeController {
             await email.sendEmail();
 
             const pathNoImage = path.resolve(__dirname, `../../../docs/${pdfPath}`);
-            res.download(pathNoImage);
+            res.sendFile(pathNoImage);
 
         } catch (error) {
             console.log(error);
