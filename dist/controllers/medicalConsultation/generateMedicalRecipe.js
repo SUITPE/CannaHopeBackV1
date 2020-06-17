@@ -91,26 +91,20 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     doc.text(135, 305 + counster, item.amountPerDose);
                 }
                 if (item.conditions) {
-                    doc.text(20, 320 + counster, 'CONDICIONES: ');
-                    doc.text(135, 320 + counster, `${item.conditions.toUpperCase()}`);
+                    const strArrConditions = doc.splitTextToSize(`${item.conditions}`, 250);
+                    doc.text(20, 305 + counster, 'CONDICIONES: ');
+                    doc.text(20, 315 + counster, strArrConditions);
                 }
                 if (item.recommendations) {
-                    if (item.recommendations && item.recommendations.length > 70) {
-                        const parte1 = item.recommendations.slice(0, 70);
-                        const parte2 = item.recommendations.slice(71, -1);
-                        doc.text(20, 335 + counster, 'RECOMENDACIONES: ');
-                        doc.text(135, 335 + counster, `${parte1.toUpperCase()}`);
-                        doc.text(135, 350 + counster, `${parte2.toUpperCase()}`);
-                    }
-                    else {
-                        doc.text(20, 335 + counster, 'RECOMENDACIONES: ');
-                        doc.text(135, 335 + counster, `${item.recommendations.toUpperCase()}`);
-                    }
+                    const strArrRecommendations = doc.splitTextToSize(`${item.recommendations}`, 250);
+                    doc.text(255, 305 + counster, 'RECOMENDACIONES: ');
+                    doc.text(255, 315 + counster, strArrRecommendations);
                 }
                 doc.setLineWidth(0.1);
                 doc.rect(255, 223 + counster, 320, 68);
-                doc.text(260, 235 + counster, 'OBSERVACIONES: ');
-                doc.text(343, 235 + counster, (item.observations || ''));
+                const strtArrObservations = doc.splitTextToSize(item.observations || '', 360);
+                doc.text(257, 220 + counster, 'OBSERVACIONES: ');
+                doc.text(260, 235 + counster, strtArrObservations);
                 doc.line(20, 355 + counster, 580, 350 + counster);
                 counster += 143;
             });
