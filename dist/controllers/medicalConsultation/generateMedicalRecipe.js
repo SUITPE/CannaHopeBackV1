@@ -85,7 +85,12 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                 doc.text(20, 275 + counster, 'RATIO: ');
                 doc.text(135, 275 + counster, item.ratio.toUpperCase());
                 doc.text(20, 290 + counster, 'FRECUENCIA: ');
-                doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
+                if (item.frequency && item.frequency === 'CONDICIONAL') {
+                    doc.text(135, 290 + counster, `${item.frequency.toUpperCase()}`);
+                }
+                else {
+                    doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
+                }
                 if (item.amountPerDose) {
                     doc.text(20, 305 + counster, 'GOTAS POR DOSIS: ');
                     doc.text(135, 305 + counster, item.amountPerDose);
@@ -178,7 +183,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                                     doc.text(40, 260 + counster, `${item.name}`);
                                     if (item.description) {
                                         doc.setFontSize(8);
-                                        doc.text(42, 270 + counster, `${item.name}`);
+                                        doc.text(42, 270 + counster, `${item.description}`);
                                     }
                                     counster += 40;
                                 });
@@ -255,19 +260,9 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                                 doc.rect(15, 190, 565, 510);
                                 doc.setLineWidth(0.3);
                                 // -----------------------------------------------
-                                doc.setFontSize(11);
-                                doc.text(20, 230, 'EXÁMENES COMPLEMENTARIOS: ');
-                                let counster = 0;
-                                consultationData.complementaryExams.forEach((item, i) => {
-                                    doc.setFontSize(11);
-                                    doc.text(20, 260 + counster, `${i + 1}:`);
-                                    doc.text(40, 260 + counster, `${item.name}`);
-                                    if (item.description) {
-                                        doc.setFontSize(8);
-                                        doc.text(42, 270 + counster, `${item.name}`);
-                                    }
-                                    counster += 40;
-                                });
+                                const strArrConditions = doc.splitTextToSize(`${consultationData.recomendations}`, 500);
+                                doc.text(20, 230, 'RECOMENDACIONES: ');
+                                doc.text(20, 240, strArrConditions);
                                 // var vitmap = fs.readFileSync(`${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`);
                                 doc.addImage(vitmap, 'JPEG', 330, 630, 190, 190);
                                 doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
