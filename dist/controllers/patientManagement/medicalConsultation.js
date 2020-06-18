@@ -67,6 +67,7 @@ class MedicalConsultationController {
                 yield medicalEvaluationCtr.save(newMedicalEvaluation);
                 yield medicalDiagnosticCtr.save(newMedicalDiagnostic);
                 yield patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+                // Udpate consultation admition  admition to false
                 yield this.consultationAdmitionSrv.updateIsEnabled(medicalConsultation.medicalEvaluation.clinicalExamination._id, false);
                 appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
                 resolve(medicalConsultationSaved);

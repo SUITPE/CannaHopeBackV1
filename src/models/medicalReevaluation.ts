@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-
 export interface MedicalReevaluationModel extends mongoose.Document {
     medicalConsultation: string;
     description: string;
     createDate: Date;
     painScale: string;
     treatment: any[];
+    recomendations: string;
 }
 
 export const MedicalReevaluationSchema = new mongoose.Schema({
@@ -28,6 +28,9 @@ export const MedicalReevaluationSchema = new mongoose.Schema({
         default:[]
     },
     painScale: {
+        type: String
+    },
+    recomendations: {
         type: String
     }
 });

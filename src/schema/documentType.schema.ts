@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import { DocumentTypeModel } from '../models/documentType.interface';
 
-
-
 export const DocumentTypeSchema = new mongoose.Schema({
     name: {
         type: String
@@ -15,6 +13,5 @@ export const DocumentTypeSchema = new mongoose.Schema({
         default: true
     }
 });
-
 
 export const DocumentType = mongoose.model<DocumentTypeModel>('DocumentType', DocumentTypeSchema);

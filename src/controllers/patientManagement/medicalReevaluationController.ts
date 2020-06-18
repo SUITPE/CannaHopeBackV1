@@ -6,12 +6,14 @@ import JsonResp from '../../models/jsonResp';
 import { Response, Request } from 'express';
 import { environments } from '../../environments/varEnvironments';
 import { MedicalReevaluationService } from '../../services/medicalReevaluation.service';
+import { ConsultationAdmitionService } from '../../services/consultationAdminiton.service';
 
 export default class MedicalReevaluationController {
 
     constructor(
         private medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController(),
-        private medicalReeevaluation: MedicalReevaluationService = new MedicalReevaluationService()
+        private medicalReeevaluation: MedicalReevaluationService = new MedicalReevaluationService(),
+        private consultationAdmition: ConsultationAdmitionService = new ConsultationAdmitionService()
     ) { }
 
     public async save(req: Request, res: Response): Promise<Response> {
@@ -27,10 +29,17 @@ export default class MedicalReevaluationController {
             const newMedicalReevaluation = new MedicalReevaluation({
                 medicalConsultation: medicalReevaluation.medicalConsultation,
                 description: medicalReevaluation.description,
-                createDate: environments.currentDate(),
+                createDate: new Date(),
                 painScale: medicalReevaluation.painScale,
-                treatment: medicalReevaluation.medicalTreatment
+                treatment: medicalReevaluation.medicalTreatment,
+                recomendations: medicalReevaluation.recomendations || ''
             });
+
+            if (medicalReevaluation.idClinicalExamination) {
+                await this.consultationAdmition.updateIsEnabled(
+                    medicalReevaluation.idClinicalExamination, false
+                );
+            }
 
             return res.status(httpstatus.CREATED).send(new JsonResp(
                 true,
@@ -40,6 +49,7 @@ export default class MedicalReevaluationController {
 
 
         } catch (error) {
+            console.log(error);
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error en servidor al guardar reevaluacion medica',

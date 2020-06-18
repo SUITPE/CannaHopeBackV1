@@ -67,9 +67,13 @@ export default class MedicalConsultationController {
                 await medicalEvaluationCtr.save(newMedicalEvaluation);
                 await medicalDiagnosticCtr.save(newMedicalDiagnostic);
                 await patientCtr.updateAppointmentNumber(medicalConsultation.patient);
+
+
+                // Udpate consultation admition  admition to false
                 await this.consultationAdmitionSrv.updateIsEnabled(
                     medicalConsultation.medicalEvaluation.clinicalExamination._id, false
                 );
+
                 appointmentSrv.updateStatus(medicalConsultation.idAppointment, 'ATENDIDA');
                 resolve(medicalConsultationSaved);
 

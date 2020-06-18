@@ -16,12 +16,13 @@ const medicalReevaluation_1 = require("../../models/medicalReevaluation");
 const medicalConsultation_1 = __importDefault(require("./medicalConsultation"));
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
-const varEnvironments_1 = require("../../environments/varEnvironments");
 const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
+const consultationAdminiton_service_1 = require("../../services/consultationAdminiton.service");
 class MedicalReevaluationController {
-    constructor(medicalConsultationCtr = new medicalConsultation_1.default(), medicalReeevaluation = new medicalReevaluation_service_1.MedicalReevaluationService()) {
+    constructor(medicalConsultationCtr = new medicalConsultation_1.default(), medicalReeevaluation = new medicalReevaluation_service_1.MedicalReevaluationService(), consultationAdmition = new consultationAdminiton_service_1.ConsultationAdmitionService()) {
         this.medicalConsultationCtr = medicalConsultationCtr;
         this.medicalReeevaluation = medicalReeevaluation;
+        this.consultationAdmition = consultationAdmition;
     }
     save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,13 +34,18 @@ class MedicalReevaluationController {
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,
-                    createDate: varEnvironments_1.environments.currentDate(),
+                    createDate: new Date(),
                     painScale: medicalReevaluation.painScale,
-                    treatment: medicalReevaluation.medicalTreatment
+                    treatment: medicalReevaluation.medicalTreatment,
+                    recomendations: medicalReevaluation.recomendations || ''
                 });
+                if (medicalReevaluation.idClinicalExamination) {
+                    yield this.consultationAdmition.updateIsEnabled(medicalReevaluation.idClinicalExamination, false);
+                }
                 return res.status(http_status_1.default.CREATED).send(new jsonResp_1.default(true, 'Reevaluacion emdica registradac crrectametne ', yield this.medicalReeevaluation.save(newMedicalReevaluation)));
             }
             catch (error) {
+                console.log(error);
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al guardar reevaluacion medica', null, error));
             }
         });

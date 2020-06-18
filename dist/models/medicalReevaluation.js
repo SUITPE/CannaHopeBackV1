@@ -24,6 +24,9 @@ exports.MedicalReevaluationSchema = new mongoose_1.default.Schema({
     },
     painScale: {
         type: String
+    },
+    recomendations: {
+        type: String
     }
 });
 exports.MedicalReevaluation = mongoose_1.default.model('MedicalReevaluation', exports.MedicalReevaluationSchema);
