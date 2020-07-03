@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MaritalStatusService = void 0;
 const maritalStatus_schema_1 = require("../schema/maritalStatus.schema");
 class MaritalStatusService {
     find() {

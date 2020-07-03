@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DocumentTypeSrevice = void 0;
 const documentType_schema_1 = require("../schema/documentType.schema");
 class DocumentTypeSrevice {
     constructor() { }
