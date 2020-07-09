@@ -322,7 +322,6 @@ export default class UserController {
         });
     }
 
-
     public setSignatureImage(base64Imgae: string, user: any): Promise<string> {
         return new Promise((resolve, reject) => {
             const date = new Date();

@@ -14,6 +14,7 @@ const fs = require('fs');
 const Jimp = require("jimp");
 function generateMedicalRecipe(consultationData, medicalTreatament) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+        var _a;
         try {
             global.window = { document: { createElementNS: () => { return {}; } } };
             global.navigator = {};
@@ -111,8 +112,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
             if (consultationData.doctor.signatureImage) {
                 Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`, (error, image) => __awaiter(this, void 0, void 0, function* () {
-                    if (error) {
-                    }
+                    if (error) { }
                     else {
                         const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
                         const x = yield image.write(newPath);
@@ -392,7 +392,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     }
                     doc.text(90, 173, sp.toUpperCase());
                     doc.text(20, 183, 'CMP: ');
-                    doc.text(45, 183, `59489`);
+                    doc.text(45, 183, `${((_a = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _a === void 0 ? void 0 : _a.doctorCmp) || ''}`);
                     doc.setFontSize(9);
                     doc.text(300, 163, 'PACIENTE: ');
                     doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
