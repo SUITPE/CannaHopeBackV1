@@ -14,7 +14,7 @@ const fs = require('fs');
 const Jimp = require("jimp");
 function generateMedicalRecipe(consultationData, medicalTreatament) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-        var _a;
+        var _a, _b, _c;
         try {
             global.window = { document: { createElementNS: () => { return {}; } } };
             global.navigator = {};
@@ -52,7 +52,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
             }
             doc.text(90, 173, sp.toUpperCase());
             doc.text(20, 183, 'CMP: ');
-            doc.text(45, 183, `59489`);
+            doc.text(45, 183, `${((_a = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _a === void 0 ? void 0 : _a.doctorCmp) || ''}`);
             doc.setFontSize(9);
             doc.text(300, 163, 'PACIENTE: ');
             doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -117,6 +117,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                         const newPath = `${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`;
                         const x = yield image.write(newPath);
                         setTimeout(() => {
+                            var _a, _b;
                             var vitmap = fs.readFileSync(`${signaturepath}doctor-${consultationData.doctor.signatureImage.split('.')[0]}.jpg`);
                             doc.addImage(vitmap, 'JPEG', 330, 680, 180, 180);
                             doc.text(15, 710, 'REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.');
@@ -151,7 +152,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                                 }
                                 doc.text(90, 173, sp.toUpperCase());
                                 doc.text(20, 183, 'CMP: ');
-                                doc.text(45, 183, `59489`);
+                                doc.text(45, 183, `${((_a = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _a === void 0 ? void 0 : _a.doctorCmp) || ''}`);
                                 doc.setFontSize(9);
                                 doc.text(300, 163, 'PACIENTE: ');
                                 doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -213,7 +214,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                                 }
                                 doc.text(90, 173, sp.toUpperCase());
                                 doc.text(20, 183, 'CMP: ');
-                                doc.text(45, 183, `59489`);
+                                doc.text(45, 183, `${((_b = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _b === void 0 ? void 0 : _b.doctorCmp) || ''}`);
                                 doc.setFontSize(9);
                                 doc.text(300, 163, 'PACIENTE: ');
                                 doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -321,7 +322,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     }
                     doc.text(90, 173, sp.toUpperCase());
                     doc.text(20, 183, 'CMP: ');
-                    doc.text(45, 183, `59489`);
+                    doc.text(45, 183, `${((_b = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _b === void 0 ? void 0 : _b.doctorCmp) || ''}`);
                     doc.setFontSize(9);
                     doc.text(300, 163, 'PACIENTE: ');
                     doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -392,7 +393,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     }
                     doc.text(90, 173, sp.toUpperCase());
                     doc.text(20, 183, 'CMP: ');
-                    doc.text(45, 183, `${((_a = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _a === void 0 ? void 0 : _a.doctorCmp) || ''}`);
+                    doc.text(45, 183, `${((_c = consultationData === null || consultationData === void 0 ? void 0 : consultationData.doctor) === null || _c === void 0 ? void 0 : _c.doctorCmp) || ''}`);
                     doc.setFontSize(9);
                     doc.text(300, 163, 'PACIENTE: ');
                     doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);

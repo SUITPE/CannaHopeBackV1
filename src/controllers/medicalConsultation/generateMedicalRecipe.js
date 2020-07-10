@@ -51,7 +51,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
             doc.text(90, 173, sp.toUpperCase());
             doc.text(20, 183, 'CMP: ');
-            doc.text(45, 183, `59489`);
+            doc.text(45, 183, `${consultationData?.doctor?.doctorCmp || ''}`);
             doc.setFontSize(9);
             doc.text(300, 163, 'PACIENTE: ');
             doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -171,7 +171,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
                                 doc.text(90, 173, sp.toUpperCase());
                                 doc.text(20, 183, 'CMP: ');
-                                doc.text(45, 183, `59489`);
+                                doc.text(45, 183, `${consultationData?.doctor?.doctorCmp || ''}`);
                                 doc.setFontSize(9);
                                 doc.text(300, 163, 'PACIENTE: ');
                                 doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -247,7 +247,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
                                 doc.text(90, 173, sp.toUpperCase());
                                 doc.text(20, 183, 'CMP: ');
-                                doc.text(45, 183, `59489`);
+                                doc.text(45, 183, `${consultationData?.doctor?.doctorCmp || ''}`);
                                 doc.setFontSize(9);
                                 doc.text(300, 163, 'PACIENTE: ');
                                 doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
@@ -381,7 +381,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
                     doc.text(90, 173, sp.toUpperCase());
                     doc.text(20, 183, 'CMP: ');
-                    doc.text(45, 183, `59489`);
+                    doc.text(45, 183, `${consultationData?.doctor?.doctorCmp || ''}`);
                     doc.setFontSize(9);
                     doc.text(300, 163, 'PACIENTE: ');
                     doc.text(352, 163, `${consultationData.patient.user.names.toUpperCase()} ${consultationData.patient.user.surenames.toUpperCase()}`);
