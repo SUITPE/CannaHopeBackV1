@@ -20,6 +20,9 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
             doc.addImage(img, "JPEG", 390, -10, 220, 170);
 
+
+            console.log(consultationData);
+
             doc.setFontSize(22);
             doc.text(15, 65, 'CENTRO MÉDICO CANNAHOPE');
             doc.setLineWidth(1.5);
@@ -378,6 +381,8 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
                     } else {
                         sp = 'N/A'
                     }
+
+
 
                     doc.text(90, 173, sp.toUpperCase());
                     doc.text(20, 183, 'CMP: ');
