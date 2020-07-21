@@ -7,6 +7,8 @@ import patientManagementRoutes from './routes/patientManagement.routes';
 import doctorRoutes from './routes/doctor.routes';
 import appointmentsRoutes from './routes/appointments.routes';
 import medicalConsultationsRoutes from './routes/medicalConsultation.routes';
+import appointmentStatusRoutes from './routes/appointmentStatus.routes';
+import appointmentTypeRoutes from './routes/appointmentType.routes';
 
 
 // const port: number = 2745;
@@ -23,5 +25,7 @@ server.app.use('/api/patientManagement/', patientManagementRoutes);
 server.app.use('/api/doctor/', doctorRoutes);
 server.app.use('/api/appointments', appointmentsRoutes);
 server.app.use('/api/medicalConsultation', medicalConsultationsRoutes);
+server.app.use('/api/appointment-status', appointmentStatusRoutes);
+server.app.use('/api/appointment-types', appointmentTypeRoutes);
 
 server.start(() => console.log(`Servidor en linea en puerto ${port}`));

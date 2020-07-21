@@ -18,4 +18,5 @@ export class AppointmentStatusService {
             throw errorDetail;
         }
     }
+
 }

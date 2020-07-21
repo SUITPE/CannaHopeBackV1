@@ -12,6 +12,8 @@ const patientManagement_routes_1 = __importDefault(require("./routes/patientMana
 const doctor_routes_1 = __importDefault(require("./routes/doctor.routes"));
 const appointments_routes_1 = __importDefault(require("./routes/appointments.routes"));
 const medicalConsultation_routes_1 = __importDefault(require("./routes/medicalConsultation.routes"));
+const appointmentStatus_routes_1 = __importDefault(require("./routes/appointmentStatus.routes"));
+const appointmentType_routes_1 = __importDefault(require("./routes/appointmentType.routes"));
 // const port: number = 2745;
 const port = process.env.PORT || 2745;
 const server = server_1.default.init(port);
@@ -23,4 +25,6 @@ server.app.use('/api/patientManagement/', patientManagement_routes_1.default);
 server.app.use('/api/doctor/', doctor_routes_1.default);
 server.app.use('/api/appointments', appointments_routes_1.default);
 server.app.use('/api/medicalConsultation', medicalConsultation_routes_1.default);
+server.app.use('/api/appointment-status', appointmentStatus_routes_1.default);
+server.app.use('/api/appointment-types', appointmentType_routes_1.default);
 server.start(() => console.log(`Servidor en linea en puerto ${port}`));
