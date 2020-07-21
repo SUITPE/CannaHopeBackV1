@@ -74,7 +74,8 @@ export class AppointmentController {
                     createdBy: user._id,
                     createdAt: environments.currentDate(),
                     status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
-                    dateString: appointment.dateString
+                    dateString: appointment.dateString,
+                    type: appointment.type
                 });
 
                 return newAppointment

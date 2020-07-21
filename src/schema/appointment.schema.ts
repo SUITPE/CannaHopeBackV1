@@ -59,6 +59,10 @@ export const AppointmentSchema = new mongoose.Schema({
     },
     dateString: {
         type: String
+    },
+    type: {
+        type: String,
+        required: [true, 'Debe ingresar un tipo de consulta']
     }
 }, {collection: 'appointments'});
 

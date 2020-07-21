@@ -62,6 +62,10 @@ exports.AppointmentSchema = new mongoose_1.default.Schema({
     },
     dateString: {
         type: String
+    },
+    type: {
+        type: String,
+        required: [true, 'Debe ingresar un tipo de consulta']
     }
 }, { collection: 'appointments' });
 exports.Appointment = mongoose_1.default.model('Appointment', exports.AppointmentSchema);
