@@ -36,6 +36,9 @@ class AppointmentController {
                 if (appointment.paymentData) {
                     appointment.paymentStatus = 'PAGADO';
                 }
+                if (appointment.paymentStatus === 'GRATIS') {
+                    appointment.paymentStatus = 'PAGADO';
+                }
                 const newAppointment = yield setAppointmentData();
                 const appointmentSaved = yield this.appointmentSrv.save(newAppointment);
                 if (appointment.paymentData) {
@@ -83,8 +86,7 @@ class AppointmentController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const validated = yield this.validateAppointmentsData();
-                const appointmentList = yield this.appointmentSrv.findAll();
+                const appointmentList = yield this.validateAppointmentsData();
                 return res.status(http_status_1.default.OK).send(new jsonResp_1.default(true, 'Lista de citas consutlas cargadas correctamente', appointmentList));
             }
             catch (error) {
@@ -186,6 +188,7 @@ class AppointmentController {
     }
     validateAppointmentsData() {
         return __awaiter(this, void 0, void 0, function* () {
+            const newAppointmentList = [];
             const appointmentSrv = new appointment_service_1.AppointmentService();
             const doctorAvailabilitySrv = new doctorAvailability_service_1.DoctorAvailabilityService();
             try {
@@ -196,15 +199,17 @@ class AppointmentController {
                         if (appointment.status === 'POR ATENDER' || appointment.status === 'PENDIENTE DE PAGO') {
                             const appointmentDate = moment(moment(appointment.date).format('YYYY-MM-DD') + ' ' + appointment.doctorAvailability.timeFrom).format('YYYY-MM-DD HH:mm:ss');
                             if (moment(new Date(appointmentDate)).diff(currentDate, 'minutes') < 0) {
-                                const updated = yield appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
+                                appointment.status = 'VENCIDA';
+                                yield appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
                             }
                         }
                     }
                     catch (error) {
                         throw error;
                     }
+                    newAppointmentList.push(appointment);
                 }
-                return true;
+                return newAppointmentList;
             }
             catch (error) {
                 const errorDetail = {

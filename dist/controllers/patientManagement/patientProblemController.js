@@ -55,7 +55,7 @@ class PatientProblemController {
                     else {
                         resolve(patientProblemList);
                     }
-                });
+                }).sort({ name: 1 });
             }
             catch (error) {
                 reject(error);

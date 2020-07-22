@@ -31,9 +31,12 @@ export class AppointmentController {
         const appointment: AppointmentCreateDto = req.body;
         const user: UserModel = req.user;
         try {
-
             if (appointment.paymentData) {
                 appointment.paymentStatus = 'PAGADO';
+            }
+
+            if (appointment.paymentStatus === 'GRATIS') {
+                appointment.paymentStatus = 'PAGADO'
             }
 
             const newAppointment: IAppointment = await setAppointmentData();
@@ -91,8 +94,7 @@ export class AppointmentController {
 
     public async getAll(req: Request, res: Response): Promise<Response> {
         try {
-            const validated: boolean = await this.validateAppointmentsData();
-            const appointmentList: IAppointment[] = await this.appointmentSrv.findAll();
+            const appointmentList: IAppointment[] = await this.validateAppointmentsData();
 
             return res.status(httpstatus.OK).send(new JsonResp(
                 true,
@@ -239,8 +241,9 @@ export class AppointmentController {
         }
     }
 
-    public async validateAppointmentsData(): Promise<boolean> {
+    public async validateAppointmentsData(): Promise<IAppointment[]> {
 
+        const newAppointmentList: IAppointment[] = [];
         const appointmentSrv: AppointmentService = new AppointmentService();
         const doctorAvailabilitySrv: DoctorAvailabilityService = new DoctorAvailabilityService();
 
@@ -253,15 +256,17 @@ export class AppointmentController {
                     if (appointment.status === 'POR ATENDER' || appointment.status === 'PENDIENTE DE PAGO') {
                         const appointmentDate = moment(moment(appointment.date).format('YYYY-MM-DD') + ' ' + appointment.doctorAvailability.timeFrom).format('YYYY-MM-DD HH:mm:ss');
                         if (moment(new Date(appointmentDate)).diff(currentDate, 'minutes') < 0) {
-                            const updated: any = await appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
+                            appointment.status = 'VENCIDA'
+                            await appointmentSrv.updateStatus(appointment._id, 'VENCIDA');
                         }
                     }
                 } catch (error) {
                     throw error
                 }
+                newAppointmentList.push(appointment)
             }
 
-            return true;
+            return newAppointmentList;
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al validar datos de vencimiento de fecha',

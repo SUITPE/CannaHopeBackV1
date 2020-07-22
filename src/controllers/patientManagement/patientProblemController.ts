@@ -10,7 +10,7 @@ export default class PatientProblemController {
 
 
     public save(patientProblem: PatientProblemModel): Promise<PatientProblemModel> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             try {
                 const errorDetail: ErrorDetail = new ErrorDetail();
 
@@ -50,7 +50,7 @@ export default class PatientProblemController {
                     } else {
                         resolve(patientProblemList);
                     }
-                })
+                }).sort({ name: 1 })
             } catch (error) {
                 reject(error);
             }
