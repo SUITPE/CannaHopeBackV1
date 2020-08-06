@@ -18,7 +18,8 @@ const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const http_status_1 = __importDefault(require("http-status"));
 const patient_service_1 = __importDefault(require("../../services/patient.service"));
 class PatientController {
-    constructor() { }
+    constructor() {
+    }
     insert(patient) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {

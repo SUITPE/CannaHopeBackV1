@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PaymentController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const paymentData_schema_1 = require("../../schema/paymentData.schema");

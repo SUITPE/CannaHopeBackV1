@@ -10,11 +10,8 @@ export default class UserController {
 
     public save(userData: UserModel): Promise<UserModel> {
         return new Promise(async (resolve, reject) => {
-
             const userSrv: UserService = new UserService();
-
             try {
-
                 const userFounded: UserModel = await userSrv.findByEmail(userData.email);
                 if (userFounded) {
                     const errorDetail: ErrorDetail = {
@@ -55,7 +52,8 @@ export default class UserController {
                     updateDate: userData.updateDate,
                     updatedBy: userData.updatedBy,
                     image: userData.image,
-                    specialty: userData.specialty
+                    specialty: userData.specialty,
+                    children: userData.children
                 });
 
                 user.save({}, (error: any, userSaved) => {
@@ -73,10 +71,6 @@ export default class UserController {
             } catch (error) {
                 reject(error);
             }
-
-
-
-
         });
     }
 

@@ -59,7 +59,8 @@ class UserController {
                     updateDate: userData.updateDate,
                     updatedBy: userData.updatedBy,
                     image: userData.image,
-                    specialty: userData.specialty
+                    specialty: userData.specialty,
+                    children: userData.children
                 });
                 user.save({}, (error, userSaved) => {
                     if (error) {

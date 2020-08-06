@@ -1,16 +1,17 @@
-import Patient, { PatientModel } from '../../models/patient';
+import Patient, {PatientModel} from '../../models/patient';
 import UserController from '../user/userController';
-import { UserModel } from '../../models/user';
-import { ErrorDetail } from '../../models/jsonResp';
-import { Request, Response } from 'express';
+import {UserModel} from '../../models/user';
+import {ErrorDetail} from '../../models/jsonResp';
+import {Request, Response} from 'express';
 import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
-import { PatientUpdateDto } from '../../dto/patient.dto';
+import {PatientUpdateDto} from '../../dto/patient.dto';
 import PatientService from '../../services/patient.service';
 
 export default class PatientController {
 
-    constructor() { }
+    constructor() {
+    }
 
     public insert(patient: PatientModel): Promise<PatientModel> {
         return new Promise(async (resolve, reject) => {
@@ -119,7 +120,7 @@ export default class PatientController {
 
     public getTotalRegistered(): Promise<number> {
         return new Promise((resolve, reject) => {
-            Patient.countDocuments({},(err: any, total) => {
+            Patient.countDocuments({}, (err: any, total) => {
                 resolve(total);
             });
         });
@@ -153,7 +154,7 @@ export default class PatientController {
                             patients = patients.filter(patient => patient.user !== null);
                         }
                         const param: string = searchParams.toUpperCase();
-                        const founded = patients.filter(patient => patient.user.names.toUpperCase().includes(param)  || patient.user.surenames.toUpperCase().includes(param))
+                        const founded = patients.filter(patient => patient.user.names.toUpperCase().includes(param) || patient.user.surenames.toUpperCase().includes(param))
                         resolve(founded);
                     });
             } catch (error) {
@@ -166,7 +167,7 @@ export default class PatientController {
         return new Promise(async (resolve, reject) => {
             try {
                 const patient: any = await Patient.findById(idPatient);
-                const patientUpdated: any = await Patient.updateOne({ _id: idPatient }, { numberOfAppointment: patient.numberOfAppointment + 1 });
+                const patientUpdated: any = await Patient.updateOne({_id: idPatient}, {numberOfAppointment: patient.numberOfAppointment + 1});
                 resolve(true);
 
             } catch (error) {
