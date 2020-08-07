@@ -3,7 +3,7 @@ const environments = require('../../environments/varEnvironments');
 const fs = require('fs');
 const Jimp = require("jimp")
 
-function generateMedicalRecipe(consultationData, medicalTreatament) {
+function generateMedicalRecipe(consultationData, medicalTreatament, type) {
     return new Promise(async(resolve, reject) => {
         try {
             global.window = { document: { createElementNS: () => { return {} } } };
@@ -20,8 +20,6 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
             doc.addImage(img, "JPEG", 390, -10, 220, 170);
 
-
-            console.log(consultationData);
 
             doc.setFontSize(22);
             doc.text(15, 65, 'CENTRO MÉDICO CANNAHOPE');
@@ -342,7 +340,6 @@ function generateMedicalRecipe(consultationData, medicalTreatament) {
 
                 doc.setLineWidth(1.5);
                 doc.line(320, 820, 580, 820);
-
 
                 if (consultationData.complementaryExams.length > 0) {
 

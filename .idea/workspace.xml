@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:heroku" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:me-github" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:suit" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5e312833-3429-4396-b41c-21c232635bfc" name="Default Changelist" comment="Se añade hijos en registro de pacientes">
+      <change beforePath="$PROJECT_DIR$/dist/controllers/medicalConsultation/generateMedicalRecipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/controllers/medicalConsultation/generateMedicalRecipe.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/controllers/medicalConsultation/medicalRecipe.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/controllers/medicalConsultation/medicalRecipe.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/medicalConsultation/generateMedicalRecipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/medicalConsultation/generateMedicalRecipe.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/medicalConsultation/medicalRecipe.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/medicalConsultation/medicalRecipe.controller.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1fjwDDDGmeK0dZmfnqCg71GHOKJ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\User\Documents\Desarrollo\Proyectos clientes\SUIT\cannahope\cannahope-api\node_modules\typescript\lib" />
+  </component>
+  <component name="RunManager">
+    <configuration name="app-dev" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="app" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e312833-3429-4396-b41c-21c232635bfc" name="Default Changelist" comment="" />
+      <created>1596744688240</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596744688240</updated>
+      <workItem from="1596744689443" duration="3146000" />
+      <workItem from="1596819255989" duration="2869000" />
+    </task>
+    <task id="LOCAL-00001" summary="Se añade hijos en registro de pacientes">
+      <created>1596747517766</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1596747517766</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Se añade hijos en registro de pacientes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se añade hijos en registro de pacientes" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1495" y="55" key="DiffContextDialog" timestamp="1596747544381">
+      <screen x="1366" y="0" width="1366" height="728" />
+    </state>
+    <state x="1495" y="55" key="DiffContextDialog/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596747544381" />
+    <state width="1345" height="204" key="GridCell.Tab.0.bottom" timestamp="1596822005648">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="204" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1596822005648" />
+    <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
+    <state width="1345" height="204" key="GridCell.Tab.0.center" timestamp="1596822005648">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="204" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1596822005648" />
+    <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
+    <state width="1345" height="204" key="GridCell.Tab.0.left" timestamp="1596822005647">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="204" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1596822005647" />
+    <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
+    <state width="1345" height="204" key="GridCell.Tab.0.right" timestamp="1596822005648">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="204" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1596822005648" />
+    <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
+    <state x="1641" y="97" key="Vcs.Push.Dialog.v2" timestamp="1596747559896">
+      <screen x="1366" y="0" width="1366" height="728" />
+    </state>
+    <state x="1641" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596747559896" />
+  </component>
+</project>

@@ -33,17 +33,18 @@ export class MedicalRecipeController {
 
         try {
 
-
             if (type === 'consultation') {
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(id);
-                pdfPath = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                pdfPath = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
                 patientFounded = consultationData.patient;
             }
 
             if (type === 'reevaluation') {
                 const medicalReevaluation: MedicalReevaluationModel = await this.medicalReevaluationSrv.findById(id);
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
-                pdfPath = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment);
+
+                consultationData.recomendations = medicalReevaluation.recomendations;
+                pdfPath = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment, 'reevaluation');
                 patientFounded = consultationData.patient;
             }
 
@@ -69,8 +70,6 @@ export class MedicalRecipeController {
                     emf
                 );
                 await emailtos.sendEmail();
-
-
                 return res.status(httpstatus.OK);
             }
 
@@ -96,7 +95,6 @@ export class MedicalRecipeController {
             res.download(pathNoImage);
 
         } catch (error) {
-            console.log(error);
             errorFlag = true;
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,

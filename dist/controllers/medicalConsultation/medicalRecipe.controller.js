@@ -38,13 +38,14 @@ class MedicalRecipeController {
             try {
                 if (type === 'consultation') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
                     patientFounded = consultationData.patient;
                 }
                 if (type === 'reevaluation') {
                     const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
                     const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
-                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment);
+                    consultationData.recomendations = medicalReevaluation.recomendations;
+                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment, 'reevaluation');
                     patientFounded = consultationData.patient;
                 }
                 if (type === 'sendEmail') {
@@ -77,7 +78,6 @@ class MedicalRecipeController {
                 res.download(pathNoImage);
             }
             catch (error) {
-                console.log(error);
                 errorFlag = true;
                 return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
             }
