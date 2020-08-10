@@ -13,7 +13,6 @@ export const environments = {
 
         }
     },
-
     getFrontUrl(): string{
         if (currentEnv === 'PROD'){
             return 'http://cannahope.suit.pe/#/login';

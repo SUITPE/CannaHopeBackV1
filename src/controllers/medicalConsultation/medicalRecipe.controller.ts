@@ -10,8 +10,7 @@ import { MedicalConsultationModel } from '../../models/medicalConsultation';
 import { MedicalReevaluationService } from '../../services/medicalReevaluation.service';
 import { MedicalReevaluationModel } from '../../models/medicalReevaluation';
 import EmailController from '../generalControllers/emailsController';
-import UserController from '../user/userController';
-import { environments, currentEnv } from '../../environments/varEnvironments';
+import { currentEnv } from '../../environments/varEnvironments';
 
 
 export class MedicalRecipeController {
@@ -26,7 +25,6 @@ export class MedicalRecipeController {
         const id: string = req.params.id;
         const type: string = req.params.type;
         let errorFlag: boolean = false;
-        const userCtr: UserController = new UserController();
         let patientFounded: any;
 
         let pdfPath: string = '';
@@ -44,6 +42,7 @@ export class MedicalRecipeController {
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
 
                 consultationData.recomendations = medicalReevaluation.recomendations;
+                consultationData.createDate = medicalReevaluation.createDate;
                 pdfPath = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment, 'reevaluation');
                 patientFounded = consultationData.patient;
             }
