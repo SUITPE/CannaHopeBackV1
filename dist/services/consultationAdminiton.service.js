@@ -43,7 +43,7 @@ class ConsultationAdmitionService {
                 })
                     .populate({
                     path: 'appointment',
-                    select: 'doctor createdBy patientProblem',
+                    select: 'doctor createdBy patientProblem type',
                     populate: {
                         path: 'createdBy doctor',
                         select: 'names surenames email mobilePhone'

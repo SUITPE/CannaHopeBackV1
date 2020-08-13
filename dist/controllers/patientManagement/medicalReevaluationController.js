@@ -30,7 +30,7 @@ class MedicalReevaluationController {
             try {
                 const medicalConsultation = yield this.medicalConsultationCtr.findById(medicalReevaluation.medicalConsultation);
                 medicalConsultation.reevaluations.push(medicalReevaluation);
-                const medicalConsultationUpdated = yield this.medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
+                yield this.medicalConsultationCtr.updateReevaluation(medicalConsultation.reevaluations, medicalConsultation._id);
                 const newMedicalReevaluation = new medicalReevaluation_1.MedicalReevaluation({
                     medicalConsultation: medicalReevaluation.medicalConsultation,
                     description: medicalReevaluation.description,

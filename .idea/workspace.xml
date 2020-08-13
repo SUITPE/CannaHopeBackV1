@@ -31,8 +31,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5e312833-3429-4396-b41c-21c232635bfc" name="Default Changelist" comment="Se añade hijos en registro de pacientes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/medicalConsultation/medicalRecipe.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/medicalConsultation/medicalRecipe.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/environments/varEnvironments.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/environments/varEnvironments.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/controllers/medicalConsultation/medicalRecipe.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/controllers/medicalConsultation/medicalRecipe.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/controllers/patientManagement/medicalReevaluationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/controllers/patientManagement/medicalReevaluationController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/services/consultationAdminiton.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/services/consultationAdminiton.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/patientManagement/medicalReevaluationController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/patientManagement/medicalReevaluationController.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/consultationAdminiton.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/consultationAdminiton.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +90,8 @@
       <updated>1596744688240</updated>
       <workItem from="1596744689443" duration="3146000" />
       <workItem from="1596819255989" duration="3209000" />
-      <workItem from="1597095439493" duration="249000" />
+      <workItem from="1597095439493" duration="586000" />
+      <workItem from="1597279012587" duration="5060000" />
     </task>
     <task id="LOCAL-00001" summary="Se añade hijos en registro de pacientes">
       <created>1596747517766</created>
@@ -103,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596822386015</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="- Se corrige fecha de consulta cuando es una reevaluación">
+      <created>1597095756044</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1597095756044</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,37 +136,42 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Se añade hijos en registro de pacientes" />
     <MESSAGE value="Se corrigen observaciones en receta de reevaluacion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se corrigen observaciones en receta de reevaluacion" />
+    <MESSAGE value="- Se corrige fecha de consulta cuando es una reevaluación" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Se corrige fecha de consulta cuando es una reevaluación" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1495" y="55" key="DiffContextDialog" timestamp="1596747544381">
       <screen x="1366" y="0" width="1366" height="728" />
     </state>
     <state x="1495" y="55" key="DiffContextDialog/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596747544381" />
-    <state width="1345" height="204" key="GridCell.Tab.0.bottom" timestamp="1597095584551">
+    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1597096022464">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="204" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597095584551" />
+    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597096022464" />
+    <state width="1345" height="204" key="GridCell.Tab.0.bottom" timestamp="1597283265188">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1345" height="204" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597283265188" />
     <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
-    <state width="1345" height="204" key="GridCell.Tab.0.center" timestamp="1597095584551">
+    <state width="1345" height="204" key="GridCell.Tab.0.center" timestamp="1597283265188">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="204" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597095584551" />
+    <state width="1345" height="204" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597283265188" />
     <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
-    <state width="1345" height="204" key="GridCell.Tab.0.left" timestamp="1597095584551">
+    <state width="1345" height="204" key="GridCell.Tab.0.left" timestamp="1597283265188">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="204" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597095584551" />
+    <state width="1345" height="204" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597283265188" />
     <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
-    <state width="1345" height="204" key="GridCell.Tab.0.right" timestamp="1597095584551">
+    <state width="1345" height="204" key="GridCell.Tab.0.right" timestamp="1597283265188">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="204" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597095584551" />
+    <state width="1345" height="204" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597283265188" />
     <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596819313102" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1596822409378">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1597095803705">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1596822409378" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1597095803705" />
     <state x="1641" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1596747559896" />
   </component>
 </project>

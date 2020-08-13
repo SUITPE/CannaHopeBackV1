@@ -20,7 +20,6 @@ const generateMedicalRecipe_1 = __importDefault(require("./generateMedicalRecipe
 const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
 const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
 const emailsController_1 = __importDefault(require("../generalControllers/emailsController"));
-const userController_1 = __importDefault(require("../user/userController"));
 const varEnvironments_1 = require("../../environments/varEnvironments");
 class MedicalRecipeController {
     constructor(medicalConsultationSrv = new medicalConsultation_service_1.default(), medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()) {
@@ -32,7 +31,6 @@ class MedicalRecipeController {
             const id = req.params.id;
             const type = req.params.type;
             let errorFlag = false;
-            const userCtr = new userController_1.default();
             let patientFounded;
             let pdfPath = '';
             try {
@@ -45,6 +43,7 @@ class MedicalRecipeController {
                     const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
                     const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
                     consultationData.recomendations = medicalReevaluation.recomendations;
+                    consultationData.createDate = medicalReevaluation.createDate;
                     pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment, 'reevaluation');
                     patientFounded = consultationData.patient;
                 }

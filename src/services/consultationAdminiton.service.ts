@@ -35,7 +35,7 @@ export class ConsultationAdmitionService {
                     })
                     .populate({
                         path: 'appointment',
-                        select: 'doctor createdBy patientProblem',
+                        select: 'doctor createdBy patientProblem type',
                         populate: {
                             path: 'createdBy doctor',
                             select: 'names surenames email mobilePhone'
@@ -57,6 +57,7 @@ export class ConsultationAdmitionService {
             }
         });
     }
+
 
     public async findByIdAppointment(idAppointment: string): Promise<ConsultationAdmitionModel> {
         try {
