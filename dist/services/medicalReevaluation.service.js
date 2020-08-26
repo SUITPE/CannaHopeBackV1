@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MedicalReevaluationService = void 0;
 const medicalReevaluation_1 = require("../models/medicalReevaluation");
 class MedicalReevaluationService {
     constructor() { }

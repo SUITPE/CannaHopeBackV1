@@ -24,15 +24,32 @@ class GeneralServices {
     static getDocuments(req, res) {
         const type = req.params.type;
         const documentPath = req.params.documentPath;
+        let pathImage;
+        switch (type) {
+            case 'userImage':
+                pathImage = path_1.default.resolve(__dirname, `../../../docs/userImages/${documentPath}`);
+                if (fs_1.default.existsSync(pathImage)) {
+                    res.sendFile(pathImage);
+                }
+                else {
+                    const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');
+                    res.sendFile(pathNoImage);
+                }
+                break;
+            case 'signatureImage':
+                pathImage = path_1.default.resolve(__dirname, `../../../docs/doctorSignatures/${documentPath}`);
+                if (fs_1.default.existsSync(pathImage)) {
+                    res.sendFile(pathImage);
+                }
+                else {
+                    const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');
+                    res.sendFile(pathNoImage);
+                }
+                break;
+            default:
+                break;
+        }
         if (type === 'userImage') {
-            const pathImage = path_1.default.resolve(__dirname, `../../../docs/userImages/${documentPath}`);
-            if (fs_1.default.existsSync(pathImage)) {
-                res.sendFile(pathImage);
-            }
-            else {
-                const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');
-                res.sendFile(pathNoImage);
-            }
         }
         else {
             const pathNoImage = path_1.default.resolve(__dirname, '../../../docs/no-image.png');

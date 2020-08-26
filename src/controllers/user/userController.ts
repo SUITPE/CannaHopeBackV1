@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { ErrorDetail } from '../../models/jsonResp';
 import fs from 'fs';
 import UserService from '../../services/user.service';
+import { environments } from '../../environments/varEnvironments';
 
 
 export default class UserController {
@@ -327,7 +328,7 @@ export default class UserController {
 
                 const buf = Buffer.from(finalImageName, 'base64');
 
-                fs.writeFileSync(`docs/doctorSignatures/${imageName}`, buf);
+                fs.writeFileSync(environments.signatureImagePath(imageName), buf);
 
                 resolve(imageName);
             } catch (error) {

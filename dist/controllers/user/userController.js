@@ -17,6 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonResp_1 = require("../../models/jsonResp");
 const fs_1 = __importDefault(require("fs"));
 const user_service_1 = __importDefault(require("../../services/user.service"));
+const varEnvironments_1 = require("../../environments/varEnvironments");
 class UserController {
     save(userData) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
@@ -286,7 +287,7 @@ class UserController {
                 const imageName = `signature-${user._id}-${date.getMilliseconds()}.${extention}`;
                 const finalImageName = base64Imgae.split(';base64,').pop() || '';
                 const buf = Buffer.from(finalImageName, 'base64');
-                fs_1.default.writeFileSync(`docs/doctorSignatures/${imageName}`, buf);
+                fs_1.default.writeFileSync(varEnvironments_1.environments.signatureImagePath(imageName), buf);
                 resolve(imageName);
             }
             catch (error) {

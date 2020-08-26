@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 
-export const currentEnv: string =  'PROD';
+export const currentEnv: string =  'DEV';
 export const seed: string = 'PRIVATE-SEED-CANNAHOPE-API'
 export const tokenExpiration: number = 60*60*24;
 
@@ -45,6 +45,14 @@ export const environments = {
 
     currentDateString(): string {
         return  moment().tz('America/Lima').format('YYYY-MM-DD')
+    },
+
+    signatureImagePath(imageName: string): string {
+        if (currentEnv === 'PROD'){
+            return `/apis/cannahope-api/docs/doctorSignatures/${imageName}`;
+        } else {
+            return `docs/doctorSignatures/${imageName}`;
+        }
     }
 }
 

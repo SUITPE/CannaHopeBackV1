@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.environments = exports.tokenExpiration = exports.seed = exports.currentEnv = void 0;
 const moment = require('moment-timezone');
-exports.currentEnv = 'PROD';
+exports.currentEnv = 'DEV';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';
 exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
@@ -43,5 +44,13 @@ exports.environments = {
     },
     currentDateString() {
         return moment().tz('America/Lima').format('YYYY-MM-DD');
+    },
+    signatureImagePath(imageName) {
+        if (exports.currentEnv === 'PROD') {
+            return `/apis/cannahope-api/docs/doctorSignatures/${imageName}`;
+        }
+        else {
+            return `docs/doctorSignatures/${imageName}`;
+        }
     }
 };

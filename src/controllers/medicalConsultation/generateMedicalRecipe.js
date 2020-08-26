@@ -121,7 +121,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
                 counster += 147;
             });
 
-            const signaturepath = environments.currentEnv === 'PROD' ? '../docs/doctorSignatures/' : 'docs/doctorSignatures/';
+            const signaturepath = environments.currentEnv === 'PROD' ? '/apis/cannahope-api/docs/doctorSignatures/' : 'docs/doctorSignatures/';
 
             if (consultationData.doctor.signatureImage) {
                 Jimp.read(`${signaturepath}${consultationData.doctor.signatureImage}`, async(error, image) => {

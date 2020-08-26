@@ -18,16 +18,37 @@ export default class GeneralServices {
         const type: string = req.params.type;
         const documentPath: string = req.params.documentPath;
 
+        let pathImage;
+
+        switch (type) {
+            case 'userImage':
+                pathImage = path.resolve(__dirname, `../../../docs/userImages/${documentPath}`);
+
+
+                if (fs.existsSync(pathImage)) {
+                    res.sendFile(pathImage);
+                } else {
+                    const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
+                    res.sendFile(pathNoImage);
+                }
+                break;
+            case 'signatureImage':
+                pathImage = path.resolve(__dirname, `../../../docs/doctorSignatures/${documentPath}`);
+
+                if (fs.existsSync(pathImage)) {
+                    res.sendFile(pathImage);
+                } else {
+                    const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
+                    res.sendFile(pathNoImage);
+                }
+                break;
+
+            default:
+                break;
+        }
+
         if (type === 'userImage') {
-            const pathImage = path.resolve(__dirname, `../../../docs/userImages/${documentPath}`);
 
-
-            if (fs.existsSync(pathImage)) {
-                res.sendFile(pathImage);
-            } else {
-                const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
-                res.sendFile(pathNoImage);
-            }
         } else {
             const pathNoImage = path.resolve(__dirname, '../../../docs/no-image.png');
             res.sendFile(pathNoImage);

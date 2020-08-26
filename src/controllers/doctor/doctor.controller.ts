@@ -124,7 +124,7 @@ export class DoctorController {
     }
 
     public async updateDoctor(req: Request, res: Response): Promise<Response> {
-        
+
         const doctor: DoctorUpdateDto = req.body;
         const userController: UserController = new UserController();
         const userSrv: UserService = new UserService();
