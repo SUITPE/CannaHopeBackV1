@@ -12,7 +12,7 @@ export interface MedicalConsultationModel extends mongoose.Document {
     consultationReason: string;
     patientProblems: PatientProblemModel[];
     medicalEvaluation: MedicalEvaluationModel;
-    physicalExam: PhysicalExamModel;
+    physicalExam: string; // PhysicalExamModel;
     medicalDiagnostic: MedicalDiagnosticModel;
     patientStory: string;
     complementaryExams: ComplementaryExam[];
@@ -41,7 +41,8 @@ export const MedicalConsultationSchema = new mongoose.Schema({
         required: [true, 'Debe ingresar una valuacion medica de paciente']
     },
     physicalExam: {
-        type: Object,
+        // type: Object,
+        type: String
     },
     complementaryExams: {
         type: [],

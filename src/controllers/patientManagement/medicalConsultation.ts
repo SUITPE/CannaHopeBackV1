@@ -53,10 +53,10 @@ export default class MedicalConsultationController {
                 newMedicalEvaluation.doctor = medicalConsultation.doctor;
                 newMedicalEvaluation.createDate = medicalConsultation.createDate;
 
-                const newPhysicalExam: any = medicalConsultation.physicalExam;
-                newPhysicalExam.patient = medicalConsultation.patient;
-                newPhysicalExam.doctor = medicalConsultation.doctor;
-                newPhysicalExam.createDate = medicalConsultation.createDate;
+                // const newPhysicalExam: any = medicalConsultation.physicalExam;
+                // newPhysicalExam.patient = medicalConsultation.patient;
+                // newPhysicalExam.doctor = medicalConsultation.doctor;
+                // newPhysicalExam.createDate = medicalConsultation.createDate;
 
                 const newMedicalDiagnostic: MedicalDiagnosticModel = medicalConsultation.medicalDiagnostic;
                 newMedicalDiagnostic.patient = medicalConsultation.patient;

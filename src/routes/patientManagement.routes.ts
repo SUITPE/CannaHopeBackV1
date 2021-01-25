@@ -13,6 +13,7 @@ import ConsultationAdmitionController from '../controllers/patientManagement/con
 import { ErrorDetail } from '../models/jsonResp';
 import { PatientPhService } from '../services/patientPh.service';
 import { MaritalStatusController } from '../controllers/user/maritalStatus.controller';
+import { PatientAuxiliaryController } from '../controllers/patientManagement/PatientAuxiliaryController';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -22,7 +23,7 @@ const patientProblemCtr: PatientProblemController = new PatientProblemController
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
 const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluationController();
-
+const patientAuxiliaryCtr: PatientAuxiliaryController = new PatientAuxiliaryController(); 
 const patientManagementRoutes: Router = Router();
 patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, res) => {
     diseaseCtr.saveNewDisease(req.body)
@@ -181,6 +182,22 @@ patientManagementRoutes.get('/maritalStatus', UserValidation.validation, (req, r
     const maritalStatusSrv: MaritalStatusController = new MaritalStatusController();
     return maritalStatusSrv.getAll(req, res);
 });
+
+/* patient auxiliary */
+patientManagementRoutes.get('/patientAuxiliary/findByPatientId/:id', UserValidation.validation, (req, res) => {
+    patientAuxiliaryCtr.findByPatientId(req.params.id)
+    .then(patientAuxiliaryFounded => {
+        return res.status(200).send(new JsonResp(true, 'Historial patologico de paciente cargado correctamente', patientAuxiliaryFounded));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar historial patologico de paciente', null, error));
+    });
+});
+
+patientManagementRoutes.post('/patientAuxiliary/save', UserValidation.validation, (req, res) => patientAuxiliaryCtr.save(req, res));
+
+patientManagementRoutes.put('/patientAuxiliary/update', UserValidation.validation, (req, res) => patientAuxiliaryCtr.findAndUpdate(req, res));
+
 
 export default patientManagementRoutes;
 

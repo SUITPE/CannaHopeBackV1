@@ -31,6 +31,10 @@ export default class MedicalReevaluationController {
                 description: medicalReevaluation.description,
                 createDate: new Date(),
                 painScale: medicalReevaluation.painScale,
+                blesseDementiaScale: medicalReevaluation.blesseDementiaScale,
+                anxietyScale: medicalReevaluation.anxietyScale,
+                depressionScale: medicalReevaluation.depressionScale,
+                edmontonScale: medicalReevaluation.edmontonScale,
                 treatment: medicalReevaluation.medicalTreatment,
                 recomendations: medicalReevaluation.recomendations || ''
             });

@@ -9,7 +9,8 @@ export default class PatientService {
 
     public async update(patient: any): Promise<PatientModel> {
         try {
-            return await User.updateOne({_id: patient.user},patient)
+            await User.updateOne({_id: patient.user}, patient)
+            return await Patient.updateOne({user: patient.user}, patient)
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error la hacer consulta en db',

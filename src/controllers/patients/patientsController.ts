@@ -24,7 +24,11 @@ export default class PatientController {
                     reasonAdmission: patient.reasonAdmission,
                     numberOfAppointment: 0,
                     patientStatus: null,
-                    user: userSaved._id
+                    user: userSaved._id,
+                    responsibleName: patient.responsibleName,
+                    responsiblePhone: patient.responsiblePhone,
+                    responsibleEmail: patient.responsibleEmail,
+                    responsibleComment: patient.responsibleComment
                 });
 
 

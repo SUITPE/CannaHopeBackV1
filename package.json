@@ -6,7 +6,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node dist/index.js",
-        "app": "nodemon dist/index.js"
+        "app": "nodemon dist/index.js",
+        "build": "tsc --build",
+        "clean": "tsc --build --clean"
     },
     "author": "SUIT - TEAM",
     "license": "ISC",
