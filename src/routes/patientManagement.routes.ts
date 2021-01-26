@@ -14,6 +14,7 @@ import { ErrorDetail } from '../models/jsonResp';
 import { PatientPhService } from '../services/patientPh.service';
 import { MaritalStatusController } from '../controllers/user/maritalStatus.controller';
 import { PatientAuxiliaryController } from '../controllers/patientManagement/PatientAuxiliaryController';
+import ExamReasonController from '../controllers/patientManagement/examReasonController';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -23,8 +24,10 @@ const patientProblemCtr: PatientProblemController = new PatientProblemController
 const bodySystemCtr: BodySystemController = new BodySystemController();
 const medicalConsultationCtr: MedicalConsultationController = new MedicalConsultationController();
 const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluationController();
-const patientAuxiliaryCtr: PatientAuxiliaryController = new PatientAuxiliaryController(); 
+const patientAuxiliaryCtr: PatientAuxiliaryController = new PatientAuxiliaryController();
+const examReasonCtr: ExamReasonController = new ExamReasonController();
 const patientManagementRoutes: Router = Router();
+
 patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, res) => {
     diseaseCtr.saveNewDisease(req.body)
     .then(disease => {
@@ -198,6 +201,27 @@ patientManagementRoutes.post('/patientAuxiliary/save', UserValidation.validation
 
 patientManagementRoutes.put('/patientAuxiliary/update', UserValidation.validation, (req, res) => patientAuxiliaryCtr.findAndUpdate(req, res));
 
+patientManagementRoutes.post('/examReason/save', UserValidation.validation, (req, res) => {
+    examReasonCtr.save(req.body)
+    .then(examReason => {
+        return res.status(200).send(new JsonResp(true, 'Motivo de exámenes guardado corectamente', examReason));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al guardar motivo de exámenes', null, error));
+    });
+});
+
+patientManagementRoutes.get('/examReason/findAll', UserValidation.validation, (req, res) => {
+    examReasonCtr.findAll()
+    .then(examReasonList => {
+        return res.status(200).send(new JsonResp(true, 'Lista de motivo de exámenes cargada correctamente', examReasonList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar lista de motivo de exámenes', null, error));
+    });
+});
+
+patientManagementRoutes.delete('/examReason/delete/:id', UserValidation.validation, examReasonCtr.delete);
 
 export default patientManagementRoutes;
 
