@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const physicalExam_1 = require("../../models/physicalExam");
+const PhysicalExam_1 = require("../../models/PhysicalExam");
 class PhysicalExamController {
     save(physicalExam) {
         return new Promise((resolve, reject) => {
             try {
-                const newPhysicalExam = new physicalExam_1.PhysicalExam({
+                const newPhysicalExam = new PhysicalExam_1.PhysicalExam({
                     patient: physicalExam.patient,
                     doctor: physicalExam.doctor,
                     generalSummary: physicalExam.generalSummary,
@@ -32,7 +32,7 @@ class PhysicalExamController {
     findByPatientId(idPatient) {
         return new Promise((resolve, reject) => {
             try {
-                physicalExam_1.PhysicalExam.find({ patient: idPatient }, (error, physicalExamsList) => {
+                PhysicalExam_1.PhysicalExam.find({ patient: idPatient }, (error, physicalExamsList) => {
                     if (error) {
                         const errorDetail = {
                             name: 'Error en la base de datos al consultar lista de examenes medicos por paciente',

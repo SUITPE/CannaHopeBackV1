@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentStatusService = void 0;
 const appointmentStatus_schema_1 = require("../schema/appointmentStatus.schema");
 class AppointmentStatusService {
     findAll() {

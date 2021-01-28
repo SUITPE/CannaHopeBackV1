@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { PatientProblemModel } from './patientProblem';
 import { MedicalEvaluationModel } from './medicalEvaluation';
-import { PhysicalExamModel } from './physicalExam';
+import { PhysicalExamModel } from './PhysicalExam';
 import { MedicalDiagnosticModel } from './medicalDiagnostic';
 import { MedicalReevaluationModel } from './medicalReevaluation';
 import { ComplementaryExam } from './complementaryExam.interface';

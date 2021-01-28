@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentTypeService = void 0;
 const appointmentType_schema_1 = require("../schema/appointmentType.schema");
 class AppointmentTypeService {
     constructor() { }
