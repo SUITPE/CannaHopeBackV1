@@ -14,7 +14,14 @@ class MedicalEvaluationController {
                     ectoscopy: medialEvaluation.ectoscopy,
                     mentalStatus: medialEvaluation.mentalStatus,
                     createDate: medialEvaluation.createDate,
-                    painScale: medialEvaluation.painScale
+                    painScale: medialEvaluation.painScale,
+                    blesseDementiaScale: medialEvaluation.blesseDementiaScale,
+                    anxietyScale: medialEvaluation.anxietyScale,
+                    depressionScale: medialEvaluation.depressionScale,
+                    edmontonScale: medialEvaluation.edmontonScale,
+                    seizuresQuantity: medialEvaluation.seizuresQuantity,
+                    seizuresFrequency: medialEvaluation.seizuresQuantity,
+                    comment: medialEvaluation.seizuresQuantity
                 });
                 newMedicalEvaluation.save({}, (error, medicalEvaluationSaved) => {
                     if (error) {

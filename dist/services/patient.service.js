@@ -12,12 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const patient_1 = __importDefault(require("../models/patient"));
 const user_1 = __importDefault(require("../models/user"));
 class PatientService {
     update(patient) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_1.default.updateOne({ _id: patient.user }, patient);
+                yield user_1.default.updateOne({ _id: patient.user }, patient);
+                return yield patient_1.default.updateOne({ user: patient.user }, patient);
             }
             catch (error) {
                 const errorDetail = {

@@ -8,10 +8,10 @@ exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (exports.currentEnv === 'PROD') {
-            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
+            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-dev-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
         }
         else {
-            return 'mongodb+srv://jhony:7W8PfRWM1Hqn3sAw@cluster0-8i0r3.mongodb.net/test?retryWrites=true&w=majority';
+            return 'mongodb://localhost:27017/cannahope-dev-db?readPreference=primary&appname=MongoDB%20Compass&ssl=false';
         }
     },
     getFrontUrl() {
@@ -19,7 +19,7 @@ exports.environments = {
             return 'http://cannahope.suit.pe/#/login';
         }
         else {
-            return 'http://cannahope.suit.pe/#/login';
+            return 'http://localhost:4201/#/login';
         }
     },
     companyEmail() {

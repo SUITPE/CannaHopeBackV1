@@ -16,6 +16,8 @@ const medicalReevaluationController_1 = __importDefault(require("../controllers/
 const disease_service_1 = require("../services/disease.service");
 const consultationAdmitionController_1 = __importDefault(require("../controllers/patientManagement/consultationAdmitionController"));
 const maritalStatus_controller_1 = require("../controllers/user/maritalStatus.controller");
+const PatientAuxiliaryController_1 = require("../controllers/patientManagement/PatientAuxiliaryController");
+const examReasonController_1 = __importDefault(require("../controllers/patientManagement/examReasonController"));
 const diseaseCtr = new diseaseController_1.DiseaseController(new disease_service_1.DiseaseService());
 const harmfulHabitCtr = new harmfulHabitController_1.default();
 const patientPhCtr = new PatientPhController_1.PatientPhController();
@@ -23,6 +25,8 @@ const patientProblemCtr = new patientProblemController_1.default();
 const bodySystemCtr = new bodySystemController_1.default();
 const medicalConsultationCtr = new medicalConsultation_1.default();
 const medicalReevaluestion = new medicalReevaluationController_1.default();
+const patientAuxiliaryCtr = new PatientAuxiliaryController_1.PatientAuxiliaryController();
+const examReasonCtr = new examReasonController_1.default();
 const patientManagementRoutes = express_1.Router();
 patientManagementRoutes.post('/disease/save', userValidation_middleware_1.default.validation, (req, res) => {
     diseaseCtr.saveNewDisease(req.body)
@@ -157,4 +161,35 @@ patientManagementRoutes.get('/maritalStatus', userValidation_middleware_1.defaul
     const maritalStatusSrv = new maritalStatus_controller_1.MaritalStatusController();
     return maritalStatusSrv.getAll(req, res);
 });
+/* patient auxiliary */
+patientManagementRoutes.get('/patientAuxiliary/findByPatientId/:id', userValidation_middleware_1.default.validation, (req, res) => {
+    patientAuxiliaryCtr.findByPatientId(req.params.id)
+        .then(patientAuxiliaryFounded => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Historial patologico de paciente cargado correctamente', patientAuxiliaryFounded));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar historial patologico de paciente', null, error));
+    });
+});
+patientManagementRoutes.post('/patientAuxiliary/save', userValidation_middleware_1.default.validation, (req, res) => patientAuxiliaryCtr.save(req, res));
+patientManagementRoutes.put('/patientAuxiliary/update', userValidation_middleware_1.default.validation, (req, res) => patientAuxiliaryCtr.findAndUpdate(req, res));
+patientManagementRoutes.post('/examReason/save', userValidation_middleware_1.default.validation, (req, res) => {
+    examReasonCtr.save(req.body)
+        .then(examReason => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Motivo de exámenes guardado corectamente', examReason));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al guardar motivo de exámenes', null, error));
+    });
+});
+patientManagementRoutes.get('/examReason/findAll', userValidation_middleware_1.default.validation, (req, res) => {
+    examReasonCtr.findAll()
+        .then(examReasonList => {
+        return res.status(200).send(new jsonResp_1.default(true, 'Lista de motivo de exámenes cargada correctamente', examReasonList));
+    })
+        .catch(error => {
+        return res.status(500).send(new jsonResp_1.default(false, 'Error al cargar lista de motivo de exámenes', null, error));
+    });
+});
+patientManagementRoutes.delete('/examReason/delete/:id', userValidation_middleware_1.default.validation, examReasonCtr.delete);
 exports.default = patientManagementRoutes;

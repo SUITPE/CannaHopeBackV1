@@ -3,8 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MedicalReevaluation = exports.MedicalReevaluationSchema = void 0;
+exports.MedicalReevaluation = exports.MedicalReevaluationSchema = exports.EdmontonScale = exports.DepressionScale = exports.AnxietyScale = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+class AnxietyScale {
+}
+exports.AnxietyScale = AnxietyScale;
+class DepressionScale {
+}
+exports.DepressionScale = DepressionScale;
+class EdmontonScale {
+}
+exports.EdmontonScale = EdmontonScale;
 exports.MedicalReevaluationSchema = new mongoose_1.default.Schema({
     medicalConsultation: {
         type: mongoose_1.default.Schema.Types.ObjectId,
@@ -25,6 +34,15 @@ exports.MedicalReevaluationSchema = new mongoose_1.default.Schema({
     },
     painScale: {
         type: String
+    },
+    blesseDementiaScale: {
+        type: Object
+    },
+    anxietyDepressionScale: {
+        type: Object
+    },
+    edmontonScale: {
+        type: Object
     },
     recomendations: {
         type: String

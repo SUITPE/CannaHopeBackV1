@@ -25,7 +25,8 @@ exports.MedicalConsultationSchema = new mongoose_1.default.Schema({
         required: [true, 'Debe ingresar una valuacion medica de paciente']
     },
     physicalExam: {
-        type: Object,
+        // type: Object,
+        type: String
     },
     complementaryExams: {
         type: [],

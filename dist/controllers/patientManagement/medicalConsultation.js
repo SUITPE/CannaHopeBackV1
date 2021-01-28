@@ -56,10 +56,10 @@ class MedicalConsultationController {
                 newMedicalEvaluation.patient = medicalConsultation.patient;
                 newMedicalEvaluation.doctor = medicalConsultation.doctor;
                 newMedicalEvaluation.createDate = medicalConsultation.createDate;
-                const newPhysicalExam = medicalConsultation.physicalExam;
-                newPhysicalExam.patient = medicalConsultation.patient;
-                newPhysicalExam.doctor = medicalConsultation.doctor;
-                newPhysicalExam.createDate = medicalConsultation.createDate;
+                // const newPhysicalExam: any = medicalConsultation.physicalExam;
+                // newPhysicalExam.patient = medicalConsultation.patient;
+                // newPhysicalExam.doctor = medicalConsultation.doctor;
+                // newPhysicalExam.createDate = medicalConsultation.createDate;
                 const newMedicalDiagnostic = medicalConsultation.medicalDiagnostic;
                 newMedicalDiagnostic.patient = medicalConsultation.patient;
                 newMedicalDiagnostic.doctor = medicalConsultation.doctor;

@@ -15,7 +15,7 @@ const medicalConsultation_routes_1 = __importDefault(require("./routes/medicalCo
 const appointmentStatus_routes_1 = __importDefault(require("./routes/appointmentStatus.routes"));
 const appointmentType_routes_1 = __importDefault(require("./routes/appointmentType.routes"));
 // const port: number = 2745;
-const port = process.env.PORT || 2745;
+const port = process.env.PORT || 42314;
 const server = server_1.default.init(port);
 const connection = new connection_1.default();
 server.app.use('/api/User/', user_routes_1.default);
