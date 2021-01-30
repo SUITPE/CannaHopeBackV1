@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FamilyPphModel = void 0;
 // famili patient pathological history
 class FamilyPphModel {
 }

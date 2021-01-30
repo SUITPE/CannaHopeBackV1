@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.environments = exports.tokenExpiration = exports.seed = exports.currentEnv = void 0;
 const moment = require('moment-timezone');
 exports.currentEnv = 'PROD';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';
@@ -8,7 +7,7 @@ exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (exports.currentEnv === 'PROD') {
-            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-dev-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
+            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-prod-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
         }
         else {
             return 'mongodb://localhost:27017/cannahope-prod-db?readPreference=primary&appname=MongoDB%20Compass&ssl=false';
