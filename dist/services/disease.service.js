@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DiseaseService = void 0;
 const disease_1 = __importDefault(require("../models/disease"));
 class DiseaseService {
     constructor() { }
@@ -53,7 +54,8 @@ class DiseaseService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = disease._id;
-                delete disease._id;
+                disease._id = "";
+                //delete disease._id;
                 return yield disease_1.default.updateOne({ _id: id }, disease);
             }
             catch (error) {
