@@ -60,7 +60,6 @@ export default class EmailController {
                     }
                 });
             } catch (error) {
-                console.log(error);
 
                 reject(error);
             }

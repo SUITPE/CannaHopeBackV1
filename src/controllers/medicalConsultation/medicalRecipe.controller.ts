@@ -35,6 +35,24 @@ export class MedicalRecipeController {
                 const consultationData: MedicalConsultationModel = await this.medicalConsultationSrv.findById(id);
                 pdfPath = await generateMedicalRecipe(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
                 patientFounded = consultationData.patient;
+                
+                const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                const emailFiles: any[] = [
+                    {
+                        filename: 'Recetamedica',
+                        path: documentPath,
+                        contentType: 'application/pdf'
+                    }
+                ]
+
+                const email: EmailController = new EmailController(
+                    'gmail',
+                    `Receta medica emitida por cannahope`,
+                    patientFounded.user.email,
+                    'RECETA MEDICA - CANNAHOPE',
+                    emailFiles
+                );
+                await email.sendEmail();
             }
 
             if (type === 'reevaluation') {
@@ -71,24 +89,6 @@ export class MedicalRecipeController {
                 await emailtos.sendEmail();
                 return res.status(httpstatus.OK);
             }
-
-            const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
-            const emailFiles: any[] = [
-                {
-                    filename: 'Recetamedica',
-                    path: documentPath,
-                    contentType: 'application/pdf'
-                }
-            ]
-
-            const email: EmailController = new EmailController(
-                'gmail',
-                `Receta medica emitida por cannahope`,
-                patientFounded.user.email,
-                'RECETA MEDICA - CANNAHOPE',
-                emailFiles
-            );
-            await email.sendEmail();
 
             const pathNoImage = path.resolve(__dirname, `../../../docs/${pdfPath}`);
             res.download(pathNoImage);

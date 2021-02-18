@@ -11,6 +11,7 @@ export interface MedicalEvaluationModel extends mongoose.Document {
     mentalStatus: string;
     createDate: Date;
     painScale: string;
+    solicitudeScale: string;
     blesseDementiaScale: BlesseDementiaScale;
     anxietyScale: AnxietyScale;
     depressionScale: DepressionScale;
@@ -124,6 +125,9 @@ export const MedicalEvaluationSchema = new mongoose.Schema({
         required: [true, 'Debe ingresar una fecha de registro']
     },
     painScale: {
+        type: String
+    },
+    solicitudeScale: {
         type: String
     },
     blesseDementiaScale: {

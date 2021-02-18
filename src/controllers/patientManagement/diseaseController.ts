@@ -14,7 +14,6 @@ export class DiseaseController {
     public saveNewDisease(diseaseData: DiseaseModel): Promise<DiseaseModel> {
         return new Promise(async (resolve, reject) => {
 
-            console.log(diseaseData);
             try {
 
                 const founded: any = await  PatientProblem.findOne({name: diseaseData.name});

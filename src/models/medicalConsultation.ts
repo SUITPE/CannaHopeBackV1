@@ -1,13 +1,29 @@
 import mongoose from 'mongoose';
 import { PatientProblemModel } from './patientProblem';
 import { MedicalEvaluationModel } from './medicalEvaluation';
-import { PhysicalExamModel } from './PhysicalExam';
+import { PhysicalExamModel } from './physicalExam';
 import { MedicalDiagnosticModel } from './medicalDiagnostic';
 import { MedicalReevaluationModel } from './medicalReevaluation';
 import { ComplementaryExam } from './complementaryExam.interface';
+import { PatientModel } from './patient';
 
 export interface MedicalConsultationModel extends mongoose.Document {
     patient: string;
+    doctor: string;
+    consultationReason: string;
+    patientProblems: PatientProblemModel[];
+    medicalEvaluation: MedicalEvaluationModel;
+    physicalExam: string; // PhysicalExamModel;
+    medicalDiagnostic: MedicalDiagnosticModel;
+    patientStory: string;
+    complementaryExams: ComplementaryExam[];
+    createDate: Date;
+    reevaluations: MedicalReevaluationModel[] | any[];
+    recomendations: string;
+}
+
+export interface IMedicalConsultationModel extends mongoose.Document {
+    patient: PatientModel;
     doctor: string;
     consultationReason: string;
     patientProblems: PatientProblemModel[];

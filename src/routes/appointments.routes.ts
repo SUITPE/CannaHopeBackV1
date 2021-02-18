@@ -30,6 +30,7 @@ appointmentsRoutes.delete('/delete/:id', UserValidation.validation, (req, res) =
 // Payments
 appointmentsRoutes.post('/payment/save', UserValidation.validation, (req, res) => paymentCtr.registerPayment(req, res));
 appointmentsRoutes.get('/getAppointmentsToday', UserValidation.validation, (req, res) => appointmentCtr.getTodayAppointments(req, res));
+appointmentsRoutes.get('/getAppointmentsByDate/:date', UserValidation.validation, (req, res) => appointmentCtr.getAppointmentsByDate(req, res));
 
 
 

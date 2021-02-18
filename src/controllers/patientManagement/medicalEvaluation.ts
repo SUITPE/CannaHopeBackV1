@@ -18,6 +18,7 @@ export default class MedicalEvaluationController {
                     mentalStatus: medialEvaluation.mentalStatus,
                     createDate: medialEvaluation.createDate,
                     painScale: medialEvaluation.painScale,
+                    solicitudeScale: medialEvaluation.solicitudeScale,
                     blesseDementiaScale: medialEvaluation.blesseDementiaScale,
                     anxietyScale: medialEvaluation.anxietyScale,
                     depressionScale: medialEvaluation.depressionScale,

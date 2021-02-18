@@ -47,7 +47,6 @@ export class DoctorAvailabilityController {
                 await doctorAvailabilitySrv.findAll()
             ));
         } catch (error) {
-            console.log(error)
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error al cargar franja de disponibilidad de doctor',

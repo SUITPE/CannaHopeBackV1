@@ -1,5 +1,5 @@
 import { ErrorDetail } from '../../models/jsonResp';
-import { PhysicalExamModel, PhysicalExam } from '../../models/PhysicalExam';
+import { PhysicalExamModel, PhysicalExam } from '../../models/physicalExam';
 
 
 export default class PhysicalExamController {

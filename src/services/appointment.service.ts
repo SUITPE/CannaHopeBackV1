@@ -19,9 +19,34 @@ export class AppointmentService {
         }
     }
 
+    public async findPatientsNotEvaluated(idDoctor: string, dateString: string, role: any): Promise<IAppointment[]> {
+        try {
+            if (role == 'Administrador') {
+                return await Appointment.find({ dateString: {$lt: dateString}, status: 'ADMITIDA'})
+                    .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                    .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                    .populate({ path: 'specialty', select: 'name description' })
+                    .populate('doctorAvailability', 'timeTo timeFrom')
+                    .populate('createdBy', 'names surenames email')
+            }
+            return await Appointment.find({ doctor: idDoctor, dateString: {$lt: dateString}, status: 'ADMITIDA'})
+                .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
+                .populate({ path: 'specialty', select: 'name description' })
+                .populate('doctorAvailability', 'timeTo timeFrom')
+                .populate('createdBy', 'names surenames email')
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error al momento de hacer la consulta para guardar cita medica',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
     public async findByDateAndDoctor(idDoctor: string, dateString: string): Promise<IAppointment[]> {
         try {
-            return await Appointment.find({ doctor: idDoctor, dateString, status: 'ADMITIDA'})
+            return await Appointment.find({ doctor: idDoctor, dateString: dateString, status: {$ne: 'VENCIDA'}})
                 .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
                 .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                 .populate({ path: 'specialty', select: 'name description' })
@@ -39,7 +64,7 @@ export class AppointmentService {
     public async findAll(): Promise<IAppointment[]> {
         try {
             return await Appointment.find()
-                .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
+                .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document image sex' } })
                 .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                 .populate({ path: 'specialty', select: 'name description' })
                 .populate('doctorAvailability', 'timeTo timeFrom')

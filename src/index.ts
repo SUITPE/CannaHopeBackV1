@@ -11,7 +11,7 @@ import appointmentStatusRoutes from './routes/appointmentStatus.routes';
 import appointmentTypeRoutes from './routes/appointmentType.routes';
 
 // const port: number = 2745;
-const port: any = process.env.PORT || 42314;
+const port: any = process.env.PORT || 2745;
 
 const server: Server = Server.init(port);
 const connection: DbConnection = new DbConnection();

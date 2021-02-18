@@ -5,6 +5,7 @@ export interface MedicalReevaluationModel extends mongoose.Document {
     description: string;
     createDate: Date;
     painScale: string;
+    solicitudeScale: string;
     blesseDementiaScale: BlesseDementiaScale;
     anxietyScale: AnxietyScale;
     depressionScale: DepressionScale;
@@ -100,6 +101,9 @@ export const MedicalReevaluationSchema = new mongoose.Schema({
         default:[]
     },
     painScale: {
+        type: String
+    },
+    solicitudeScale: {
         type: String
     },
     blesseDementiaScale: {

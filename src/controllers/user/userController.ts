@@ -89,7 +89,7 @@ export default class UserController {
                 if (user.password !== null) {
                     user.password = bcrypt.hashSync((user.password).toString(), 10)
                 } else {
-                    user.password = "";
+                    delete user.password;
                 }
 
                 User.findByIdAndUpdate(idUser, user)

@@ -7,10 +7,7 @@ export class PaymentService {
     constructor () {}
 
     public async save(payment: PaymentDataModel): Promise<PaymentDataModel> {
-        try {
-
-            console.log(payment);
-            
+        try {            
             return await payment.save();
         } catch (error) {
             const errorDetail: ErrorDetail = {

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import PatientController from '../controllers/patients/patientsController';
 import JsonResp from '../models/jsonResp';
 import UserValidation from '../middlewares/userValidation.middleware';
+import { ErrorDetail } from '../models/jsonResp';
 
 const patientCtr: PatientController = new PatientController();
 const patientRoutes: Router = Router();
@@ -59,5 +60,25 @@ patientRoutes.get('/FindByParams/:params', UserValidation.validation, (req, res)
 });
 
 patientRoutes.put('/update', UserValidation.validation, patientCtr.updatePatient);
+
+patientRoutes.delete('/Delete/:id', UserValidation.validation, (req, res) => {
+    patientCtr.delete(req.params.id)
+        .then(patient => {
+            return res.status(200).send(new JsonResp(true, 'Paciente eliminado crrectamente', patient))
+        })
+        .catch((error: ErrorDetail) => {
+            return res.status(500).send(new JsonResp(false, error.name || 'Error!', null, error));
+        });
+});
+
+patientRoutes.get('/getPatientsNotEvaluated/:id', UserValidation.validation, (req, res) => {
+    patientCtr.getPatientsNotEvaluated(req.params.id)
+    .then(patients => {
+        return res.status(200).send(new JsonResp(true, 'Pacientes cargados correctamente', patients));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error en consulta de pacientes por paramtro', null, error));
+    })
+});
 
 export default patientRoutes;

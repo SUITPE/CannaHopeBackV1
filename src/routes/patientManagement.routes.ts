@@ -15,6 +15,8 @@ import { PatientPhService } from '../services/patientPh.service';
 import { MaritalStatusController } from '../controllers/user/maritalStatus.controller';
 import { PatientAuxiliaryController } from '../controllers/patientManagement/PatientAuxiliaryController';
 import ExamReasonController from '../controllers/patientManagement/examReasonController';
+import BankController from '../controllers/patientManagement/bankController';
+import MedicationController from '../controllers/patientManagement/medicationController';
 
 const diseaseCtr: DiseaseController = new DiseaseController(new DiseaseService());
 const harmfulHabitCtr: HarmfulHabitController = new HarmfulHabitController();
@@ -26,6 +28,8 @@ const medicalConsultationCtr: MedicalConsultationController = new MedicalConsult
 const medicalReevaluestion: MedicalReevaluationController = new MedicalReevaluationController();
 const patientAuxiliaryCtr: PatientAuxiliaryController = new PatientAuxiliaryController();
 const examReasonCtr: ExamReasonController = new ExamReasonController();
+const medicationCtr: MedicationController = new MedicationController();
+const bankCtr: BankController = new BankController();
 const patientManagementRoutes: Router = Router();
 
 patientManagementRoutes.post('/disease/save', UserValidation.validation, (req, res) => {
@@ -94,7 +98,6 @@ patientManagementRoutes.get('/patientPh/findBypatientId/:id', UserValidation.val
         return res.status(500).send(new JsonResp(false, 'Error al cargar historial patologico de paciente', null, error));
     });
 });
-
 
 patientManagementRoutes.post('/patientProblem/save', UserValidation.validation, (req, res) => {
     patientProblemCtr.save(req.body)
@@ -222,6 +225,50 @@ patientManagementRoutes.get('/examReason/findAll', UserValidation.validation, (r
 });
 
 patientManagementRoutes.delete('/examReason/delete/:id', UserValidation.validation, examReasonCtr.delete);
+
+patientManagementRoutes.post('/medication/save', UserValidation.validation, (req, res) => {
+    medicationCtr.save(req.body)
+    .then(medication => {
+        return res.status(200).send(new JsonResp(true, 'Medications guardado corectamente', medication));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al guardar medications', null, error));
+    });
+});
+
+patientManagementRoutes.get('/medication/findAll', UserValidation.validation, (req, res) => {
+    medicationCtr.findAll()
+    .then(medicationList => {
+        return res.status(200).send(new JsonResp(true, 'Lista de medications cargada correctamente', medicationList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar lista de medications', null, error));
+    });
+});
+
+patientManagementRoutes.delete('/medication/delete/:id', UserValidation.validation, medicationCtr.delete);
+
+patientManagementRoutes.post('/bank/save', UserValidation.validation, (req, res) => {
+    bankCtr.save(req.body)
+    .then(bank => {
+        return res.status(200).send(new JsonResp(true, 'Banca guardado corectamente', bank));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al guardar banca', null, error));
+    });
+});
+
+patientManagementRoutes.get('/bank/findAll', UserValidation.validation, (req, res) => {
+    bankCtr.findAll()
+    .then(bankList => {
+        return res.status(200).send(new JsonResp(true, 'Lista de bancos cargada correctamente', bankList));
+    })
+    .catch(error => {
+        return res.status(500).send(new JsonResp(false, 'Error al cargar lista de bancos', null, error));
+    });
+});
+
+patientManagementRoutes.delete('/bank/delete/:id', UserValidation.validation, bankCtr.delete);
 
 export default patientManagementRoutes;
 

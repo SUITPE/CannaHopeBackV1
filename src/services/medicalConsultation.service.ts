@@ -18,11 +18,26 @@ export default class MedicalConsultationService {
             throw errorDetail;
         }
     }
+
     public async findById(id: string): Promise<MedicalConsultationModel> {
         try {
             const founded: any = await MedicalConsultation.findById(id)
                 .populate({ path: 'doctor', select: 'names surenames specialty signatureImage doctorCmp', populate:{path: 'specialty', select: 'name'} })
                 .populate({ path: 'patient', select: 'reasonAdmission reasonAdmission numberOfAppointment', populate: {path:'user', select: 'names surenames age document email signatureImage'}});
+            return founded;
+        } catch (error) {
+            const errorDetail: ErrorDetail = {
+                name: 'Error en la consulta a la base de datos para obtener consulta medica por id',
+                description: error
+            }
+            throw errorDetail;
+        }
+    }
+
+    public async findByPatientId(idPatient: string): Promise<MedicalConsultationModel[]> {
+        try {
+            const founded: any = await MedicalConsultation.find({patient: idPatient})//'5ee8ef7bb8cc734188fd53ab'
+                .populate({ path: 'patient', select: '', populate: {path:'user', select: 'names surenames email'}});
             return founded;
         } catch (error) {
             const errorDetail: ErrorDetail = {

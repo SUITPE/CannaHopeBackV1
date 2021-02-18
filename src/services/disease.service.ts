@@ -43,8 +43,7 @@ export class DiseaseService{
     public async updateById(disease: DiseaseUpdateDto): Promise<any> {
         try {
             const id: string = disease._id;
-            disease._id = "";
-            //delete disease._id;
+            delete disease._id;
             return await Disease.updateOne({_id: id}, disease);
         } catch (error) {
             throw error;

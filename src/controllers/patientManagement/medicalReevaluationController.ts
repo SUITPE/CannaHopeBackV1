@@ -31,6 +31,7 @@ export default class MedicalReevaluationController {
                 description: medicalReevaluation.description,
                 createDate: new Date(),
                 painScale: medicalReevaluation.painScale,
+                solicitudeScale: medicalReevaluation.solicitudeScale,
                 blesseDementiaScale: medicalReevaluation.blesseDementiaScale,
                 anxietyScale: medicalReevaluation.anxietyScale,
                 depressionScale: medicalReevaluation.depressionScale,
@@ -53,7 +54,6 @@ export default class MedicalReevaluationController {
 
 
         } catch (error) {
-            console.log(error);
             return res.status(httpstatus.INTERNAL_SERVER_ERROR).send(new JsonResp(
                 false,
                 'Error en servidor al guardar reevaluacion medica',

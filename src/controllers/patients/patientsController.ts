@@ -1,12 +1,20 @@
 import Patient, {PatientModel} from '../../models/patient';
 import UserController from '../user/userController';
-import {UserModel} from '../../models/user';
+import User, {UserModel} from '../../models/user';
+import Role, {RolModel} from '../../models/role';
+import {MedicalConsultation, MedicalConsultationModel, IMedicalConsultationModel} from '../../models/medicalConsultation'
 import {ErrorDetail} from '../../models/jsonResp';
 import {Request, Response} from 'express';
 import JsonResp from '../../models/jsonResp';
 import httpstatus from 'http-status';
 import {PatientUpdateDto} from '../../dto/patient.dto';
 import PatientService from '../../services/patient.service';
+import { AppointmentService } from '../../services/appointment.service';
+import MedicalConsultationService from '../../services/medicalConsultation.service';
+import { IAppointment, EAppointment } from '../../models/appointment.interface';
+import moment from 'moment';
+import { Appointment } from '../../schema/appointment.schema';
+import appointmentTypeRoutes from '../../routes/appointmentType.routes';
 
 export default class PatientController {
 
@@ -97,7 +105,7 @@ export default class PatientController {
     public getAll(from: number, limit: number): Promise<PatientModel[]> {
         return new Promise((resolve, reject) => {
 
-            Patient.find()
+            Patient.find({patientStatus: {$ne: 'inactive'}})
                 .populate({
                     path: 'user',
                     select: 'image _id names surenames  mobilePhone document email sex',
@@ -116,7 +124,6 @@ export default class PatientController {
                         }
                         reject(errorDetail);
                     }
-
                     resolve(patients);
                 });
         });
@@ -136,7 +143,7 @@ export default class PatientController {
             const regex = new RegExp(searchParams, 'i');
             try {
 
-                Patient.find()
+                Patient.find({patientStatus: {$ne: 'inactive'}})
                     .populate({
                         path: 'user',
                         select: 'image _id names surenames  mobilePhone document email sex',
@@ -207,5 +214,70 @@ export default class PatientController {
                 error
             ));
         }
+    }
+    
+    public delete(idPatient: string): Promise<PatientModel> {
+        return new Promise((resolve, reject) => {
+
+            try {
+                Patient.updateOne({ _id: idPatient }, { patientStatus: 'inactive' })
+                    .exec((error, patient) => {
+
+                        if (error) {
+                            const errorDetail: ErrorDetail = {
+                                name: `Error al eliminar paciente con id ${idPatient} `,
+                                description: error
+                            }
+
+                            reject(errorDetail)
+                        }
+                        resolve(patient);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    public getPatientsNotEvaluated(idDoctor: string): Promise<PatientModel[]> {
+        return new Promise(async (resolve, reject) => {
+            const appointmentSrv: AppointmentService = new AppointmentService();
+            const date30ago = moment().add(-30, 'd').format(`YYYY-MM-DD`);
+
+            try {
+                User.findById(idDoctor)
+                .populate('rol', 'name description')
+                .populate('createdBy', 'names surenames nickName')
+                .exec(async (error, user: any) => {
+                    if (error) {
+                        const errorDetail: ErrorDetail = {
+                            name: `Error al cargar usuario con id ${idDoctor}`,
+                            description: error
+                        }
+                        throw ErrorDetail;
+                    }
+
+                    const appointmentsRegistered: EAppointment[] = await appointmentSrv.findPatientsNotEvaluated(idDoctor, date30ago, user.rol.name);
+                    const medicalConsulationSrv: MedicalConsultationService = new MedicalConsultationService();
+
+                    let patientsNotEvaluated: PatientModel[] = [];
+
+                    for (const appointment of appointmentsRegistered) {
+                        let founded: MedicalConsultationModel[] = await medicalConsulationSrv.findByPatientId(appointment.patient._id);
+                        if (founded.length > 0) {
+                            let founded = patientsNotEvaluated.findIndex(patient => patient._id == appointment.patient._id)
+                            if (founded == -1) {
+                                patientsNotEvaluated.push(appointment.patient);
+                            }
+                        }
+                    }
+
+                    resolve(patientsNotEvaluated);
+                });
+                
+            } catch (error) {
+                resolve(error)
+            }
+        });
     }
 }
