@@ -102,7 +102,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
                 if (item.amountPerDose) {
                     doc.text(20, 305 + counster, 'GOTAS POR DOSIS: ');
-                    doc.text(135, 305 + counster, item.amountPerDose);
+                    doc.text(135, 305 + counster, `${item.amountPerDose}`);
                 }
 
                 if (item.conditions) {
