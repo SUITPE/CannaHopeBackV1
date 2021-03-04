@@ -41,7 +41,8 @@ export default class EmailController {
                     from: this.transmitter,
                     to: this.userReceiver,
                     subject: this.subject,
-                    text: this.message
+                    text: this.message//,
+                  //  replyTo: this.userReceiver
                 };
 
                 if (this.files) {
