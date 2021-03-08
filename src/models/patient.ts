@@ -35,16 +35,16 @@ export const PatientSchema = new mongoose.Schema({
     },
     responsibleName: {
         type: String,
-        required: [true, 'No se ha asignado un nombre de usuario'],
+        //required: [true, 'No se ha asignado un nombre de usuario'],
         minlength: [3, 'debe ser un minimo de 5 caracteres parael nombre']
     },
     responsiblePhone: {
         type: Number,
-        required: [true, 'Debe agregar un telefonoo movil de usuario'],
+        //required: [true, 'Debe agregar un telefonoo movil de usuario'],
     },
     responsibleEmail: {
         type: String,
-        required: [true, 'Debe ingresar un email del usuario']
+        //required: [true, 'Debe ingresar un email del usuario']
     },
     responsibleComment: {
         type: String
