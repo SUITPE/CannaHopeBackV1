@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PatientSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.PatientSchema = new mongoose_1.default.Schema({
     reasonAdmission: {
@@ -26,16 +27,14 @@ exports.PatientSchema = new mongoose_1.default.Schema({
     },
     responsibleName: {
         type: String,
-        required: [true, 'No se ha asignado un nombre de usuario'],
+        //required: [true, 'No se ha asignado un nombre de usuario'],
         minlength: [3, 'debe ser un minimo de 5 caracteres parael nombre']
     },
     responsiblePhone: {
         type: Number,
-        required: [true, 'Debe agregar un telefonoo movil de usuario'],
     },
     responsibleEmail: {
         type: String,
-        required: [true, 'Debe ingresar un email del usuario']
     },
     responsibleComment: {
         type: String

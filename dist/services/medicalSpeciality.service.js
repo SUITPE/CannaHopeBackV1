@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MedicalSpecialityService = void 0;
 const medicalSpeciality_schema_1 = require("../schema/medicalSpeciality.schema");
 class MedicalSpecialityService {
     save(medicalSpeciality) {

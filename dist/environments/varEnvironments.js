@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.environments = exports.tokenExpiration = exports.seed = exports.currentEnv = void 0;
 const moment = require('moment-timezone');
 exports.currentEnv = 'PROD';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';

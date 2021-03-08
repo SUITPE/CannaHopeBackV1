@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppointmentStatusController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const appointmentStatus_service_1 = require("../../services/appointmentStatus.service");
