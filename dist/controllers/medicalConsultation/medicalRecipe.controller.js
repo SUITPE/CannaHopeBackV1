@@ -47,7 +47,7 @@ class MedicalRecipeController {
                             contentType: 'application/pdf'
                         }
                     ];
-                    const email = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emailFiles);
+                    const email = new emailsController_1.default('gmail', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
                     yield email.sendEmail();
                 }
                 if (type === 'reevaluation') {
@@ -57,6 +57,16 @@ class MedicalRecipeController {
                     consultationData.createDate = medicalReevaluation.createDate;
                     pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment, 'reevaluation');
                     patientFounded = consultationData.patient;
+                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                    const emailFiles = [
+                        {
+                            filename: 'Recetamedica',
+                            path: documentPath,
+                            contentType: 'application/pdf'
+                        }
+                    ];
+                    const email = new emailsController_1.default('gmail', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
+                    yield email.sendEmail();
                 }
                 if (type === 'sendEmail') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);

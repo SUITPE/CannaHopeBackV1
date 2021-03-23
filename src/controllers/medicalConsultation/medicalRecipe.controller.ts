@@ -47,9 +47,9 @@ export class MedicalRecipeController {
 
                 const email: EmailController = new EmailController(
                     'gmail',
-                    `Receta medica emitida por cannahope`,
+                    `Receta médica emitida por Cannahope`,
                     patientFounded.user.email,
-                    'RECETA MEDICA - CANNAHOPE',
+                    'RECETA MÉDICA - CANNAHOPE',
                     emailFiles
                 );
                 await email.sendEmail();
@@ -63,6 +63,24 @@ export class MedicalRecipeController {
                 consultationData.createDate = medicalReevaluation.createDate;
                 pdfPath = await generateMedicalRecipe(consultationData, medicalReevaluation.treatment, 'reevaluation');
                 patientFounded = consultationData.patient;
+
+                const documentPath: string = currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                const emailFiles: any[] = [
+                    {
+                        filename: 'Recetamedica',
+                        path: documentPath,
+                        contentType: 'application/pdf'
+                    }
+                ]
+
+                const email: EmailController = new EmailController(
+                    'gmail',
+                    `Receta médica emitida por Cannahope`,
+                    patientFounded.user.email,
+                    'RECETA MÉDICA - CANNAHOPE',
+                    emailFiles
+                );
+                await email.sendEmail();
             }
 
             if (type === 'sendEmail') {
