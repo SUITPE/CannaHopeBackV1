@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PatientAuxiliaryController = void 0;
 const patientAuxiliary_1 = __importDefault(require("../../models/patientAuxiliary"));
 const jsonResp_1 = require("../../models/jsonResp");
 const patientAuxiliary_service_1 = __importDefault(require("../../services/patientAuxiliary.service"));

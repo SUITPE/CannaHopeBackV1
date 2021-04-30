@@ -96,7 +96,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
                     doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
                 }
                 if (item.amountPerDose) {
-                    doc.text(20, 305 + counster, 'GOTAS POR DÍA: ');
+                    doc.text(20, 305 + counster, 'GOTAS POR DOSIS: ');
                     doc.text(135, 305 + counster, `${item.amountPerDose}`);
                 }
                 if (item.conditions) {

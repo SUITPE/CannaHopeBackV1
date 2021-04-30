@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.environments = exports.tokenExpiration = exports.seed = exports.currentEnv = void 0;
 const moment = require('moment-timezone');
 exports.currentEnv = 'PROD';
 exports.seed = 'PRIVATE-SEED-CANNAHOPE-API';
@@ -21,7 +20,7 @@ exports.environments = {
             return 'http://cannahope.suit.pe/#/login';
         }
         else {
-            return 'http://localhost:4201/#/login';
+            return 'http://cannahope.suit.pe/#/login';
         }
     },
     companyEmail() {

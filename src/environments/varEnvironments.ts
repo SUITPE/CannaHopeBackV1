@@ -18,7 +18,7 @@ export const environments = {
         if (currentEnv === 'PROD'){
             return 'http://cannahope.suit.pe/#/login';
         } else {
-            return 'http://localhost:4201/#/login';
+            return 'http://cannahope.suit.pe/#/login';
         }
     },
 

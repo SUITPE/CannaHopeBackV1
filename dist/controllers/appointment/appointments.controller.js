@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const appointment_service_1 = require("../../services/appointment.service");
@@ -37,7 +36,7 @@ class AppointmentController {
                     appointment.paymentStatus = 'PAGADO';
                 }
                 if (appointment.paymentStatus === 'GRATIS') {
-                    appointment.paymentStatus = 'PAGADO';
+                    appointment.paymentStatus = 'GRATIS';
                 }
                 const newAppointment = yield setAppointmentData();
                 const appointmentSaved = yield this.appointmentSrv.save(newAppointment);

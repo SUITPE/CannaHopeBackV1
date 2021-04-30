@@ -36,7 +36,7 @@ export class AppointmentController {
             }
 
             if (appointment.paymentStatus === 'GRATIS') {
-                appointment.paymentStatus = 'PAGADO'
+                appointment.paymentStatus = 'GRATIS';
             }
 
             const newAppointment: IAppointment = await setAppointmentData();

@@ -77,7 +77,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
             doc.setLineWidth(0.3);
             doc.rect(15, 190, 565, 20);
-            doc.text(20, 203, 'DIAGNÓSTICO: ');
+            doc.text(20, 203, 'DIAGNOSTICO: ');
             doc.text(90, 203, diagnostic);
 
             doc.rect(15, 190, 565, 510);
@@ -103,11 +103,11 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
                 if (item.frequency && item.frequency === 'CONDICIONAL') {
                     doc.text(135, 290 + counster, `${item.frequency.toUpperCase()}`);
                 } else {
-                    doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DÍA`);
+                    doc.text(135, 290 + counster, `${item.frequency.toUpperCase()} VECES POR DIA`);
                 }
 
                 if (item.amountPerDose) {
-                    doc.text(20, 305 + counster, 'GOTAS POR DÍA: ');
+                    doc.text(20, 305 + counster, 'GOTAS POR DOSIS: ');
                     doc.text(135, 305 + counster, `${item.amountPerDose}`);
                 }
 
@@ -206,7 +206,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
                                 doc.setLineWidth(0.3);
                                 doc.rect(15, 190, 565, 20);
-                                doc.text(20, 203, 'DIAGNÓSTICO: ');
+                                doc.text(20, 203, 'DIAGNOSTICO: ');
                                 doc.text(90, 203, diagnostic);
 
                                 doc.rect(15, 190, 565, 510);
@@ -287,7 +287,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
                                 doc.setLineWidth(0.3);
                                 doc.rect(15, 190, 565, 20);
-                                doc.text(20, 203, 'DIAGNÓSTICO: ');
+                                doc.text(20, 203, 'DIAGNOSTICO: ');
                                 doc.text(90, 203, diagnostic);
 
                                 doc.rect(15, 190, 565, 510);
@@ -391,9 +391,9 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
                     doc.text(20, 163, 'MÉDICO: ');
                     //doc.text(62, 163, `Dr. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
                     if (consultationData.doctor.sex == "MASCULINO") 
-                        doc.text(62, 163, `Dr. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
-                        else
-                        doc.text(62, 163, `Dra. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
+                    doc.text(62, 163, `Dr. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
+                    else
+                    doc.text(62, 163, `Dra. ${consultationData.doctor.names.toUpperCase()} ${consultationData.doctor.surenames.toUpperCase()}`);
 
                     doc.text(20, 173, 'ESPECIALIDAD: ');
 
@@ -427,7 +427,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
                     doc.setLineWidth(0.3);
                     doc.rect(15, 190, 565, 20);
-                    doc.text(20, 203, 'DIAGNÓSTICO: ');
+                    doc.text(20, 203, 'DIAGNOSTICO: ');
                     doc.text(90, 203, diagnostic);
 
                     doc.rect(15, 190, 565, 510);
@@ -510,7 +510,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
 
                     doc.setLineWidth(0.3);
                     doc.rect(15, 190, 565, 20);
-                    doc.text(20, 203, 'DIAGNÓSTICO: ');
+                    doc.text(20, 203, 'DIAGNOSTICO: ');
                     doc.text(90, 203, diagnostic);
 
                     doc.rect(15, 190, 565, 510);

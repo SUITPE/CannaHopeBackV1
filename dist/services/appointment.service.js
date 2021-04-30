@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentService = void 0;
 const appointment_schema_1 = require("../schema/appointment.schema");
 class AppointmentService {
     save(appointment) {
@@ -35,14 +34,16 @@ class AppointmentService {
                         .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                         .populate({ path: 'specialty', select: 'name description' })
                         .populate('doctorAvailability', 'timeTo timeFrom')
-                        .populate('createdBy', 'names surenames email');
+                        .populate('createdBy', 'names surenames email')
+                        .sort({ date: -1 }).exec();
                 }
                 return yield appointment_schema_1.Appointment.find({ doctor: idDoctor, dateString: { $lt: dateString }, status: 'ADMITIDA' })
                     .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
-                    .populate('createdBy', 'names surenames email');
+                    .populate('createdBy', 'names surenames email')
+                    .sort({ date: -1 }).exec();
             }
             catch (error) {
                 const errorDetail = {
@@ -62,7 +63,8 @@ class AppointmentService {
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
-                    .populate('createdBy', 'names surenames email');
+                    .populate('createdBy', 'names surenames email')
+                    .sort({ date: -1 }).exec();
             }
             catch (error) {
                 const errorDetail = {
@@ -150,7 +152,8 @@ class AppointmentService {
                     .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
-                    .populate('createdBy', 'names surenames email');
+                    .populate('createdBy', 'names surenames email')
+                    .sort({ date: -1 }).exec();
             }
             catch (error) {
                 const errorDetail = {
@@ -212,7 +215,7 @@ class AppointmentService {
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate({ path: 'doctorAvailability', select: 'timeTo timeFrom' })
                     .populate('createdBy', 'names surenames email')
-                    .sort({ date: 1 })
+                    .sort({ date: -1 })
                     .exec();
             }
             catch (error) {

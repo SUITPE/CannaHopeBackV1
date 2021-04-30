@@ -28,6 +28,7 @@ export class AppointmentService {
                     .populate({ path: 'specialty', select: 'name description' })
                     .populate('doctorAvailability', 'timeTo timeFrom')
                     .populate('createdBy', 'names surenames email')
+                    .sort({date: -1 }).exec()
             }
             return await Appointment.find({ doctor: idDoctor, dateString: {$lt: dateString}, status: 'ADMITIDA'})
                 .populate({ path: 'patient', select: 'user', populate: { path: 'user', select: 'names surenames email mobilePhone document' } })
@@ -35,6 +36,7 @@ export class AppointmentService {
                 .populate({ path: 'specialty', select: 'name description' })
                 .populate('doctorAvailability', 'timeTo timeFrom')
                 .populate('createdBy', 'names surenames email')
+                .sort({date: -1 }).exec()
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al momento de hacer la consulta para guardar cita medica',
@@ -53,6 +55,7 @@ export class AppointmentService {
                 .populate({ path: 'specialty', select: 'name description' })
                 .populate('doctorAvailability', 'timeTo timeFrom')
                 .populate('createdBy', 'names surenames email')
+                .sort({date: -1 }).exec()
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error al momento de hacer la consulta para guardar cita medica',
@@ -130,7 +133,9 @@ export class AppointmentService {
                 .populate({ path: 'doctor', select: 'names surenames email mobilePhone' })
                 .populate({ path: 'specialty', select: 'name description' })
                 .populate('doctorAvailability', 'timeTo timeFrom')
-                .populate('createdBy', 'names surenames email');
+                .populate('createdBy', 'names surenames email')
+                .sort({date: -1 }).exec();
+                
         } catch (error) {
             const errorDetail: ErrorDetail = {
                 name: 'Error en la base de datos al cargar consultas por id de doctor',
@@ -184,7 +189,7 @@ export class AppointmentService {
             .populate({ path: 'specialty', select: 'name description' })
             .populate({path: 'doctorAvailability', select:'timeTo timeFrom'})
             .populate('createdBy', 'names surenames email')
-            .sort({date: 1})
+            .sort({date: -1})
             .exec()
         } catch (error) {
             const errorDetail: ErrorDetail = {
