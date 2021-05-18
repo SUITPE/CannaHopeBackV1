@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppointmentController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
 const appointment_service_1 = require("../../services/appointment.service");
@@ -65,7 +66,7 @@ class AppointmentController {
                             paymentData: appointment.paymentData,
                             createdBy: user._id,
                             createdAt: varEnvironments_1.environments.currentDate(),
-                            status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : 'PENDIENTE DE PAGO',
+                            status: appointment.paymentStatus === 'PAGADO' ? 'CONFIRMADA' : appointment.paymentStatus === 'PENDIENTE' ? 'PENDIENTE DE PAGO' : 'GRATIS',
                             dateString: appointment.dateString,
                             type: appointment.type
                         });
