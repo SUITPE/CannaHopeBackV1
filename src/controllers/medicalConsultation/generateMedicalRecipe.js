@@ -284,7 +284,7 @@ function generateMedicalRecipe(consultationData, medicalTreatament, type) {
                                         diagnostic += `${item.name.toUpperCase()}`
                                     });
                                 }
-
+m
                                 doc.setLineWidth(0.3);
                                 doc.rect(15, 190, 565, 20);
                                 doc.text(20, 203, 'DIAGNÓSTICO: ');
