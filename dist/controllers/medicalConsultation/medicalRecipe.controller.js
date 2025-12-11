@@ -37,17 +37,18 @@ class MedicalRecipeController {
             try {
                 if (type === 'consultation') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
+                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
                     patientFounded = consultationData.patient;
-                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
                     const emailFiles = [
                         {
                             filename: 'Recetamedica',
-                            path: documentPath,
+                            path: pdfPath,
                             contentType: 'application/pdf'
                         }
                     ];
-                    const email = new emailsController_1.default('gmail', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
+                    //const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
+                    const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, 'alvaro.burga@gmail.com', 'RECETA MÉDICA - CANNAHOPE', emailFiles);
                     yield email.sendEmail();
                 }
                 if (type === 'reevaluation') {
@@ -55,37 +56,37 @@ class MedicalRecipeController {
                     const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
                     consultationData.recomendations = medicalReevaluation.recomendations;
                     consultationData.createDate = medicalReevaluation.createDate;
-                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, medicalReevaluation.treatment, 'reevaluation');
+                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, medicalReevaluation.treatment, 'reevaluation');
                     patientFounded = consultationData.patient;
-                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
                     const emailFiles = [
                         {
                             filename: 'Recetamedica',
-                            path: documentPath,
+                            path: pdfPath,
                             contentType: 'application/pdf'
                         }
                     ];
-                    const email = new emailsController_1.default('gmail', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
+                    const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
                     yield email.sendEmail();
                 }
                 if (type === 'sendEmail') {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    pdfPath = yield generateMedicalRecipe_1.default(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
                     patientFounded = consultationData.patient;
-                    const dp = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
+                    const dp = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
                     const emf = [
                         {
                             filename: 'Recetamedica',
-                            path: dp,
+                            path: pdfPath,
                             contentType: 'application/pdf'
                         }
                     ];
-                    const emailtos = new emailsController_1.default('gmail', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emf);
+                    const emailtos = new emailsController_1.default('SendPulse', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emf);
                     yield emailtos.sendEmail();
                     return res.status(http_status_1.default.OK);
                 }
-                const pathNoImage = path_1.default.resolve(__dirname, `../../../docs/${pdfPath}`);
-                res.download(pathNoImage);
+                const pathNoImage = path_1.default.resolve(__dirname, `/apps/prod/CannaHope/CannaDocs/${pdfPath}`);
+                res.download(pdfPath);
             }
             catch (error) {
                 errorFlag = true;
@@ -94,8 +95,8 @@ class MedicalRecipeController {
             finally {
                 setTimeout(() => {
                     if (!errorFlag) {
-                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `../docs/${pdfPath}` : `docs/${pdfPath}`;
-                        fs.unlinkSync(documentPath);
+                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
+                        fs.unlinkSync(pdfPath);
                     }
                 }, 3000);
             }
@@ -103,3 +104,4 @@ class MedicalRecipeController {
     }
 }
 exports.MedicalRecipeController = MedicalRecipeController;
+

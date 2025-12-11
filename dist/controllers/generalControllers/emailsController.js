@@ -22,13 +22,17 @@ class EmailController {
         return new Promise((resolve, reject) => {
             try {
                 const trasnporter = nodemailer_1.default.createTransport({
-                    host: 'gmail',
-                    port: 25,
-                    service: this.service,
+                    host: 'mail.centrocannahope.com',
+                    port: 465,
+                   // service: this.service,
+			secure: true,	
                     auth: {
                         user: this.transmitter,
                         pass: this.transmitterPass
-                    }
+                    },
+			tls: { 
+rejectUnathorized:false,
+},
                 });
                 const mailOptions = {
                     from: this.transmitter,

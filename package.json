@@ -28,6 +28,7 @@
         "moment-transform": "^1.0.1",
         "mongoose": "^5.9.10",
         "nodemailer": "^6.4.8",
+        "pdfkit": "^0.15.0",
         "pngjs": "^5.0.0",
         "validator": "^13.0.0"
     },

@@ -103,7 +103,7 @@ class PatientController {
                 }
             })
                 .skip(from)
-                .limit(limit)
+                .limit(6000)
                 .exec((error, patients) => {
                 if (error) {
                     const errorDetail = {

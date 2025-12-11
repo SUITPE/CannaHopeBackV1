@@ -8,10 +8,11 @@ exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (exports.currentEnv === 'PROD') {
-            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
+		return 'mongodb+srv://canna_db:CannaCanna@cannacluster.oqua9vd.mongodb.net/cannahope-main-db?retryWrites=true&w=majority&ssl=true&appName=CannaCluster';
+            //return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@147.182.128.249:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
         }
         else {
-            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
+            return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@147.182.128.249:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
             // return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@138.68.4.1:65033/cannahope-dev-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
             // return 'mongodb://localhost:27017/cannahope-dev-db?readPreference=primary&appname=MongoDB%20Compass&ssl=false';
         }
@@ -27,18 +28,18 @@ exports.environments = {
     companyEmail() {
         if (exports.currentEnv === 'PROD') {
             // return 'app@centrocannahope.com'
-            return 'centrocannahope@gmail.com';
+            return 'app@centrocannahope.com';
         }
         else {
-            return 'centrocannahope@gmail.com';
+            return 'app@centrocannahope.com';
         }
     },
     companyPasswordEmail() {
         if (exports.currentEnv === 'PROD') {
-            return 'DvfN8hKTB98SDQt';
+            return 'Cann@hope22';
         }
         else {
-            return 'DvfN8hKTB98SDQt';
+            return 'Cann@hope22';
         }
     },
     currentDate() {
