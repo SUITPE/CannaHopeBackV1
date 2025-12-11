@@ -134,28 +134,49 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
       }
 
       function addTreatments() {
-        let offsetY = 340;
+  if (!Array.isArray(medicalTreatament) || medicalTreatament.length === 0) {
+    console.warn("No medicalTreatament data provided");
+    return;
+  }
 
-        medicalTreatament.forEach((item) => {
-          doc
-            .fontSize(10)
-            .text("VÍA DE ADMINISTRACIÓN:", 50, offsetY)
-            .text(item.viaAdministracion.toUpperCase(), 185, offsetY)
-            .text("FITOCANNABINOIDES:", 50, offsetY + 15)
-            .text(item.fitocannabinoides.toUpperCase(), 185, offsetY + 15)
-            .text("CONCENTRACIÓN:", 50, offsetY + 30)
-            .text(item.concentracion.toUpperCase(), 185, offsetY + 30)
-            .text("POSOLOGÍA:", 50, offsetY + 45)
-            .text(item.posologia.toUpperCase(), 185, offsetY + 45)
-            .text("TIEMPO DE TRATAMIENTO:", 50, offsetY + 60)
-            .text(item.tiempoTratamiento.toUpperCase(), 185, offsetY + 60);
+  let offsetY = 340;
 
-          offsetY += 95;
-        });
+  medicalTreatament.forEach((item, index) => {
+    // Normalizamos valores para evitar undefined
+    const viaAdministracion = (item?.viaAdministracion || "N/A").toUpperCase();
+    const fitocannabinoides = (item?.fitocannabinoides || "N/A").toUpperCase();
+    const concentracion = (item?.concentracion || "N/A").toUpperCase();
+    const posologia = (item?.posologia || "N/A").toUpperCase();
+    const tiempoTratamiento = (item?.tiempoTratamiento || "N/A").toUpperCase();
 
-        // Marco general para tratamientos (opcional)
-        doc.rect(15, 330, 565, 300).stroke();
-      }
+    console.log(
+      `Tratamiento #${index + 1}:`,
+      viaAdministracion,
+      fitocannabinoides,
+      concentracion,
+      posologia,
+      tiempoTratamiento
+    );
+
+    doc
+      .fontSize(10)
+      .text("VÍA DE ADMINISTRACIÓN:", 50, offsetY)
+      .text(viaAdministracion, 185, offsetY)
+      .text("FITOCANNABINOIDES:", 50, offsetY + 15)
+      .text(fitocannabinoides, 185, offsetY + 15)
+      .text("CONCENTRACIÓN:", 50, offsetY + 30)
+      .text(concentracion, 185, offsetY + 30)
+      .text("POSOLOGÍA:", 50, offsetY + 45)
+      .text(posologia, 185, offsetY + 45)
+      .text("TIEMPO DE TRATAMIENTO:", 50, offsetY + 60)
+      .text(tiempoTratamiento, 185, offsetY + 60);
+
+    offsetY += 95;
+  });
+
+  // Si quieres mantener el marco general:
+  doc.rect(15, 330, 565, 300).stroke();
+}
 
       async function addDoctorSignature() {
         const sigFile = consultationData?.doctor?.signatureImage;
