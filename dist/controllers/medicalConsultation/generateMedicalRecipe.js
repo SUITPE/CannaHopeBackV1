@@ -151,8 +151,6 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
 }
 
 // Función para obtener la ruta del PDF
-const path = require("path");
-
 function getPdfPath(consultationData) {
   const names = consultationData.patient.user.names.replace(" ", "");
   const surenames = consultationData.patient.user.surenames.replace(" ", "");
