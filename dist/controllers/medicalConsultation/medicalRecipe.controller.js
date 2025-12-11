@@ -13,95 +13,216 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MedicalRecipeController = void 0;
+
 const http_status_1 = __importDefault(require("http-status"));
 const jsonResp_1 = __importDefault(require("../../models/jsonResp"));
-const fs = require('fs');
-const path_1 = __importDefault(require("path"));
+
+const fs = require("fs");
+const path = require("path");
+
 const generateMedicalRecipe_1 = __importDefault(require("./generateMedicalRecipe"));
 const medicalConsultation_service_1 = __importDefault(require("../../services/medicalConsultation.service"));
 const medicalReevaluation_service_1 = require("../../services/medicalReevaluation.service");
+
 const emailsController_1 = __importDefault(require("../generalControllers/emailsController"));
-const varEnvironments_1 = require("../../environments/varEnvironments");
+const { currentEnv } = require("../../environments/varEnvironments");
+
 class MedicalRecipeController {
-    constructor(medicalConsultationSrv = new medicalConsultation_service_1.default(), medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()) {
+    constructor(
+        medicalConsultationSrv = new medicalConsultation_service_1.default(),
+        medicalReevaluationSrv = new medicalReevaluation_service_1.MedicalReevaluationService()
+    ) {
         this.medicalConsultationSrv = medicalConsultationSrv;
         this.medicalReevaluationSrv = medicalReevaluationSrv;
     }
+
     generateAnSendMedicalRecipe(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.params.id;
             const type = req.params.type;
+
             let errorFlag = false;
+            let pdfPath = "";
             let patientFounded;
-            let pdfPath = '';
+
             try {
-                if (type === 'consultation') {
-                    const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, consultationData.medicalDiagnostic.medicalTreatment, 'consiltation');
+                /** ====================================================
+                 *                   CONSULTATION
+                 *  ==================================================== */
+                if (type === "consultation") {
+                    const consultationData =
+                        yield this.medicalConsultationSrv.findById(id);
+
+                    pdfPath = yield generateMedicalRecipe_1.default(
+                        consultationData,
+                        consultationData.medicalDiagnostic.medicalTreatment,
+                        "consultation"
+                    );
+
                     patientFounded = consultationData.patient;
-                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
+
                     const emailFiles = [
                         {
-                            filename: 'Recetamedica',
+                            filename: "Recetamedica.pdf",
                             path: pdfPath,
-                            contentType: 'application/pdf'
-                        }
+                            contentType: "application/pdf",
+                        },
                     ];
-                    //const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
-                    const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, 'alvaro.burga@gmail.com', 'RECETA MÉDICA - CANNAHOPE', emailFiles);
-                    yield email.sendEmail();
+
+                    // Envío del email (no rompas si falla)
+                    try {
+                        const email = new emailsController_1.default(
+                            "SendPulse",
+                            `Receta médica emitida por Cannahope`,
+                            // patientFounded.user.email,
+                            "alvaro.burga@gmail.com", // PARA TEST
+                            "RECETA MÉDICA - CANNAHOPE",
+                            emailFiles
+                        );
+                        yield email.sendEmail();
+                    } catch (emailErr) {
+                        console.error("Error al enviar email (consultation):", emailErr);
+                    }
+
+                    return res.download(pdfPath);
                 }
-                if (type === 'reevaluation') {
-                    const medicalReevaluation = yield this.medicalReevaluationSrv.findById(id);
-                    const consultationData = yield this.medicalConsultationSrv.findById(medicalReevaluation.medicalConsultation);
+
+                /** ====================================================
+                 *                   REEVALUATION
+                 *  ==================================================== */
+                if (type === "reevaluation") {
+                    const medicalReevaluation =
+                        yield this.medicalReevaluationSrv.findById(id);
+
+                    const consultationData =
+                        yield this.medicalConsultationSrv.findById(
+                            medicalReevaluation.medicalConsultation
+                        );
+
                     consultationData.recomendations = medicalReevaluation.recomendations;
                     consultationData.createDate = medicalReevaluation.createDate;
-                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, medicalReevaluation.treatment, 'reevaluation');
+
+                    pdfPath = yield generateMedicalRecipe_1.default(
+                        consultationData,
+                        medicalReevaluation.treatment,
+                        "reevaluation"
+                    );
+
                     patientFounded = consultationData.patient;
-                    const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
+
                     const emailFiles = [
                         {
-                            filename: 'Recetamedica',
+                            filename: "Recetamedica.pdf",
                             path: pdfPath,
-                            contentType: 'application/pdf'
-                        }
+                            contentType: "application/pdf",
+                        },
                     ];
-                    const email = new emailsController_1.default('SendPulse', `Receta médica emitida por Cannahope`, patientFounded.user.email, 'RECETA MÉDICA - CANNAHOPE', emailFiles);
-                    yield email.sendEmail();
+
+                    try {
+                        const email = new emailsController_1.default(
+                            "SendPulse",
+                            `Receta médica emitida por Cannahope`,
+                            patientFounded.user.email,
+                            "RECETA MÉDICA - CANNAHOPE",
+                            emailFiles
+                        );
+                        yield email.sendEmail();
+                    } catch (emailErr) {
+                        console.error("Error al enviar email (reevaluation):", emailErr);
+                    }
+
+                    return res.download(pdfPath);
                 }
-                if (type === 'sendEmail') {
+
+                /** ====================================================
+                 *                   SEND EMAIL ONLY
+                 *  ==================================================== */
+                if (type === "sendEmail") {
                     const consultationData = yield this.medicalConsultationSrv.findById(id);
-                    pdfPath = yield (0, generateMedicalRecipe_1.default)(consultationData, consultationData.medicalDiagnostic.medicalTreatment);
+
+                    pdfPath = yield generateMedicalRecipe_1.default(
+                        consultationData,
+                        consultationData.medicalDiagnostic.medicalTreatment,
+                        "sendEmail"
+                    );
+
                     patientFounded = consultationData.patient;
-                    const dp = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
-                    const emf = [
+
+                    const emailFiles = [
                         {
-                            filename: 'Recetamedica',
+                            filename: "Recetamedica.pdf",
                             path: pdfPath,
-                            contentType: 'application/pdf'
-                        }
+                            contentType: "application/pdf",
+                        },
                     ];
-                    const emailtos = new emailsController_1.default('SendPulse', `Receta medica emitida por cannahope`, patientFounded.user.email, 'RECETA MEDICA - CANNAHOPE', emf);
-                    yield emailtos.sendEmail();
-                    return res.status(http_status_1.default.OK);
+
+                    try {
+                        const emailtos = new emailsController_1.default(
+                            "SendPulse",
+                            `Receta medica emitida por cannahope`,
+                            patientFounded.user.email,
+                            "RECETA MEDICA - CANNAHOPE",
+                            emailFiles
+                        );
+                        yield emailtos.sendEmail();
+                    } catch (emailErr) {
+                        console.error("Error al enviar email (sendEmail):", emailErr);
+                        return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(
+                            new jsonResp_1.default(
+                                false,
+                                "Error al enviar correo con receta médica",
+                                null,
+                                emailErr
+                            )
+                        );
+                    }
+
+                    return res.status(http_status_1.default.OK).send(
+                        new jsonResp_1.default(
+                            true,
+                            "Receta médica enviada por correo",
+                            null,
+                            null
+                        )
+                    );
                 }
-                const pathNoImage = path_1.default.resolve(__dirname, `/apps/prod/CannaHope/CannaDocs/${pdfPath}`);
-                res.download(pdfPath);
-            }
-            catch (error) {
+
+                /** ====================================================
+                 *                     TYPE INVÁLIDO
+                 *  ==================================================== */
+                return res.status(http_status_1.default.BAD_REQUEST).send(
+                    new jsonResp_1.default(
+                        false,
+                        "Tipo de operación inválido para receta médica",
+                        null,
+                        null
+                    )
+                );
+            } catch (error) {
                 errorFlag = true;
-                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(new jsonResp_1.default(false, 'Error en servidor al generar receta medica', null, error));
-            }
-            finally {
+                console.error("Error en generateAnSendMedicalRecipe:", error);
+
+                return res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send(
+                    new jsonResp_1.default(
+                        false,
+                        "Error en servidor al generar receta medica",
+                        null,
+                        error
+                    )
+                );
+            } finally {
                 setTimeout(() => {
-                    if (!errorFlag) {
-                        const documentPath = varEnvironments_1.currentEnv === 'PROD' ? `/apps/prod/CannaHope/CannaDocs/${pdfPath}` : `docs/${pdfPath}`;
-                        fs.unlinkSync(pdfPath);
+                    if (!errorFlag && pdfPath) {
+                        try {
+                            fs.unlinkSync(pdfPath);
+                        } catch (e) {
+                            console.warn("No se pudo borrar PDF temporal:", e);
+                        }
                     }
                 }, 3000);
             }
         });
     }
 }
-exports.MedicalRecipeController = MedicalRecipeController;
 
+exports.MedicalRecipeController = MedicalRecipeController;
