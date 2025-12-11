@@ -8,7 +8,7 @@ exports.tokenExpiration = 60 * 60 * 24;
 exports.environments = {
     getDbUrl() {
         if (exports.currentEnv === 'PROD') {
-		return 'mongodb+srv://canna_db:CannaCanna@cannacluster.oqua9vd.mongodb.net/cannahope-main-db?retryWrites=true&w=majority&ssl=true&appName=CannaCluster';
+		return 'mongodb+srv://usrcannahopedbfoldawol:gPQby6Pbhjafmpev@cannacluster.oqua9vd.mongodb.net/cannahope-main-db?retryWrites=true&w=majority&ssl=true&appName=CannaCluster';
             //return 'mongodb://cannahopeAdminUser:cm9kYXJ0c2luaW1kYWVwb2hhbm5hYw%3D%3D@147.182.128.249:65033/cannahope-main-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false';
         }
         else {
