@@ -7,6 +7,11 @@ const PDFDocument = require("pdfkit");
 const Jimp = require("jimp");
 const path = require("path");
 
+// __dirname = .../dist/controllers/medicalConsultation
+const projectRoot = path.resolve(__dirname, "../../../"); // /opt/render/project/src
+const CANNA_DOCS_DIR = path.join(projectRoot, "CannaDocs");
+const SIGNATURES_DIR = path.join(CANNA_DOCS_DIR, "doctorSignatures");
+
 async function generateMedicalRecipe(consultationData, medicalTreatament, type) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -149,25 +154,22 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
     }
   });
 }
-
 // Función para obtener la ruta del PDF
 function getPdfPath(consultationData) {
   const names = consultationData.patient.user.names.replace(" ", "");
   const surenames = consultationData.patient.user.surenames.replace(" ", "");
-  const fileName = `${names}_${surenames}_consulta_${moment(consultationData.createDate).format("DD-MM-YY")}.pdf`;
+  const fileName = `${names}_${surenames}_consulta_${moment(
+    consultationData.createDate
+  ).format("DD-MM-YY")}.pdf`;
 
-  const basePath = environments.currentEnv === "PROD"
-    ? "/apps/prod/CannaHope/CannaDocs"
-    : "docs";
-
-  const pdfPath = path.join(basePath, fileName);
-  console.log("PDF Path:", pdfPath); // Log para verificar la ruta generada
+  const pdfPath = path.join(CANNA_DOCS_DIR, fileName);
+  console.log("PDF Path:", pdfPath);
   return pdfPath;
 }
 
-// Función para obtener la ruta de la firma del doctor
 function getSignaturePath() {
-  return environments.currentEnv === "PROD" ? "/apps/prod/CannaHope/CannaDocs/doctorSignatures/" : "docs/doctorSignatures/";
+  // Ya no depende de PROD/DEV, es relativo al repo
+  return SIGNATURES_DIR;
 }
 
 module.exports = generateMedicalRecipe;
