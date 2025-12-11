@@ -5,6 +5,7 @@ const environments = require("../../environments/varEnvironments");
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 const Jimp = require("jimp");
+const path = require("path");
 
 async function generateMedicalRecipe(consultationData, medicalTreatament, type) {
   return new Promise(async (resolve, reject) => {
@@ -103,9 +104,6 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
       }
 
       // Firma del doctor
-     const fs = require("fs");
-    const path = require("path");
-
     async function addDoctorSignature() {
       const sigFile = consultationData?.doctor?.signatureImage;
       if (!sigFile) {
