@@ -86,56 +86,106 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
   }
 
   function addDoctorData() {
-    const doctorTitle =
-      consultationData.doctor.sex === "MASCULINO" ? "Dr." : "Dra.";
-    const specialty = consultationData.doctor.specialty?.name || "N/A";
+  const doctor = consultationData.doctor || {};
 
-    doc.rect(15, 190, 565, 55).stroke();
+  const doctorTitle = doctor.sex === "MASCULINO" ? "Dr." : "Dra.";
+  const doctorNames = `${doctor.names ?? ""} ${doctor.surenames ?? ""}`.trim();
+  const cmpNumber = doctor.cmpNumber ?? "";
+  const specialty = doctor.specialty?.name ?? "";
 
-    doc
-      .fontSize(10)
-      .text(
-        `${doctorTitle} ${consultationData.doctor.names} ${consultationData.doctor.surenames}`,
-        30,
-        200
-      )
-      .text(`CMP: ${consultationData.doctor.cmpNumber || "N/A"}`, 30, 215)
-      .text(`Especialidad: ${specialty}`, 30, 230);
+  doc.rect(15, 190, 565, 55).stroke();
+
+  doc
+    .fontSize(10)
+    .text(
+      `${doctorTitle} ${doctorNames || "N/A"}`,
+      30,
+      200
+    )
+    .text(`CMP: ${cmpNumber || "N/A"}`, 30, 215)
+    .text(`Especialidad: ${specialty || "N/A"}`, 30, 230);
   }
 
   function addPatientData() {
-    doc.rect(15, 245, 565, 55).stroke();
+  const patient = consultationData.patient || {};
+  const user = patient.user || {};
 
-    doc
-      .fontSize(10)
-      .text(
-        `Paciente: ${consultationData.patient.user.names} ${consultationData.patient.user.surenames}`,
-        30,
-        255
-      )
-      .text(`DNI: ${consultationData.patient.user.dni}`, 30, 270)
-      .text(
-        `Edad: ${consultationData.patient.age} años - Sexo: ${consultationData.patient.sex}`,
-        30,
-        285
-      );
+  const fullName = `${user.names ?? ""} ${user.surenames ?? ""}`.trim();
+  const dni = user.dni ?? "";
+  const age = patient.age ?? "";
+  const sex = patient.sex ?? "";
+
+  doc.rect(15, 245, 565, 55).stroke();
+
+  doc
+    .fontSize(10)
+    .text(`Paciente: ${fullName || "N/A"}`, 30, 255)
+    .text(`DNI: ${dni || "N/A"}`, 30, 270)
+    .text(
+      `Edad: ${age !== "" ? age : "N/A"} años - Sexo: ${sex || "N/A"}`,
+      30,
+      285
+    );
   }
 
   function addDiagnostic() {
-    const diagnostic =
-      (consultationData.diagnostic || "").toString().toUpperCase() || "N/A";
-
+    const rawDiagnostic =
+      consultationData.diagnostic ??
+      consultationData.medicalDiagnostic?.diagnostic ??
+      "";
+  
+    const diagnostic = rawDiagnostic
+      ? rawDiagnostic.toString().toUpperCase()
+      : "N/A";
+  
     doc
       .fontSize(10)
       .text("DIAGNÓSTICO:", 50, 310)
       .text(diagnostic, 140, 310, { width: 420 });
   }
 
-  function addTreatments() {
-    if (!Array.isArray(medicalTreatament) || medicalTreatament.length === 0) {
-      console.warn("No medicalTreatament data provided");
-      return;
-    }
+function addTreatments() {
+  if (!Array.isArray(medicalTreatament) || medicalTreatament.length === 0) {
+    console.warn("No medicalTreatament data provided");
+    return;
+  }
+
+  let offsetY = 340;
+
+  medicalTreatament.forEach((item, index) => {
+    const viaAdministracion = (item?.viaAdministracion ?? "").toString().toUpperCase() || "N/A";
+    const fitocannabinoides = (item?.fitocannabinoides ?? "").toString().toUpperCase() || "N/A";
+    const concentracion = (item?.concentracion ?? "").toString().toUpperCase() || "N/A";
+    const posologia = (item?.posologia ?? "").toString().toUpperCase() || "N/A";
+    const tiempoTratamiento = (item?.tiempoTratamiento ?? "").toString().toUpperCase() || "N/A";
+
+    console.log(
+      `Tratamiento #${index + 1}:`,
+      viaAdministracion,
+      fitocannabinoides,
+      concentracion,
+      posologia,
+      tiempoTratamiento
+    );
+
+    doc
+      .fontSize(10)
+      .text("VÍA DE ADMINISTRACIÓN:", 50, offsetY)
+      .text(viaAdministracion, 185, offsetY)
+      .text("FITOCANNABINOIDES:", 50, offsetY + 15)
+      .text(fitocannabinoides, 185, offsetY + 15)
+      .text("CONCENTRACIÓN:", 50, offsetY + 30)
+      .text(concentracion, 185, offsetY + 30)
+      .text("POSOLOGÍA:", 50, offsetY + 45)
+      .text(posologia, 185, offsetY + 45)
+      .text("TIEMPO DE TRATAMIENTO:", 50, offsetY + 60)
+      .text(tiempoTratamiento, 185, offsetY + 60);
+
+    offsetY += 95;
+  });
+
+  doc.rect(15, 330, 565, 300).stroke();
+}
 
     let offsetY = 340;
 
@@ -214,7 +264,7 @@ async function generateMedicalRecipe(consultationData, medicalTreatament, type) 
     addDiagnostic();
     addTreatments();
     await addDoctorSignature();
-
+    console.log("CONSULTATION DATA RAW:", JSON.stringify(consultationData, null, 2));
     doc.text("REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.", 50, 750);
     doc.end();
 
