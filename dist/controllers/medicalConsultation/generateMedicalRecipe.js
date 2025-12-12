@@ -233,27 +233,27 @@ function addTreatments() {
     doc.rect(15, 330, 565, 300).stroke();
   }
 
-  async function addDoctorSignature() {
-    const sigFile = consultationData?.doctor?.signatureImage;
-    if (!sigFile) {
-      console.warn("No doctor signatureImage found in consultationData.doctor");
-      return;
-    }
-
-    const signaturePath = path.join(getSignaturePath(), sigFile);
-    console.log("Doctor signature path:", signaturePath);
-
-    if (!fs.existsSync(signaturePath)) {
-      console.warn(`Doctor signature file not found: ${signaturePath}`);
-      return;
-    }
-
-    try {
-      doc.image(signaturePath, 330, 600, { width: 180 });
-    } catch (err) {
-      console.error("Error adding doctor signature image:", err);
-    }
+  function addDoctorSignature() {
+  const sigFile = consultationData?.doctor?.signatureImage;
+  if (!sigFile) {
+    console.warn("No doctor signatureImage found in consultationData.doctor");
+    return;
   }
+
+  const signaturePath = path.join(getSignaturePath(), sigFile);
+  console.log("Doctor signature path:", signaturePath);
+
+  if (!fs.existsSync(signaturePath)) {
+    console.warn(`Doctor signature file not found: ${signaturePath}`);
+    return;
+  }
+
+  try {
+    doc.image(signaturePath, 330, 600, { width: 180 });
+  } catch (err) {
+    console.error("Error adding doctor signature image:", err);
+  }
+}
 
   // ---------- Flujo principal ----------
 
@@ -263,7 +263,7 @@ function addTreatments() {
     addPatientData();
     addDiagnostic();
     addTreatments();
-    await addDoctorSignature();
+    addDoctorSignature();
     console.log("CONSULTATION DATA RAW:", JSON.stringify(consultationData, null, 2));
     doc.text("REEVALUACIÓN EN 1 MES A PARTIR DE LA FECHA.", 50, 750);
     doc.end();
